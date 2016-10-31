@@ -5,12 +5,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Spectabis_WPF"
       mc:Ignorable="d" 
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Medium"
+      Background="{DynamicResource MaterialDesignPaper}"
+      TextElement.FontSize="14"
+      FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Settings"
       >
 
-    <Grid>
+    <Canvas>
         <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Margin="10,30,0,0" VerticalAlignment="Top" Click="doubleclick_Click"/>
-        <CheckBox x:Name="showTitles" Content="Show Game Titles" Margin="0,53,174,0" VerticalAlignment="Top" HorizontalAlignment="Right" Click="showTitles_Click"/>
-    </Grid>
+        <CheckBox x:Name="showTitles" Content="Show Game Titles" VerticalAlignment="Top" HorizontalAlignment="Right" Click="showTitles_Click" Canvas.Left="10" Canvas.Top="53"/>
+    </Canvas>
 </Page>
