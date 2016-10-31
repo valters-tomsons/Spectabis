@@ -1,0 +1,39 @@
+﻿<Window x:Class="Spectabis_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Spectabis_WPF"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Medium"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        Title="Spectabis [WPF]" Height="600" Width="1000" Visibility="Visible">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="201*"/>
+            <ColumnDefinition Width="791*"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.ColumnSpan="2">
+            <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Left" Height="66">
+                <DockPanel>
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False" x:Name="MenuToggleButton" Checked="MenuToggleButton_Checked" Unchecked="MenuToggleButton_Unchecked"/>
+
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Library"/>
+                </DockPanel>
+            </materialDesign:ColorZone>
+        </DockPanel>
+        <Frame x:Name="mainFrame" Source="Library.xaml" Margin="1,70,1,1" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden"/>
+        <Rectangle x:Name="overlay" Fill="Gray" Margin="0,66,0,0" Grid.ColumnSpan="2" Opacity="0" IsEnabled="False" IsHitTestVisible="False" />
+        <Menu x:Name="sideMenu" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,66,0,0" Width="200" MinWidth="200" MaxWidth="200">
+            <MenuItem Name="Menu_Library" Header="Library" Width="200" Click="Menu_Library_Click"/>
+            <MenuItem Name="Menu_Settings" Header="Settings" Width="200" Click="Menu_Settings_Click"/>
+            <MenuItem Name="Menu_Appearance" Header="Apperance" Width="200"/>
+        </Menu>
+
+    </Grid>
+</Window>
