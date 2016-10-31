@@ -22,27 +22,27 @@ namespace Spectabis_WPF
         //Shows & hides overlay, when appropriate
         private void MenuToggleButton_Checked(object sender, RoutedEventArgs e)
         {
+            sideMenu.Visibility = Visibility.Visible;
             Overlay(true);
         }
 
         private void MenuToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
+            sideMenu.Visibility = Visibility.Collapsed;
             Overlay(false);
         }
 
         //Show or hide black overlay
-        private void Overlay(bool _show)
+        public void Overlay(bool _show)
         {
             if(_show == true)
             {
-                sideMenu.Visibility = Visibility.Visible;
                 overlay.Opacity = .5;
                 overlay.IsEnabled = true;
                 overlay.IsHitTestVisible = true;
             }
             else
             {
-                sideMenu.Visibility = Visibility.Collapsed;
                 overlay.Opacity = 0;
                 overlay.IsEnabled = false;
                 overlay.IsHitTestVisible = false;
