@@ -19,9 +19,7 @@ namespace Spectabis_WPF
         {
             InitializeComponent();
 
-            //DEV VALUES
-            //GameConfigs = @"D:\Program Files (x86)\Spectabis\resources\configs";
-            //emuDir = @"D:\Program Files (x86)\PCSX2";
+            GameConfigs = BaseDirectory + @"\resources\configs\";
 
             reloadGames();
         }
@@ -140,6 +138,8 @@ namespace Spectabis_WPF
                     }
                 }
             }
+
+            Directory.CreateDirectory(GameConfigs);
 
         }
     }
