@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ namespace Spectabis_WPF
             doubleclick.IsChecked = Properties.Settings.Default.doubleClick;
             showTitles.IsChecked = Properties.Settings.Default.showTitle;
             nightMode.IsChecked = Properties.Settings.Default.nightMode;
+
+            emudir_text.Text = Properties.Settings.Default.emuDir;
         }
 
         //Saves Settings
@@ -53,6 +56,38 @@ namespace Spectabis_WPF
         private void checkbox_Click(object sender, RoutedEventArgs e)
         {
             SaveSettings();
+        }
+
+        //Save PCSX2 directory button
+        private void Save_Directory(object sender, RoutedEventArgs e)
+        {
+            if(Directory.Exists(emudir_text.Text))
+            {
+                if(File.Exists(emudir_text.Text + @"/pcsx2.exe"))
+                {
+                    Properties.Settings.Default.emuDir = emudir_text.Text;
+                    Properties.Settings.Default.Save();
+
+                    PushSnackbar("Emulator directory saved");
+                }
+                else
+                {
+                    PushSnackbar("Directory must contain PCSX2.exe");
+                }
+            }
+            else
+            {
+                PushSnackbar("Directory does not exist");
+            }
+        }
+
+        //Push snackbar function
+        public void PushSnackbar(string message)
+        {
+            var messageQueue = Snackbar.MessageQueue;
+
+            //the message queue can be called from any thread
+            Task.Factory.StartNew(() => messageQueue.Enqueue(message));
         }
     }
 }

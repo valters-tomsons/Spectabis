@@ -17,6 +17,8 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         WindowStartupLocation="CenterScreen" 
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        MinWidth="800"
+        MinHeight="550"
         Title="Spectabis" Height="600" Width="1000" Visibility="Visible">
 
     <Grid>
@@ -39,7 +41,7 @@
             <MenuItem Name="Menu_Library" Header="Library" Width="200" Click="Menu_Library_Click"/>
             <MenuItem Name="Menu_Settings" Header="Settings" Width="200" Click="Menu_Settings_Click"/>
             <MenuItem Name="Menu_Appearance" Header="Apperance" Width="200"/>
-            <MenuItem Name="Menu_Credits" Header="Contacts" Width="200" Click="Menu_Credits_Click"/>
+            <MenuItem Name="Menu_Credits" Header="Credits" Width="200" Click="Menu_Credits_Click"/>
         </Menu>
     </Grid>
 </Controls:MetroWindow>

@@ -4,7 +4,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Spectabis_WPF"
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="Spectabis_WPF.Settings"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+      x:Class="Spectabis_WPF.Settings"
       mc:Ignorable="d" 
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       TextElement.FontWeight="Medium"
@@ -15,29 +16,41 @@
       Title="Settings"
       >
 
-    <Grid Margin="0,0,0,0">
+    <Grid Margin="0,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <materialDesign:Card x:Name="Interaction" Margin="10,10,10,0" VerticalAlignment="Top" Height="131" >
                 <Grid>
-                    <Label FontSize="30" FontFamily="Roboto" Content="Interaction" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
+                    <Label FontSize="30" FontFamily="Roboto" Content="Spectabis" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
 
                     <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="checkbox_Click" Margin="10,0,0,40" HorizontalAlignment="Left" Width="174" Height="19" VerticalAlignment="Bottom"/>
-                    <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="checkbox_Click" Margin="10,90,0,0" HorizontalAlignment="Left" Width="139" Height="19" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="checkbox_Click" Margin="10,92,0,0" HorizontalAlignment="Left" Width="139" Height="19" VerticalAlignment="Top"/>
                     <CheckBox x:Name="nightMode" Content="Night Mode" Click="checkbox_Click" Margin="200,0,0,40" HorizontalAlignment="Left" Width="174" Height="19" VerticalAlignment="Bottom"/>
                 </Grid>
             </materialDesign:Card>
-            
+
             <materialDesign:Card VerticalAlignment="Stretch" Margin="10,16" Height="299">
                 <Grid>
-                    <StackPanel>
-                        <Label FontSize="30" FontFamily="Roboto" Content="Emulation" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
-                        <Label Content="PCSX2 Directory" Margin="10"/>
-                        <TextBox x:Name="emudir_text" TextAlignment="Right" Text="C:\Program Filez\SpectabisWPF\folder\anotherfolder\PCSX2" FontFamily="Roboto" Margin="283,0,100,0"/>
+                    <StackPanel VerticalAlignment="Stretch">
+                        <Label FontSize="30" FontFamily="Roboto" Content="Emulator" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45"/>
+
+                        <Grid Height="55" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" MinWidth="127"/>
+                                <ColumnDefinition Width="Auto" MinWidth="95"/>
+                                <ColumnDefinition Width="auto" MinWidth="130"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="PCSX2 Directory:" Margin="5,14" VerticalAlignment="Center" Grid.Column="0" Height="27"/>
+                            <Button Name="Save_Button" Click="Save_Directory" Margin="5,12,5,11" Grid.Column="1" Height="Auto">Save</Button>
+                            <Button Margin="5,12,5,11" Grid.Column="2" Style="{StaticResource MaterialDesignRaisedLightButton}" Height="Auto">Browse</Button>
+                            <TextBox Name="emudir_text" Grid.Column="3" VerticalAlignment="Center" TextAlignment="Left" Text="C:\Program Filez\SpectabisWPF\folder\anotherfolder\PCSX2" FontFamily="Roboto" Width="Auto" Margin="10" Height="30"/>
+                        </Grid>
+
                     </StackPanel>
                 </Grid>
             </materialDesign:Card>
-
-
         </StackPanel>
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar" />
     </Grid>
 </Page>
