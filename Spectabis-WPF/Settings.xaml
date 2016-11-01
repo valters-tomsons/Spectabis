@@ -20,8 +20,10 @@
             <materialDesign:Card x:Name="Interaction" Margin="10,10,10,0" VerticalAlignment="Top" Height="131" >
                 <Grid>
                     <Label FontSize="30" FontFamily="Roboto" Content="Interaction" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
-                    <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="doubleclick_Click" Margin="10,0,0,38" HorizontalAlignment="Left" Width="174" Height="19" VerticalAlignment="Bottom"/>
-                    <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="showTitles_Click" Margin="10,88,0,0" HorizontalAlignment="Left" Width="139" Height="19" VerticalAlignment="Top"/>
+
+                    <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="checkbox_Click" Margin="10,0,0,40" HorizontalAlignment="Left" Width="174" Height="19" VerticalAlignment="Bottom"/>
+                    <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="checkbox_Click" Margin="10,90,0,0" HorizontalAlignment="Left" Width="139" Height="19" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="nightMode" Content="Night Mode" Click="checkbox_Click" Margin="200,0,0,40" HorizontalAlignment="Left" Width="174" Height="19" VerticalAlignment="Bottom"/>
                 </Grid>
             </materialDesign:Card>
             

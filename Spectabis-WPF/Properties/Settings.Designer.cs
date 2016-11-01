@@ -58,5 +58,17 @@ namespace Spectabis_WPF.Properties {
                 this["emuDir"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool nightMode {
+            get {
+                return ((bool)(this["nightMode"]));
+            }
+            set {
+                this["nightMode"] = value;
+            }
+        }
     }
 }

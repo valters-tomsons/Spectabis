@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -17,8 +18,11 @@ namespace Spectabis_WPF
             Debug.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
             Title = "Spectabis " + Assembly.GetExecutingAssembly().GetName().Version;
 
+            //Sets nightmode from variable
+            new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
+
             //If emuDir is not set, launch first time setup
-            if(Properties.Settings.Default.emuDir == "null")
+            if (Properties.Settings.Default.emuDir == "null")
             {
                 Frame FirstSetup = new Frame();
                 FirstSetup.Source = new Uri("FirstTimeSetup.xaml", UriKind.Relative);
