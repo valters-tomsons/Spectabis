@@ -1,14 +1,21 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace Spectabis_WPF
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public MainWindow()
         {
             InitializeComponent();
+
+            //Version
+            Debug.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
+            Title = "Spectabis " + Assembly.GetExecutingAssembly().GetName().Version;
 
             //If emuDir is not set, launch first time setup
             if(Properties.Settings.Default.emuDir == "null")
@@ -66,6 +73,11 @@ namespace Spectabis_WPF
             mainFrame.Source = new Uri("Settings.xaml", UriKind.Relative);
             MainWindow_Header.Text = "Settings";
             Overlay(false);
+        }
+
+        private void Menu_Credits_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
