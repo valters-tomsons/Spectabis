@@ -15,7 +15,7 @@
       Title="Settings"
       >
 
-    <Grid>
+    <Grid Margin="0,0,0,150">
         <materialDesign:Card Margin="10,10,10,0" VerticalAlignment="Top" Height="131" >
             <Grid>
                 <Label FontSize="30" FontFamily="Roboto" Content="Interaction" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
@@ -23,5 +23,6 @@
                 <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="showTitles_Click" Margin="10,88,0,0" HorizontalAlignment="Left" Width="139" Height="19" VerticalAlignment="Top"/>
             </Grid>
         </materialDesign:Card>
+        <Grid HorizontalAlignment="Left" Height="100" Margin="105,215,0,-165" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Page>
