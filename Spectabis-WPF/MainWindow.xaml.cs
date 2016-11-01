@@ -14,6 +14,9 @@ namespace Spectabis_WPF
         {
             InitializeComponent();
 
+            //Saves settings between versions
+            Properties.Settings.Default.Upgrade();
+
             //Version
             Debug.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
             Title = "Spectabis " + Assembly.GetExecutingAssembly().GetName().Version;
