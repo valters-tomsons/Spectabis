@@ -20,8 +20,8 @@ namespace Spectabis_WPF
             InitializeComponent();
 
             //DEV VALUES
-            GameConfigs = @"D:\Program Files (x86)\Spectabis\resources\configs";
-            emuDir = @"D:\Program Files (x86)\PCSX2";
+            //GameConfigs = @"D:\Program Files (x86)\Spectabis\resources\configs";
+            //emuDir = @"D:\Program Files (x86)\PCSX2";
 
             reloadGames();
         }
@@ -101,42 +101,46 @@ namespace Spectabis_WPF
         //Rescans the game config directory and adds them to gamePanel
         private void reloadGames()
         {
-            //Makes a collection of game folders from game config directory
-            string[] _gamesdir = Directory.GetDirectories(GameConfigs);
-
-            //Loops through each folder in game config directory
-            foreach (string game in _gamesdir)
+            if (Directory.Exists(GameConfigs))
             {
-                if (File.Exists(game + @"\Spectabis.ini"))
+                //Makes a collection of game folders from game config directory
+                string[] _gamesdir = Directory.GetDirectories(GameConfigs);
+
+                //Loops through each folder in game config directory
+                foreach (string game in _gamesdir)
                 {
-                    //Sets _gameName to name of the folder
-                    string _gameName = game.Remove(0, game.LastIndexOf(System.IO.Path.DirectorySeparatorChar) + 1);
-
-                    Debug.WriteLine("adding to gamePanel - " + _gameName);
-
-                    //Creates an image object
-                    Image boxArt = new Image();
-                    boxArt.Source = new ImageSourceConverter().ConvertFromString(game + @"\art.jpg") as ImageSource;
-                    boxArt.Height = 200;
-                    boxArt.Width = 150;
-                    boxArt.MouseDown += boxArt_Click;
-                    boxArt.Tag = _gameName;
-
-                    //If showtitle is selected
-                    if (Properties.Settings.Default.showTitle == true)
+                    if (File.Exists(game + @"\Spectabis.ini"))
                     {
-                        GroupBox gameTile = new GroupBox();
-                        gameTile.Content = boxArt;
-                        gameTile.Header = _gameName;
-                        gamePanel.Children.Add(gameTile);
-                    }
-                    else
-                    {
-                        //Adds the object to gamePanel
-                        gamePanel.Children.Add(boxArt);
+                        //Sets _gameName to name of the folder
+                        string _gameName = game.Remove(0, game.LastIndexOf(System.IO.Path.DirectorySeparatorChar) + 1);
+
+                        Debug.WriteLine("adding to gamePanel - " + _gameName);
+
+                        //Creates an image object
+                        Image boxArt = new Image();
+                        boxArt.Source = new ImageSourceConverter().ConvertFromString(game + @"\art.jpg") as ImageSource;
+                        boxArt.Height = 200;
+                        boxArt.Width = 150;
+                        boxArt.MouseDown += boxArt_Click;
+                        boxArt.Tag = _gameName;
+
+                        //If showtitle is selected
+                        if (Properties.Settings.Default.showTitle == true)
+                        {
+                            GroupBox gameTile = new GroupBox();
+                            gameTile.Content = boxArt;
+                            gameTile.Header = _gameName;
+                            gamePanel.Children.Add(gameTile);
+                        }
+                        else
+                        {
+                            //Adds the object to gamePanel
+                            gamePanel.Children.Add(boxArt);
+                        }
                     }
                 }
             }
+
         }
     }
 }

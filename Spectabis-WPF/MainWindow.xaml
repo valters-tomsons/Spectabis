@@ -11,6 +11,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+        WindowStartupLocation="CenterScreen" 
         Title="Spectabis [WPF]" Height="600" Width="1000" Visibility="Visible">
 
     <Grid>
@@ -21,9 +22,9 @@
         <DockPanel Grid.ColumnSpan="2">
             <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Left" Height="66">
                 <DockPanel>
-                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False" x:Name="MenuToggleButton" Checked="MenuToggleButton_Checked" Unchecked="MenuToggleButton_Unchecked"/>
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"  IsChecked="False" x:Name="MenuToggleButton" Checked="MenuToggleButton_Checked" Unchecked="MenuToggleButton_Unchecked"/>
 
-                    <TextBlock Name="MainWindow_Header" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Library"/>
+                    <TextBlock Name="MainWindow_Header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Roboto" FontSize="22" Text="Library"/>
                 </DockPanel>
             </materialDesign:ColorZone>
         </DockPanel>

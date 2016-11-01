@@ -11,18 +11,31 @@
       Background="{DynamicResource MaterialDesignPaper}"
       TextElement.FontSize="14"
       FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="500" d:DesignWidth="720"
       Title="Settings"
       >
 
-    <Grid Margin="0,0,0,150">
-        <materialDesign:Card Margin="10,10,10,0" VerticalAlignment="Top" Height="131" >
-            <Grid>
-                <Label FontSize="30" FontFamily="Roboto" Content="Interaction" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
-                <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="doubleclick_Click" Margin="10,0,0,38" HorizontalAlignment="Left" Width="174" Height="19" VerticalAlignment="Bottom"/>
-                <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="showTitles_Click" Margin="10,88,0,0" HorizontalAlignment="Left" Width="139" Height="19" VerticalAlignment="Top"/>
-            </Grid>
-        </materialDesign:Card>
-        <Grid HorizontalAlignment="Left" Height="100" Margin="105,215,0,-165" VerticalAlignment="Top" Width="100"/>
+    <Grid Margin="0,0,0,0">
+        <StackPanel>
+            <materialDesign:Card x:Name="Interaction" Margin="10,10,10,0" VerticalAlignment="Top" Height="131" >
+                <Grid>
+                    <Label FontSize="30" FontFamily="Roboto" Content="Interaction" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
+                    <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="doubleclick_Click" Margin="10,0,0,38" HorizontalAlignment="Left" Width="174" Height="19" VerticalAlignment="Bottom"/>
+                    <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="showTitles_Click" Margin="10,88,0,0" HorizontalAlignment="Left" Width="139" Height="19" VerticalAlignment="Top"/>
+                </Grid>
+            </materialDesign:Card>
+            
+            <materialDesign:Card VerticalAlignment="Stretch" Margin="10,16" Height="299">
+                <Grid>
+                    <StackPanel>
+                        <Label FontSize="30" FontFamily="Roboto" Content="Emulation" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
+                        <Label Content="PCSX2 Directory" Margin="10"/>
+                        <TextBox x:Name="emudir_text" TextAlignment="Right" Text="C:\Program Filez\SpectabisWPF\folder\anotherfolder\PCSX2" FontFamily="Roboto" Margin="283,0,100,0"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+
+
+        </StackPanel>
     </Grid>
 </Page>
