@@ -91,7 +91,7 @@ namespace Spectabis_WPF
             //If left click
             if(e.XButton1 == e.LeftButton)
             {
-                
+                //code
             }
 
 

@@ -55,6 +55,7 @@ namespace Spectabis_WPF
         {
 
             mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
+            MainWindow_Header.Text = "Library";
             Overlay(false);
 
         }
@@ -63,6 +64,7 @@ namespace Spectabis_WPF
         private void Menu_Settings_Click(object sender, RoutedEventArgs e)
         {
             mainFrame.Source = new Uri("Settings.xaml", UriKind.Relative);
+            MainWindow_Header.Text = "Settings";
             Overlay(false);
         }
     }

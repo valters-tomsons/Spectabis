@@ -23,7 +23,7 @@
                 <DockPanel>
                     <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False" x:Name="MenuToggleButton" Checked="MenuToggleButton_Checked" Unchecked="MenuToggleButton_Unchecked"/>
 
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Library"/>
+                    <TextBlock Name="MainWindow_Header" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Text="Library"/>
                 </DockPanel>
             </materialDesign:ColorZone>
         </DockPanel>
