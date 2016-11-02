@@ -12,9 +12,10 @@
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
+         DragOver="Grid_DragOver" Drop="Grid_Drop" AllowDrop="True"
         Title="Library">
 
-    <Grid>
+    <Grid >
         <WrapPanel x:Name="gamePanel" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
 
         <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
@@ -22,5 +23,6 @@
                         ToolTip="MaterialDesignFloatingActionAccentButton" Width="56" Height="56" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
         </Button>
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar"/>
     </Grid>
 </Page>

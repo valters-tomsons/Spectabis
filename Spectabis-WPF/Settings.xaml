@@ -51,6 +51,6 @@
                 </Grid>
             </materialDesign:Card>
         </StackPanel>
-        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar" />
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar"/>
     </Grid>
 </Page>

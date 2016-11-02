@@ -1,6 +1,12 @@
-﻿using System;
+﻿using SevenZipExtractor;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -15,11 +21,33 @@ namespace Spectabis_WPF
         public string GameConfigs;
         public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
+        //Lists
+        public List<string> regionList = new List<string>();
+        public List<string> supportedScrappingFiles = new List<string>();
+
         public Library()
         {
             InitializeComponent();
 
+            //Where game profile folders are saved
             GameConfigs = BaseDirectory + @"\resources\configs\";
+
+            //Adds supported files for artScrapping to list
+            supportedScrappingFiles.Add("iso");
+
+            //Adds known items to region list
+            regionList.Add("SLUS");
+            regionList.Add("SCUS");
+            regionList.Add("SCES");
+            regionList.Add("SLES");
+            regionList.Add("SCPS");
+            regionList.Add("SLPS");
+            regionList.Add("SLPM");
+            regionList.Add("PSRM");
+            regionList.Add("SCED");
+            regionList.Add("SLPM");
+            regionList.Add("SIPS");
+
 
             reloadGames();
         }
@@ -142,5 +170,161 @@ namespace Spectabis_WPF
             Directory.CreateDirectory(GameConfigs);
 
         }
+
+
+        //Push snackbar function
+        public void PushSnackbar(string message)
+        {
+            var messageQueue = Snackbar.MessageQueue;
+
+            //the message queue can be called from any thread
+            Task.Factory.StartNew(() => messageQueue.Enqueue(message));
+        }
+
+        //Add game method call wit
+        public void addGame(string _img, string _isoDir, string _title)
+        {
+            //Creates a folder for game
+            Directory.CreateDirectory(BaseDirectory + @"\resources\configs\" + _title);
+
+            //copies existing pcsx2 inis to added game
+            //looks for inis in pcsx2 directory
+            if (Directory.Exists(emuDir + @"\inis\"))
+            {
+                string[] inisDir = Directory.GetFiles(emuDir + @"\inis\");
+                foreach (string inifile in inisDir)
+                {
+                    Debug.WriteLine(inifile + " found!");
+                    if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
+                    {
+                        string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
+                        File.Copy(inifile, _destinationPath);
+                    }
+                }
+            }
+            else
+            {
+                //looks for pcsx2 inis in documents folder
+                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"))
+                {
+                    string[] inisDirDoc = Directory.GetFiles((Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"));
+                    foreach (string inifile in inisDirDoc)
+                    {
+                        if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
+                        {
+                            string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
+                            File.Copy(inifile, _destinationPath);
+                        }
+                    }
+                }
+
+                //if no inis are found, warning is shown
+                else
+                {
+                    PushSnackbar("Cannot find default PCSX2 configuration");
+                }
+            }
+
+            using (WebClient client = new WebClient())
+            {
+                try
+                {
+                    client.DownloadFile(_img, BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg");
+                }
+                catch
+                {
+                    //throw;
+                    PushSnackbar("Image for " + _title + " not set");
+                }
+            }
+
+            var gameIni = new IniFile(BaseDirectory + @"\resources\configs\" + _title + @"\spectabis.ini");
+            gameIni.Write("isoDirectory", _isoDir, "Spectabis");
+            gameIni.Write("nogui", "0", "Spectabis");
+            gameIni.Write("fullscreen", "0", "Spectabis");
+            gameIni.Write("fullboot", "0", "Spectabis");
+
+            PushSnackbar(_title + " added succesfully");
+            reloadGames();
+        }
+
+        //Dragging file effect
+        private void Grid_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.All;
+        }
+
+        //Drag and drop functionality
+        private void Grid_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+
+        }
+
+        //Get serial number for then given file
+        public string GetSerialNumber(string _isoDir)
+        {
+            string _filename;
+            string gameserial = "NULL";
+
+            //Open file as archive
+            using (ArchiveFile archiveFile = new ArchiveFile(_isoDir))
+            {
+                //loop all files in archive
+                foreach (Entry entry in archiveFile.Entries)
+                {
+                    _filename = new string(entry.FileName.Take(4).ToArray());
+
+                    //if any files contains a region code, stucturize and return it
+                    if (regionList.Contains(_filename))
+                    {
+                        gameserial = entry.FileName.Replace(".", String.Empty);
+                        gameserial = gameserial.Replace("_", "-");
+
+                        Console.WriteLine("Serial = " + gameserial);
+
+                        return gameserial;
+                    }
+                    else
+                    {
+                        return gameserial;
+                    }
+                }
+                return gameserial;
+            }
+        }
+
+        //Returns a game name, using PCSX2 database file
+        public string GetGameName(string _gameserial)
+        {
+            string GameIndex = emuDir + @"\GameIndex.dbf";
+            string GameName = "UNKNOWN";
+
+            //Reads the GameIndex file by line
+            using (var reader = new StreamReader(GameIndex))
+            {
+                
+                bool serialFound = false;
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+
+                    //Forges a GameIndex.dbf entry
+                    //If forged line appears in GameIndex.dbf stop and read the next line
+                    if (line.Contains("Serial = " + _gameserial))
+                    {
+                        serialFound = true;
+                    }
+                    //The next line which contains name associated with gameserial
+                    else if (serialFound == true)
+                    {
+                        //Cleans the data
+                        GameName = line.Replace("Name   = ", String.Empty);
+                        return GameName;
+                    }
+                }
+                return GameName;
+            }
+        }
+
     }
 }
