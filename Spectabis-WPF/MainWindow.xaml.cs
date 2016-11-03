@@ -31,6 +31,8 @@ namespace Spectabis_WPF
                 FirstSetup.Source = new Uri("FirstTimeSetup.xaml", UriKind.Relative);
             }
 
+            
+
         }
 
         //Shows & hides overlay, when appropriate
@@ -67,7 +69,6 @@ namespace Spectabis_WPF
         //Menu - Library Button
         private void Menu_Library_Click(object sender, RoutedEventArgs e)
         {
-
             mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
             MainWindow_Header.Text = "Library";
             Overlay(false);
@@ -85,6 +86,18 @@ namespace Spectabis_WPF
         private void Menu_Credits_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public void Open_AddGame()
+        {
+            mainFrame.Source = new Uri("AddGame.xaml", UriKind.Relative);
+            MainWindow_Header.Text = "Add Game";
+        }
+
+        public void Open_Library()
+        {
+            mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
+            MainWindow_Header.Text = "Library";
         }
     }
 }

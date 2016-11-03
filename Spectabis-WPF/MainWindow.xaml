@@ -19,7 +19,8 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         MinWidth="800"
         MinHeight="550"
-        Title="Spectabis" Height="600" Width="1000" Visibility="Visible">
+        ShowIconOnTitleBar="False"
+        Title="Spectabis" Height="600" Width="1000" Visibility="Visible" Icon="SPECTABIS_icon.ico">
 
     <Grid>
         <Grid.ColumnDefinitions>

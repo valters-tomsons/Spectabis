@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Spectabis_WPF
 {
@@ -191,8 +190,6 @@ namespace Spectabis_WPF
             }
         }
 
-
-
         //Rescans the game config directory and adds them to gamePanel
         private void reloadGames()
         {
@@ -252,7 +249,6 @@ namespace Spectabis_WPF
 
         }
 
-
         //Push snackbar function
         public void PushSnackbar(string message)
         {
@@ -274,6 +270,8 @@ namespace Spectabis_WPF
 
         }
 
+        //Add game method
+        //_img = null if no game image
         public void AddGame(string _img, string _isoDir, string _title)
         {
             //sanitize game's title for folder creation
@@ -426,9 +424,10 @@ namespace Spectabis_WPF
         //Plus Button
         private void PlusButton_CLick(object sender, RoutedEventArgs e)
         {
-            AddGame(null, @"D:\Program Files (x86)\PCSX2\ICO\softc.iso", @"example");
+            //AddGame(null, @"D:\Program Files (x86)\PCSX2\ICO\softc.iso", @"example");
 
-            
+            //Invokes mainWindow class which navigates to AddGame.xaml
+            ((MainWindow)Application.Current.MainWindow).Open_AddGame();
         }
     }
 }
