@@ -164,7 +164,11 @@ namespace Spectabis_WPF
         {
             //Title of the last clicked game
             string _title = Convert.ToString(clickedBoxArt.Tag);
-           
+
+            //Start PCSX2 only with --cfgpath
+            string _cfgDir = GameConfigs + @"/" + clickedBoxArt.Tag;
+            Process.Start(emuDir + @"\pcsx2.exe", " --cfgpath \"" + _cfgDir + "\"");
+
         }
 
         //Context Menu Settings button
