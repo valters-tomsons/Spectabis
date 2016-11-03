@@ -21,8 +21,12 @@ namespace Spectabis_WPF
         public string GameConfigs;
         public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
+        //Temporary variable for rightclick funcionality
+        public Image clickedBoxArt;
+
         //Lists
         public List<string> regionList = new List<string>();
+        public List<string> supportedGameFiles = new List<string>();
         public List<string> supportedScrappingFiles = new List<string>();
 
         public Library()
@@ -32,10 +36,16 @@ namespace Spectabis_WPF
             //Where game profile folders are saved
             GameConfigs = BaseDirectory + @"\resources\configs\";
 
-            //Adds supported files for artScrapping to list
+            //Adds supported game image files to a list
+            supportedGameFiles.Add("iso");
+            supportedGameFiles.Add("bin");
+            supportedGameFiles.Add("cso");
+            supportedGameFiles.Add("gz");
+
+            //Adds supported files for artScrapping to a list
             supportedScrappingFiles.Add("iso");
 
-            //Adds known items to region list
+            //Adds known items to region a list
             regionList.Add("SLUS");
             regionList.Add("SCUS");
             regionList.Add("SCES");
@@ -56,8 +66,8 @@ namespace Spectabis_WPF
         //MouseDown event on boxArt image
         private void boxArt_Click(object sender, MouseButtonEventArgs e)
         {
-            Image clickedBoxArt = (Image)sender;
-            Debug.WriteLine(clickedBoxArt.Tag + " - clicked");
+            clickedBoxArt = (Image)sender;
+            Debug.WriteLine(Convert.ToString(clickedBoxArt.Tag) + " - clicked");
 
             //Get isoDir from Spectabis.ini
             //string _cfgDir = BaseDirectory + @"resources\configs\" + clickedBoxArt.Tag;
@@ -117,12 +127,64 @@ namespace Spectabis_WPF
             //If left click
             if(e.XButton1 == e.LeftButton)
             {
-                //code
+                //Creates a ContextMenu
+                ContextMenu gameContext = new ContextMenu();
+
+                //Emulator Settings menu button
+                MenuItem PCSX2config = new MenuItem();
+                PCSX2config.Header = "Configure in PCSX2";
+                PCSX2config.Click += PCSX2ConfigureGame_Click;
+
+                //Spectabis Config menu button
+                MenuItem SpectabisConfig = new MenuItem();
+                SpectabisConfig.Header = "Game Configuration";
+                SpectabisConfig.Click += SpectabisConfig_Click;
+
+                //Remove game menu button
+                MenuItem RemoveGame = new MenuItem();
+                RemoveGame.Header = "Remove Game";
+                RemoveGame.Click += RemoveGame_Click;
+               
+                //Add buttons to context menu
+                gameContext.Items.Add(SpectabisConfig);
+                gameContext.Items.Add(PCSX2config);
+                gameContext.Items.Add(RemoveGame);
+
+                //Open context menu
+                gameContext.IsOpen = true;
             }
 
 
 
         }
+
+
+        //Context Menu PCSX2 button
+        private void PCSX2ConfigureGame_Click(object sender, RoutedEventArgs e)
+        {
+            //Title of the last clicked game
+            string _title = Convert.ToString(clickedBoxArt.Tag);
+           
+        }
+
+        //Context Menu Settings button
+        private void SpectabisConfig_Click(object sender, RoutedEventArgs e)
+        {
+            //Title of the last clicked game
+            string _title = Convert.ToString(clickedBoxArt.Tag);
+        }
+
+        //Context Menu Remove button
+        private void RemoveGame_Click(object sender, RoutedEventArgs e)
+        {
+            //Title of the last clicked game
+            string _title = Convert.ToString(clickedBoxArt.Tag);
+
+            
+            gamePanel.Children.Remove(clickedBoxArt);
+        }
+
+
 
         //Rescans the game config directory and adds them to gamePanel
         private void reloadGames()
@@ -260,6 +322,90 @@ namespace Spectabis_WPF
 
         }
 
+        public void AddGame(string _img, string _isoDir, string _title)
+        {
+            //sanitize game's title for folder creation
+            _title = _title.Replace(@"/", string.Empty);
+            _title = _title.Replace(@"\", string.Empty);
+            _title = _title.Replace(@":", string.Empty);
+            _title = _title.Replace(@"|", string.Empty);
+            _title = _title.Replace(@"*", string.Empty);
+            _title = _title.Replace(@"<", string.Empty);
+            _title = _title.Replace(@">", string.Empty);
+
+            Directory.CreateDirectory(BaseDirectory + @"\resources\configs\" + _title);
+
+            //Copies existing ini files from PCSX2
+            //looks for inis in pcsx2 directory
+            if (Directory.Exists(emuDir + @"\inis\"))
+            {
+                string[] inisDir = Directory.GetFiles(emuDir + @"\inis\");
+                foreach (string inifile in inisDir)
+                {
+                    Debug.WriteLine(inifile + " found!");
+                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
+                    {
+                        string _destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
+                        File.Copy(inifile, _destinationPath);
+                    }
+                }
+            }
+            else
+            {
+
+                //looks for pcsx2 inis in documents folder
+                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"))
+                {
+                    string[] inisDirDoc = Directory.GetFiles((Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"));
+                    foreach (string inifile in inisDirDoc)
+                    {
+                        if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
+                        {
+                            string _destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
+                            File.Copy(inifile, _destinationPath);
+                        }
+                    }
+                }
+
+                //if no inis are found, warning is shown
+                else
+                {
+                    PushSnackbar("Cannot find default PCSX2 configuration");
+                }
+
+            }
+
+            //Create a blank Spectabis.ini file
+            var gameIni = new IniFile(BaseDirectory + @"\resources\configs\" + _title + @"\spectabis.ini");
+            gameIni.Write("isoDirectory", _isoDir, "Spectabis");
+            gameIni.Write("nogui", "0", "Spectabis");
+            gameIni.Write("fullscreen", "0", "Spectabis");
+            gameIni.Write("fullboot", "0", "Spectabis");
+            gameIni.Write("nohacks", "0", "Spectabis");
+
+            //Downloads the image !!
+            using (WebClient client = new WebClient())
+            {
+                try
+                {
+                    client.DownloadFile(_img, BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg");
+                }
+                catch
+                {
+                    PushSnackbar("No image has been set");
+                }
+            }
+
+
+
+            //Removes all games from list
+            gamePanel.Children.Clear();
+
+            //Reloads games
+            reloadGames();
+
+        }
+
         //Get serial number for then given file
         public string GetSerialNumber(string _isoDir)
         {
@@ -326,5 +472,12 @@ namespace Spectabis_WPF
             }
         }
 
+        //Plus Button
+        private void PlusButton_CLick(object sender, RoutedEventArgs e)
+        {
+            //AddGame(@"D:\SPECTABIS_boxart.jpg", @"D:\Program Files (x86)\PCSX2\ICO\softc.iso", @"example");
+
+            
+        }
     }
 }

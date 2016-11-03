@@ -20,9 +20,10 @@
 
         <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                         Margin="0,0,50,100"
-                        ToolTip="MaterialDesignFloatingActionAccentButton" Width="56" Height="56" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        ToolTip="MaterialDesignFloatingActionAccentButton" Width="56" Height="56" HorizontalAlignment="Right" Name="PlusButton" VerticalAlignment="Bottom" Click="PlusButton_CLick">
             <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
         </Button>
+
         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar"/>
     </Grid>
 </Page>
