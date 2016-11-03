@@ -179,8 +179,6 @@ namespace Spectabis_WPF
         {
             //Title of the last clicked game
             string _title = Convert.ToString(clickedBoxArt.Tag);
-
-            
             gamePanel.Children.Remove(clickedBoxArt);
         }
 
@@ -206,7 +204,19 @@ namespace Spectabis_WPF
 
                         //Creates an image object
                         Image boxArt = new Image();
-                        boxArt.Source = new ImageSourceConverter().ConvertFromString(game + @"\art.jpg") as ImageSource;
+
+                        //Creates a bitmap stream
+                        System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+                        //Opens the filestream
+                        artSource.BeginInit();
+                        artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                        artSource.UriSource = new Uri(game + @"\art.jpg");
+                        //Closes the filestream
+                        artSource.EndInit();
+
+                        //sets boxArt source to created bitmap
+                        boxArt.Source = artSource;
+
                         boxArt.Height = 200;
                         boxArt.Width = 150;
                         boxArt.MouseDown += boxArt_Click;
