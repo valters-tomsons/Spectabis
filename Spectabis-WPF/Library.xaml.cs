@@ -262,73 +262,6 @@ namespace Spectabis_WPF
             Task.Factory.StartNew(() => messageQueue.Enqueue(message));
         }
 
-        //Add game method call wit
-        public void addGame(string _img, string _isoDir, string _title)
-        {
-            //Creates a folder for game
-            Directory.CreateDirectory(BaseDirectory + @"\resources\configs\" + _title);
-
-            //copies existing pcsx2 inis to added game
-            //looks for inis in pcsx2 directory
-            if (Directory.Exists(emuDir + @"\inis\"))
-            {
-                string[] inisDir = Directory.GetFiles(emuDir + @"\inis\");
-                foreach (string inifile in inisDir)
-                {
-                    Debug.WriteLine(inifile + " found!");
-                    if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
-                    {
-                        string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
-                        File.Copy(inifile, _destinationPath);
-                    }
-                }
-            }
-            else
-            {
-                //looks for pcsx2 inis in documents folder
-                if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"))
-                {
-                    string[] inisDirDoc = Directory.GetFiles((Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"));
-                    foreach (string inifile in inisDirDoc)
-                    {
-                        if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
-                        {
-                            string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
-                            File.Copy(inifile, _destinationPath);
-                        }
-                    }
-                }
-
-                //if no inis are found, warning is shown
-                else
-                {
-                    PushSnackbar("Cannot find default PCSX2 configuration");
-                }
-            }
-
-            using (WebClient client = new WebClient())
-            {
-                try
-                {
-                    client.DownloadFile(_img, BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg");
-                }
-                catch
-                {
-                    //throw;
-                    PushSnackbar("Image for " + _title + " not set");
-                }
-            }
-
-            var gameIni = new IniFile(BaseDirectory + @"\resources\configs\" + _title + @"\spectabis.ini");
-            gameIni.Write("isoDirectory", _isoDir, "Spectabis");
-            gameIni.Write("nogui", "0", "Spectabis");
-            gameIni.Write("fullscreen", "0", "Spectabis");
-            gameIni.Write("fullboot", "0", "Spectabis");
-
-            PushSnackbar(_title + " added succesfully");
-            reloadGames();
-        }
-
         //Dragging file effect
         private void Grid_DragOver(object sender, DragEventArgs e)
         {
@@ -411,11 +344,10 @@ namespace Spectabis_WPF
                 }
                 catch
                 {
-                    PushSnackbar("No image has been set");
+                    Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg");
+                    PushSnackbar("Image not available");
                 }
             }
-
-
 
             //Removes all games from list
             gamePanel.Children.Clear();
@@ -494,7 +426,7 @@ namespace Spectabis_WPF
         //Plus Button
         private void PlusButton_CLick(object sender, RoutedEventArgs e)
         {
-            //AddGame(@"D:\SPECTABIS_boxart.jpg", @"D:\Program Files (x86)\PCSX2\ICO\softc.iso", @"example");
+            AddGame(null, @"D:\Program Files (x86)\PCSX2\ICO\softc.iso", @"example");
 
             
         }
