@@ -180,6 +180,11 @@ namespace Spectabis_WPF
             //Title of the last clicked game
             string _title = Convert.ToString(clickedBoxArt.Tag);
             gamePanel.Children.Remove(clickedBoxArt);
+
+            if(Directory.Exists(GameConfigs + @"/" + clickedBoxArt.Tag))
+            {
+                Directory.Delete(GameConfigs + @"/" + clickedBoxArt.Tag, true);
+            }
         }
 
 
