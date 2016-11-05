@@ -298,6 +298,34 @@ namespace Spectabis_WPF
         //Drag and drop functionality
         private void Grid_Drop(object sender, System.Windows.DragEventArgs e)
         {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            string _filename;
+            string _isoname;
+
+            foreach (string file in files)
+            {
+                //If file is a valid game file
+                if(supportedGameFiles.Any(s => file.EndsWith(s)))
+                {
+                    //If file supports name scrapping
+                    if(supportedScrappingFiles.Any(s => file.EndsWith(s)))
+                    {
+                        string SerialNumber = GetSerialNumber(file);
+                        //string GameName = GetGameName(SerialNumber);
+                        PushSnackbar(file);
+                    }
+                    else
+                    {
+                        PushSnackbar("This filetype doesn't support automatic boxart!");
+                    }
+
+
+                }
+                else
+                {
+                    PushSnackbar("Unsupported file!");
+                }
+            }
 
         }
 
