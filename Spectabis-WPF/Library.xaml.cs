@@ -259,11 +259,6 @@ namespace Spectabis_WPF
                             }
                         }
 
-                        
-
-                        
-
-
                         //If showtitle is selected
                         if (Properties.Settings.Default.showTitle == true)
                         {

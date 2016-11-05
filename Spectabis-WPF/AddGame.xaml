@@ -15,20 +15,46 @@
       Title="Add Game">
 
     <materialDesign:Card Margin="30,10,29,10" VerticalAlignment="Stretch">
-        <Grid VerticalAlignment="Stretch">
+        <StackPanel Orientation="Vertical">
             <Button x:Name="backbutton"  Click="backbutton_Click" Style="{StaticResource MaterialDesignFloatingActionAccentButton}"  HorizontalAlignment="Left" Margin="24,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.696,1">
                 <materialDesign:PackIcon Kind="ArrowLeft" Height="24" Width="24" />
             </Button>
+            <StackPanel Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" Height="Auto">
+                <materialDesign:ColorZone Height="50">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <Label FontSize="18" VerticalAlignment="Center">Game File Location:</Label>
+                        <Button VerticalAlignment="Center" Margin="5" Style="{StaticResource MaterialDesignRaisedLightButton}">Browse</Button>
+                        <TextBox VerticalAlignment="Center" Margin="5" MinWidth="230"></TextBox>
+                    </StackPanel>
+                </materialDesign:ColorZone>
 
-            <materialDesign:ColorZone  Margin="10,85,10,0" Height="50">
-                <StackPanel Orientation="Horizontal">
-                    <Label VerticalAlignment="Center">Game File Location:</Label>
-                    <Button>Save</Button>
-                    <Button Margin="5" Style="{StaticResource MaterialDesignRaisedLightButton}">Browse</Button>
-                    <TextBox  Margin="5" MinWidth="150" ></TextBox>
-                </StackPanel>
-            </materialDesign:ColorZone>
-            
-        </Grid>
+                <materialDesign:ColorZone Height="50" HorizontalAlignment="Stretch">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <Label FontSize="18" VerticalAlignment="Center">Game Title:</Label>
+                        <TextBox VerticalAlignment="Center" MinWidth="230" Margin="150,10,0,10"/>
+                    </StackPanel>
+                </materialDesign:ColorZone>
+
+                <materialDesign:ColorZone>
+                    <StackPanel Height="50" Orientation="Horizontal">
+                        <Label FontSize="18" VerticalAlignment="Center">Boxart Image:</Label>
+                        <CheckBox x:Name="autoboxart_checkbox" VerticalAlignment="Center" Click="autoboxart_checkbox_Click">Automatic</CheckBox>
+                        <Button Margin="10, 0" VerticalAlignment="Center" x:Name="Manual_Browse">Browse</Button>
+                        <TextBox MinWidth="200" Margin="0, 10" x:Name="Manual_Directory" Width="154"></TextBox>
+                    </StackPanel>
+                </materialDesign:ColorZone>
+
+                <materialDesign:ColorZone>
+                    <StackPanel Orientation="Horizontal">
+                        <Image x:Name="BoxArt_Image" Source="Resources/art.jpg" Width="180" Height="200"/>
+                        <Grid VerticalAlignment="Stretch" Margin="75, 0">
+                            <Button VerticalAlignment="Center" HorizontalAlignment="Center">Add Game</Button>
+                        </Grid>
+                    </StackPanel>
+
+                </materialDesign:ColorZone>
+
+            </StackPanel>
+        </StackPanel>
     </materialDesign:Card>
 </Page>

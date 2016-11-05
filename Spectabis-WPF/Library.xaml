@@ -15,8 +15,8 @@
          DragOver="Grid_DragOver" Drop="Grid_Drop" AllowDrop="True"
         Title="Library">
 
-    <Grid >
-        <WrapPanel x:Name="gamePanel" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
+    <Grid>
+        <WrapPanel x:Name="gamePanel" ScrollViewer.VerticalScrollBarVisibility="Auto"  HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
 
         <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                         Margin="0,0,50,100"

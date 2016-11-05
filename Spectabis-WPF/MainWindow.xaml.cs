@@ -35,10 +35,6 @@ namespace Spectabis_WPF
                 //Read values
                 var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
                 int _framerate = Convert.ToInt16(advancedIni.Read("timelineFramerate", "Renderer"));
-                var _BitmapScalingMode = advancedIni.Read("BitmapScalingMode", "Renderer");
-
-
-                this.Title = this.Title + " (fps=" + _framerate + " ," + _BitmapScalingMode + ")";
 
                 //Timeline Framerate
                 Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = _framerate });
