@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Spectabis_WPF"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="400" d:DesignWidth="600"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -14,12 +14,21 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
       Title="Add Game">
 
-    <Grid>
-        <Button x:Name="backbutton"  Click="backbutton_Click" Style="{StaticResource MaterialDesignFloatingActionAccentButton}"  HorizontalAlignment="Left" Margin="24,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.696,1">
-            <materialDesign:PackIcon Kind="ArrowLeft" Height="24" Width="24" />
-        </Button>
+    <materialDesign:Card Margin="30,10,29,10" VerticalAlignment="Stretch">
+        <Grid VerticalAlignment="Stretch">
+            <Button x:Name="backbutton"  Click="backbutton_Click" Style="{StaticResource MaterialDesignFloatingActionAccentButton}"  HorizontalAlignment="Left" Margin="24,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.696,1">
+                <materialDesign:PackIcon Kind="ArrowLeft" Height="24" Width="24" />
+            </Button>
 
-        <TextBlock></TextBlock>
-
-    </Grid>
+            <materialDesign:ColorZone  Margin="10,85,10,0" Height="50">
+                <StackPanel Orientation="Horizontal">
+                    <Label VerticalAlignment="Center">Game File Location:</Label>
+                    <Button>Save</Button>
+                    <Button Margin="5" Style="{StaticResource MaterialDesignRaisedLightButton}">Browse</Button>
+                    <TextBox  Margin="5" MinWidth="150" ></TextBox>
+                </StackPanel>
+            </materialDesign:ColorZone>
+            
+        </Grid>
+    </materialDesign:Card>
 </Page>

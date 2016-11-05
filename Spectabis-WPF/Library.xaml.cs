@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Spectabis_WPF
 {
@@ -204,7 +205,7 @@ namespace Spectabis_WPF
                     if (File.Exists(game + @"\Spectabis.ini"))
                     {
                         //Sets _gameName to name of the folder
-                        string _gameName = game.Remove(0, game.LastIndexOf(System.IO.Path.DirectorySeparatorChar) + 1);
+                        string _gameName = game.Remove(0, game.LastIndexOf(Path.DirectorySeparatorChar) + 1);
 
                         Debug.WriteLine("adding to gamePanel - " + _gameName);
 
@@ -227,6 +228,41 @@ namespace Spectabis_WPF
                         boxArt.Width = 150;
                         boxArt.MouseDown += boxArt_Click;
                         boxArt.Tag = _gameName;
+
+                        //Set BitmapScalingMode from advanced.ini if set
+                        //Forgive me
+                        if (File.Exists(BaseDirectory + @"\advanced.ini"))
+                        {
+                            var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
+
+                            var _BitmapScalingMode = advancedIni.Read("BitmapScalingMode", "Renderer");
+
+                            if(_BitmapScalingMode == "BitmapScalingMode.HighQuality")
+                            {
+                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.HighQuality);
+                            }
+                            else if(_BitmapScalingMode == "BitmapScalingMode.LowQuality")
+                            {
+                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.LowQuality);
+                            }
+                            else if (_BitmapScalingMode == "BitmapScalingMode.Linear")
+                            {
+                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.Linear);
+                            }
+                            else if (_BitmapScalingMode == "BitmapScalingMode.NearestNeighbor")
+                            {
+                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.NearestNeighbor);
+                            }
+                            else if (_BitmapScalingMode == "BitmapScalingMode.Fant")
+                            {
+                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.Fant);
+                            }
+                        }
+
+                        
+
+                        
+
 
                         //If showtitle is selected
                         if (Properties.Settings.Default.showTitle == true)

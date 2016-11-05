@@ -2,14 +2,20 @@
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Spectabis_WPF
 {
     public partial class MainWindow : MetroWindow
     {
+
+        public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -17,9 +23,27 @@ namespace Spectabis_WPF
             //Saves settings between versions
             Properties.Settings.Default.Upgrade();
 
+
             //Version
             Debug.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
             Title = "Spectabis " + Assembly.GetExecutingAssembly().GetName().Version;
+
+            //Advanced options ini
+            if (File.Exists(BaseDirectory + @"\advanced.ini"))
+            {
+                
+                //Read values
+                var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
+                int _framerate = Convert.ToInt16(advancedIni.Read("timelineFramerate", "Renderer"));
+                var _BitmapScalingMode = advancedIni.Read("BitmapScalingMode", "Renderer");
+
+
+                this.Title = this.Title + " (fps=" + _framerate + " ," + _BitmapScalingMode + ")";
+
+                //Timeline Framerate
+                Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = _framerate });
+            }
+
 
             //Sets nightmode from variable
             new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);

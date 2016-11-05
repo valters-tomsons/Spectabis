@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -32,7 +33,7 @@ namespace Spectabis_WPF
             doubleclick.IsChecked = Properties.Settings.Default.doubleClick;
             showTitles.IsChecked = Properties.Settings.Default.showTitle;
             nightMode.IsChecked = Properties.Settings.Default.nightMode;
-
+            
             emudir_text.Text = Properties.Settings.Default.emuDir;
         }
 
