@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -420,14 +421,29 @@ namespace Spectabis_WPF
             string _filename;
             string gameserial = "NULL";
 
-            SevenZipBase.SetLibraryPath(BaseDirectory + @"lib\7z-x64.dll");
+            //Checks, if process is 32-bit or 64
+            if (IntPtr.Size == 4)
+            {
+                //32-bit
+                SevenZipBase.SetLibraryPath(BaseDirectory + @"lib\7z-x86.dll");
+            }
+            else if (IntPtr.Size == 8)
+            {
+                //64-bit
+                SevenZipBase.SetLibraryPath(BaseDirectory + @"lib\7z-x64.dll");
+            }
+
+            //Opens the archive
             using (SevenZipExtractor archivedFile = new SevenZipExtractor(_isoDir))
             {
+                //loops throught each file name
                 foreach (var file in archivedFile.ArchiveFileData)
                 {
                     _filename = new string(file.FileName.Take(4).ToArray());
+                    //If filename contains region code...
                     if (regionList.Contains(_filename))
                     {
+                        //Return forged serial number
                         gameserial = file.FileName.Replace(".", String.Empty);
                         gameserial = gameserial.Replace("_", "-");
                         return gameserial;
