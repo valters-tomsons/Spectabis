@@ -300,8 +300,6 @@ namespace Spectabis_WPF
         private void Grid_Drop(object sender, System.Windows.DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            string _filename;
-            string _isoname;
 
             foreach (string file in files)
             {
@@ -313,14 +311,14 @@ namespace Spectabis_WPF
                     {
                         string SerialNumber = GetSerialNumber(file);
                         string GameName = GetGameName(SerialNumber);
-                        PushSnackbar(file);
+                        AddGame(null, file, GameName);
                     }
                     else
                     {
                         PushSnackbar("This filetype doesn't support automatic boxart!");
                     }
 
-
+                    AddGame(null, file, Path.GetFileNameWithoutExtension(file));
                 }
                 else
                 {
