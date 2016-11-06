@@ -69,8 +69,8 @@
       <HintPath>..\packages\MaterialDesignThemes.2.2.0-ci715\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SevenZipExtractor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SevenZipExtractor.1.0.4\lib\net45\SevenZipExtractor.dll</HintPath>
+    <Reference Include="SevenZipSharp, Version=0.64.3890.29348, Culture=neutral, PublicKeyToken=20de82c62b055c88, processorArchitecture=MSIL">
+      <HintPath>..\packages\SevenZipSharp.0.64\lib\SevenZipSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -172,8 +172,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="7z-x64.dll" />
-    <Content Include="7z-x86.dll" />
     <Resource Include="Resources\art.jpg" />
     <Resource Include="SPECTABIS_icon.ico" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿using SevenZipExtractor;
+﻿using SevenZip;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -311,7 +311,7 @@ namespace Spectabis_WPF
                     if(supportedScrappingFiles.Any(s => file.EndsWith(s)))
                     {
                         string SerialNumber = GetSerialNumber(file);
-                        //string GameName = GetGameName(SerialNumber);
+                        string GameName = GetGameName(SerialNumber);
                         PushSnackbar(file);
                     }
                     else
@@ -420,26 +420,16 @@ namespace Spectabis_WPF
             string _filename;
             string gameserial = "NULL";
 
-            //Open file as archive
-            using (ArchiveFile archiveFile = new ArchiveFile(_isoDir))
+            SevenZipBase.SetLibraryPath(BaseDirectory + @"lib\7z-x64.dll");
+            using (SevenZipExtractor archivedFile = new SevenZipExtractor(_isoDir))
             {
-                //loop all files in archive
-                foreach (Entry entry in archiveFile.Entries)
+                foreach (var file in archivedFile.ArchiveFileData)
                 {
-                    _filename = new string(entry.FileName.Take(4).ToArray());
-
-                    //if any files contains a region code, stucturize and return it
+                    _filename = new string(file.FileName.Take(4).ToArray());
                     if (regionList.Contains(_filename))
                     {
-                        gameserial = entry.FileName.Replace(".", String.Empty);
+                        gameserial = file.FileName.Replace(".", String.Empty);
                         gameserial = gameserial.Replace("_", "-");
-
-                        Console.WriteLine("Serial = " + gameserial);
-
-                        return gameserial;
-                    }
-                    else
-                    {
                         return gameserial;
                     }
                 }
