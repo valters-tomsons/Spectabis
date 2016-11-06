@@ -14,5 +14,11 @@
     <Setting Name="nightMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="autoBoxart" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="artDB" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TheGamesDB</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -70,5 +70,29 @@ namespace Spectabis_WPF.Properties {
                 this["nightMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool autoBoxart {
+            get {
+                return ((bool)(this["autoBoxart"]));
+            }
+            set {
+                this["autoBoxart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TheGamesDB")]
+        public string artDB {
+            get {
+                return ((string)(this["artDB"]));
+            }
+            set {
+                this["artDB"] = value;
+            }
+        }
     }
 }

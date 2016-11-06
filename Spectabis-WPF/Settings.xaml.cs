@@ -33,6 +33,7 @@ namespace Spectabis_WPF
             doubleclick.IsChecked = Properties.Settings.Default.doubleClick;
             showTitles.IsChecked = Properties.Settings.Default.showTitle;
             nightMode.IsChecked = Properties.Settings.Default.nightMode;
+            AutoScrapping.IsChecked = Properties.Settings.Default.autoBoxart;
             
             emudir_text.Text = Properties.Settings.Default.emuDir;
         }
@@ -44,6 +45,7 @@ namespace Spectabis_WPF
             Properties.Settings.Default.doubleClick = Convert.ToBoolean(doubleclick.IsChecked);
             Properties.Settings.Default.showTitle = Convert.ToBoolean(showTitles.IsChecked);
             Properties.Settings.Default.nightMode = Convert.ToBoolean(nightMode.IsChecked);
+            Properties.Settings.Default.autoBoxart = Convert.ToBoolean(AutoScrapping.IsChecked);
 
             //Save settings
             Properties.Settings.Default.Save();

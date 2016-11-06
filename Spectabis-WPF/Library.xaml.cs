@@ -1,16 +1,19 @@
 ﻿using SevenZip;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using TheGamesDBAPI;
 
 namespace Spectabis_WPF
 {
@@ -29,6 +32,14 @@ namespace Spectabis_WPF
         public List<string> regionList = new List<string>();
         public List<string> supportedGameFiles = new List<string>();
         public List<string> supportedScrappingFiles = new List<string>();
+
+        //Async game art scrapping variables
+        List<string> taskQueue = new List<string>();
+        public BackgroundWorker QueueThread = new BackgroundWorker();
+
+        //Scrapping Threads
+        public BackgroundWorker artScrapper = new BackgroundWorker();
+        private AutoResetEvent _resetEvent = new AutoResetEvent(false);
 
         public Library()
         {
@@ -58,6 +69,18 @@ namespace Spectabis_WPF
             regionList.Add("SCED");
             regionList.Add("SLPM");
             regionList.Add("SIPS");
+
+            //Starts the TaskQueue timer
+            System.Windows.Threading.DispatcherTimer taskList = new System.Windows.Threading.DispatcherTimer();
+            taskList.Tick += taskList_Tick;
+            taskList.Interval = new TimeSpan(0, 0, 3);
+            taskList.Start();
+
+            //QueueThread Initialization
+            artScrapper.WorkerSupportsCancellation = true;
+            QueueThread.WorkerSupportsCancellation = true;
+            QueueThread.WorkerReportsProgress = true;
+            QueueThread.DoWork += QueueThread_DoWork;
 
 
             reloadGames();
@@ -316,9 +339,8 @@ namespace Spectabis_WPF
                     else
                     {
                         PushSnackbar("This filetype doesn't support automatic boxart!");
+                        AddGame(null, file, Path.GetFileNameWithoutExtension(file));
                     }
-
-                    AddGame(null, file, Path.GetFileNameWithoutExtension(file));
                 }
                 else
                 {
@@ -391,18 +413,13 @@ namespace Spectabis_WPF
             gameIni.Write("fullboot", "0", "Spectabis");
             gameIni.Write("nohacks", "0", "Spectabis");
 
-            //Downloads the image !!
-            using (WebClient client = new WebClient())
+            Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg");
+
+            //Add game title to automatic scrapping tasklist
+            if(Properties.Settings.Default.autoBoxart == true)
             {
-                try
-                {
-                    client.DownloadFile(_img, BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg");
-                }
-                catch
-                {
-                    Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg");
-                    PushSnackbar("Image not available");
-                }
+                Debug.WriteLine("Adding " + _title + " to taskQueue!");
+                taskQueue.Add(_title);
             }
 
             //Removes all games from list
@@ -492,5 +509,103 @@ namespace Spectabis_WPF
             //Invokes mainWindow class which navigates to AddGame.xaml
             ((MainWindow)Application.Current.MainWindow).Open_AddGame();
         }
+
+        //timer for async task list
+        private void taskList_Tick(object sender, EventArgs e)
+        {
+            //Checks if taskQueue isn't empty
+            if (taskQueue.Any())
+            {
+                //Checks, if QueueThread is already busy
+                Debug.WriteLine("Checking if QueueThread is busy.");
+                if (QueueThread.IsBusy == false)
+                {
+                    //If not busy, run the QueueThread
+                    Debug.WriteLine("QueueThread is not busy, starting it");
+                    QueueThread.RunWorkerAsync();
+                    //Thread artScrapper = new Thread(() => doTaskQueue());
+                }
+            }
+        }
+
+        //QueueThread Work //async task list tick function
+        private void QueueThread_DoWork(object sender, DoWorkEventArgs e)
+        {
+            Debug.WriteLine("QueueThread_DoWork");
+            //loop all values in taskQueue list
+            foreach (var task in taskQueue)
+            {
+                string _isoname = task;
+                Debug.WriteLine("QueueThread_DoWork - " + _isoname);
+                //Removes the game from taskQueue list
+                taskQueue.Remove(task);
+
+                //does artscrapping on another thread with values
+                doArtScrapping(_isoname);
+
+                //stops at first value
+                break;
+            }
+        }
+
+        //Automatic box art scanner method
+        private void doArtScrapping(string _name)
+        {
+            
+            //TheGamesDB API Scrapping
+            if (Properties.Settings.Default.artDB == "TheGamesDB")
+            {
+                //PushSnackbar("Downloading boxart for " + _name);
+                try
+                {
+
+                    Debug.WriteLine("Starting ArtScrapping for " + _name);
+
+                    //WebRequest.Create(_databaseurl).GetResponse();
+                    string _title;
+                    string _imgdir;
+
+
+                    foreach (GameSearchResult game in GamesDB.GetGames(_name, "Sony Playstation 2"))
+                    {
+
+                        //Gets game's database ID
+                        Game newGame = GamesDB.GetGame(game.ID);
+
+                        _title = _name.Replace(@"/", string.Empty);
+                        _title = _title.Replace(@"\", string.Empty);
+                        _title = _title.Replace(@":", string.Empty);
+
+
+                        //Sets image to variable
+                        _imgdir = "http://thegamesdb.net/banners/" + newGame.Images.BoxartFront.Path;
+
+                        //Downloads the image
+                        using (WebClient client = new WebClient())
+                        {
+                            try
+                            {
+                                client.DownloadFile(_imgdir, AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg");
+                                Debug.WriteLine("Boxart downloaded for " + _name);
+                            }
+                            catch
+                            {
+
+                            }
+                        }
+
+                    }
+                }
+                catch
+                {
+
+
+                }
+            }
+
+            //add more scrapping APIs, when the time comes
+            
+        }
+
     }
 }
