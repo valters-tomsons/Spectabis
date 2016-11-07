@@ -207,8 +207,13 @@ namespace Spectabis_WPF
         {
             //Title of the last clicked game
             string _title = Convert.ToString(clickedBoxArt.Tag);
+
+            clickedBoxArt.Source = null;
+            UpdateLayout();
+
             gamePanel.Children.Remove(clickedBoxArt);
 
+            //Delete profile folder
             if(Directory.Exists(GameConfigs + @"/" + clickedBoxArt.Tag))
             {
                 Directory.Delete(GameConfigs + @"/" + clickedBoxArt.Tag, true);
@@ -373,9 +378,9 @@ namespace Spectabis_WPF
                 foreach (string inifile in inisDir)
                 {
                     Debug.WriteLine(inifile + " found!");
-                    if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
+                    if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
                     {
-                        string _destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
+                        string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
                         File.Copy(inifile, _destinationPath);
                     }
                 }
@@ -389,7 +394,7 @@ namespace Spectabis_WPF
                     string[] inisDirDoc = Directory.GetFiles((Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"));
                     foreach (string inifile in inisDirDoc)
                     {
-                        if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
+                        if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
                         {
                             string _destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
                             File.Copy(inifile, _destinationPath);
@@ -413,8 +418,9 @@ namespace Spectabis_WPF
             gameIni.Write("fullboot", "0", "Spectabis");
             gameIni.Write("nohacks", "0", "Spectabis");
 
-            Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg");
-            Properties.Resources.tempArt.Dispose();
+            //Copy tempart from resources and filestream it to game profile
+            Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\_temp\art.jpg");
+            File.Copy(BaseDirectory + @"\resources\_temp\art.jpg", BaseDirectory + @"\resources\configs\" + _title +  @"\art.jpg", true);
 
             //Add game title to automatic scrapping tasklist
             if (Properties.Settings.Default.autoBoxart == true)
@@ -586,14 +592,18 @@ namespace Spectabis_WPF
                         {
                             try
                             {
-                                client.DownloadFile(_imgdir, AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg");
-                                Debug.WriteLine("Boxart downloaded for " + _name);
+                                client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
+                                File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
+                                
                             }
                             catch
                             {
 
                             }
                         }
+
+                        //Stops at the first game
+                        break;
 
                     }
                 }
