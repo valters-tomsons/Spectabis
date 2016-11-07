@@ -103,7 +103,7 @@ namespace Spectabis_WPF
 
             //Save needed click count to variable
             int _ClickCount;
-            if(Properties.Settings.Default.doubleClick == true)
+            if (Properties.Settings.Default.doubleClick == true)
             {
                 _ClickCount = 2;
             }
@@ -113,12 +113,12 @@ namespace Spectabis_WPF
             }
 
             //If right click
-            if(e.XButton1 == e.RightButton)
+            if (e.XButton1 == e.RightButton)
             {
                 //Checks for click count
-                if(e.ClickCount == _ClickCount)
+                if (e.ClickCount == _ClickCount)
                 {
-                    if(File.Exists(_isoDir))
+                    if (File.Exists(_isoDir))
                     {
                         //If game file exists, launch
 
@@ -150,7 +150,7 @@ namespace Spectabis_WPF
             }
 
             //If left click
-            if(e.XButton1 == e.LeftButton)
+            if (e.XButton1 == e.LeftButton)
             {
                 //Creates a ContextMenu
                 ContextMenu gameContext = new ContextMenu();
@@ -169,7 +169,7 @@ namespace Spectabis_WPF
                 MenuItem RemoveGame = new MenuItem();
                 RemoveGame.Header = "Remove Game";
                 RemoveGame.Click += RemoveGame_Click;
-               
+
                 //Add buttons to context menu
                 gameContext.Items.Add(SpectabisConfig);
                 gameContext.Items.Add(PCSX2config);
@@ -215,7 +215,7 @@ namespace Spectabis_WPF
             gamePanel.Children.Remove(clickedBoxArt);
 
             //Delete profile folder
-            if(Directory.Exists(GameConfigs + @"/" + clickedBoxArt.Tag))
+            if (Directory.Exists(GameConfigs + @"/" + clickedBoxArt.Tag))
             {
                 Directory.Delete(GameConfigs + @"/" + clickedBoxArt.Tag, true);
             }
@@ -272,11 +272,11 @@ namespace Spectabis_WPF
 
                             var _BitmapScalingMode = advancedIni.Read("BitmapScalingMode", "Renderer");
 
-                            if(_BitmapScalingMode == "BitmapScalingMode.HighQuality")
+                            if (_BitmapScalingMode == "BitmapScalingMode.HighQuality")
                             {
                                 RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.HighQuality);
                             }
-                            else if(_BitmapScalingMode == "BitmapScalingMode.LowQuality")
+                            else if (_BitmapScalingMode == "BitmapScalingMode.LowQuality")
                             {
                                 RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.LowQuality);
                             }
@@ -338,10 +338,10 @@ namespace Spectabis_WPF
             foreach (string file in files)
             {
                 //If file is a valid game file
-                if(supportedGameFiles.Any(s => file.EndsWith(s)))
+                if (supportedGameFiles.Any(s => file.EndsWith(s)))
                 {
                     //If file supports name scrapping
-                    if(supportedScrappingFiles.Any(s => file.EndsWith(s)))
+                    if (supportedScrappingFiles.Any(s => file.EndsWith(s)))
                     {
                         string SerialNumber = GetSerialNumber(file);
                         string GameName = GetGameName(SerialNumber);
@@ -426,10 +426,10 @@ namespace Spectabis_WPF
 
             //Copy tempart from resources and filestream it to game profile
             Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\_temp\art.jpg");
-            File.Copy(BaseDirectory + @"\resources\_temp\art.jpg", BaseDirectory + @"\resources\configs\" + _title +  @"\art.jpg", true);
+            File.Copy(BaseDirectory + @"\resources\_temp\art.jpg", BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg", true);
 
             //If game boxart location is null, then try scrapping
-            if(_img == null)
+            if (_img == null)
             {
                 //Add game title to automatic scrapping tasklist
                 if (Properties.Settings.Default.autoBoxart == true)
@@ -438,7 +438,7 @@ namespace Spectabis_WPF
                     taskQueue.Add(_title);
                 }
             }
-            
+
 
             //Removes all games from list
             gamePanel.Children.Clear();
@@ -466,7 +466,7 @@ namespace Spectabis_WPF
                 SevenZipBase.SetLibraryPath(BaseDirectory + @"lib\7z-x64.dll");
             }
 
-            
+
 
             //Opens the archive
             using (SevenZipExtractor archivedFile = new SevenZipExtractor(_isoDir))
@@ -497,7 +497,7 @@ namespace Spectabis_WPF
             //Reads the GameIndex file by line
             using (var reader = new StreamReader(GameIndex))
             {
-                
+
                 bool serialFound = false;
                 while (!reader.EndOfStream)
                 {
@@ -571,7 +571,7 @@ namespace Spectabis_WPF
         //Automatic box art scanner method
         private void doArtScrapping(string _name)
         {
-            
+
             //TheGamesDB API Scrapping
             if (Properties.Settings.Default.artDB == "TheGamesDB")
             {
@@ -580,6 +580,7 @@ namespace Spectabis_WPF
                 {
 
                     Debug.WriteLine("Starting ArtScrapping for " + _name);
+
 
                     //WebRequest.Create(_databaseurl).GetResponse();
                     string _title;
@@ -633,7 +634,7 @@ namespace Spectabis_WPF
             }
 
             //add more scrapping APIs, when the time comes
-            
+
         }
 
     }

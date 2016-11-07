@@ -22,7 +22,7 @@ namespace Spectabis_WPF
 
         private void autoboxart_checkbox_Click(object sender, RoutedEventArgs e)
         {
-            if(autoboxart_checkbox.IsChecked == true)
+            if (autoboxart_checkbox.IsChecked == true)
             {
                 Manual_Browse.IsEnabled = false;
                 Manual_Directory.IsEnabled = false;

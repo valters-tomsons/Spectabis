@@ -23,7 +23,7 @@ namespace Spectabis_WPF
             showTitles.IsChecked = Properties.Settings.Default.showTitle;
             nightMode.IsChecked = Properties.Settings.Default.nightMode;
             AutoScrapping.IsChecked = Properties.Settings.Default.autoBoxart;
-            
+
             emudir_text.Text = Properties.Settings.Default.emuDir;
         }
 
@@ -53,9 +53,9 @@ namespace Spectabis_WPF
         //Save PCSX2 directory button
         private void Save_Directory(object sender, RoutedEventArgs e)
         {
-            if(Directory.Exists(emudir_text.Text))
+            if (Directory.Exists(emudir_text.Text))
             {
-                if(File.Exists(emudir_text.Text + @"/pcsx2.exe"))
+                if (File.Exists(emudir_text.Text + @"/pcsx2.exe"))
                 {
                     Properties.Settings.Default.emuDir = emudir_text.Text;
                     Properties.Settings.Default.Save();

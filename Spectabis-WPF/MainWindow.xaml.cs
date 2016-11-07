@@ -30,7 +30,7 @@ namespace Spectabis_WPF
             //Advanced options ini
             if (File.Exists(BaseDirectory + @"\advanced.ini"))
             {
-                
+
                 //Read values
                 var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
                 int _framerate = Convert.ToInt16(advancedIni.Read("timelineFramerate", "Renderer"));
@@ -50,7 +50,7 @@ namespace Spectabis_WPF
                 FirstSetup.Source = new Uri("FirstTimeSetup.xaml", UriKind.Relative);
             }
 
-            
+
 
         }
 
@@ -70,7 +70,7 @@ namespace Spectabis_WPF
         //Show or hide black overlay
         public void Overlay(bool _show)
         {
-            if(_show == true)
+            if (_show == true)
             {
                 overlay.Opacity = .5;
                 overlay.IsEnabled = true;
