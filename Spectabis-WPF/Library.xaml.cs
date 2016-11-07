@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Cache;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -428,12 +427,22 @@ namespace Spectabis_WPF
             Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\_temp\art.jpg");
             File.Copy(BaseDirectory + @"\resources\_temp\art.jpg", BaseDirectory + @"\resources\configs\" + _title +  @"\art.jpg", true);
 
-            //Add game title to automatic scrapping tasklist
-            if (Properties.Settings.Default.autoBoxart == true)
+            //If game boxart location is null, then try scrapping
+            if(_img == null)
             {
-                Debug.WriteLine("Adding " + _title + " to taskQueue!");
-                taskQueue.Add(_title);
+                //Add game title to automatic scrapping tasklist
+                if (Properties.Settings.Default.autoBoxart == true)
+                {
+                    Debug.WriteLine("Adding " + _title + " to taskQueue!");
+                    taskQueue.Add(_title);
+                }
             }
+            else
+            {
+                //If not null, set it from provided
+                 File.Copy(_img, BaseDirectory + @"\resources\configs\" + _title +  @"\art.jpg", true);
+            }
+            
 
             //Removes all games from list
             gamePanel.Children.Clear();
@@ -460,6 +469,8 @@ namespace Spectabis_WPF
                 //64-bit
                 SevenZipBase.SetLibraryPath(BaseDirectory + @"lib\7z-x64.dll");
             }
+
+            
 
             //Opens the archive
             using (SevenZipExtractor archivedFile = new SevenZipExtractor(_isoDir))
@@ -600,7 +611,7 @@ namespace Spectabis_WPF
                             {
                                 client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
                                 File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
-                                
+                                Debug.WriteLine("Downloaded boxart for " + _name);
                             }
                             catch
                             {
