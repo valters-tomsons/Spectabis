@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -245,8 +246,13 @@ namespace Spectabis_WPF
                         System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
                         //Opens the filestream
                         artSource.BeginInit();
+
+                        artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+                        artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+                        artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+
                         artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                        artSource.UriSource = new Uri(game + @"\art.jpg");
+                        artSource.UriSource = new Uri(game + @"\art.jpg", UriKind.RelativeOrAbsolute);
                         //Closes the filestream
                         artSource.EndInit();
 
