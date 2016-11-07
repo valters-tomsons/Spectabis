@@ -414,9 +414,10 @@ namespace Spectabis_WPF
             gameIni.Write("nohacks", "0", "Spectabis");
 
             Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg");
+            Properties.Resources.tempArt.Dispose();
 
             //Add game title to automatic scrapping tasklist
-            if(Properties.Settings.Default.autoBoxart == true)
+            if (Properties.Settings.Default.autoBoxart == true)
             {
                 Debug.WriteLine("Adding " + _title + " to taskQueue!");
                 taskQueue.Add(_title);
