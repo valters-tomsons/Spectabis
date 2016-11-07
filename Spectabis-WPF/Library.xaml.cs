@@ -1,4 +1,5 @@
-﻿using SevenZip;
+﻿using MahApps.Metro.Controls;
+using SevenZip;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -437,11 +438,6 @@ namespace Spectabis_WPF
                     taskQueue.Add(_title);
                 }
             }
-            else
-            {
-                //If not null, set it from provided
-                 File.Copy(_img, BaseDirectory + @"\resources\configs\" + _title +  @"\art.jpg", true);
-            }
             
 
             //Removes all games from list
@@ -611,6 +607,11 @@ namespace Spectabis_WPF
                             {
                                 client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
                                 File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
+
+                                //Reload game library
+                                this.Invoke(new Action(() => gamePanel.Children.Clear()));
+                                this.Invoke(new Action(() => reloadGames()));
+
                                 Debug.WriteLine("Downloaded boxart for " + _name);
                             }
                             catch
