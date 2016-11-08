@@ -247,6 +247,7 @@ namespace Spectabis_WPF
                         //Opens the filestream
                         artSource.BeginInit();
 
+                        //Fixes the caching issues, where cached copy would just hang around and bother me for two days
                         artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
                         artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
                         artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
@@ -572,14 +573,30 @@ namespace Spectabis_WPF
         private void doArtScrapping(string _name)
         {
 
+            //Calls the method, which sets loading boxart
+            //Find out, which method is needed and use it
+            if(Properties.Settings.Default.showTitle == false)
+            {
+                this.Invoke(new Action(() => SetLoadingStateForImage(_name, 1)));
+                //SetLoadingStateForImage
+            }
+            else if (Properties.Settings.Default.showTitle == true)
+            {
+
+            }
+
             //TheGamesDB API Scrapping
             if (Properties.Settings.Default.artDB == "TheGamesDB")
             {
+
+
+
                 //PushSnackbar("Downloading boxart for " + _name);
                 try
                 {
 
                     Debug.WriteLine("Starting ArtScrapping for " + _name);
+
 
 
                     //WebRequest.Create(_databaseurl).GetResponse();
@@ -636,6 +653,68 @@ namespace Spectabis_WPF
             //add more scrapping APIs, when the time comes
 
         }
+
+        //Two methods to set loading image, sorry
+        //Finds and sets it, by finding an object with appropriate tag
+        //Use these accordingly, by finding value of Properties.Settings.Default.showTitle!
+        // _phase is used to differenciate between progress
+
+        //Use only, if using Image style boxart ("not showing game titles")
+        public void SetLoadingStateForImage(string _tagName, int _phase)
+        {
+            //Sets image source of game to loading
+            foreach (Image game in gamePanel.Children)
+            {
+                if (Convert.ToString(game.Tag) == _tagName)
+                {
+                    //set source to loading image
+                    System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+                    //Opens the filestream
+                    artSource.BeginInit();
+
+                    //Fixes the caching issues, where cached copy would just hang around and bother me for two days
+                    artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+                    artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+                    artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+                    artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+
+                    //shouldn't do this, but I can
+                    if(_phase == 1)
+                    {
+                        artSource.UriSource = new Uri(@"http://smashinghub.com/wp-content/uploads/2014/08/cool-loading-animated-gif-8.gif");
+                    }
+                    else if(_phase == 2)
+                    {
+                        //
+                    }
+                    else if (_phase == 3)
+                    {
+                        //
+                    }
+                    else if(_phase ==4)
+                    {
+                        //
+                    }
+                    
+                    //Closes the filestream
+                    artSource.EndInit();
+
+                    game.Source = artSource;
+                }
+            }
+
+        }
+
+
+
+        //Use only, if using Groupbox style boxart ("showing game titles")
+        public void SetLoadingStateForGroups()
+        {
+
+            //some code will probably come here in time
+
+        }
+
 
     }
 }
