@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using GiantBomb.Api;
+using MahApps.Metro.Controls;
 using SevenZip;
 using System;
 using System.Collections.Generic;
@@ -261,6 +262,11 @@ namespace Spectabis_WPF
 
                         boxArt.Height = 200;
                         boxArt.Width = 150;
+
+                        //Creates a gap between tiles
+                        boxArt.Margin = new Thickness(10,0,0,0);
+
+                        boxArt.Stretch = Stretch.Fill;
                         boxArt.MouseDown += boxArt_Click;
                         boxArt.Tag = _gameName;
 
@@ -649,12 +655,40 @@ namespace Spectabis_WPF
             {
                 //PLEASE DON'T COMMIT THE API KEY
                 //FOR THE LOVE OF GOD, DON'T COMMIT THE API KEY
-                string ApiKey;
+                string ApiKey = "not sharing sorry";
 
-                
+                var giantBomb = new GiantBombRestClient(ApiKey);
 
+                //Search for game in DB, get its id, then get the image url
+                var resultGame = giantBomb.SearchForGames(_name).ToList();
+                var FinalGame = giantBomb.GetGame(resultGame.First().Id);
+                string _imgdir = FinalGame.Image.SmallUrl;
 
+                Debug.WriteLine("Using GiantBomb API");
+                Debug.WriteLine("ApiKey = " + ApiKey);
+                Debug.WriteLine("Game ID: " + resultGame.First().Id);
+                Debug.WriteLine(_imgdir);
 
+                //Downloads the image
+                using (WebClient client = new WebClient())
+                {
+                    //GiantBomb throws 403 if user-agent is less than 5 characters
+                    client.Headers.Add("user-agent","PCSX2 Spectabis frontend");
+
+                    try
+                    {
+                        client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
+                        File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
+
+                        //Reload game library
+                        this.Invoke(new Action(() => gamePanel.Children.Clear()));
+                        this.Invoke(new Action(() => reloadGames()));
+                    }
+                    catch
+                    {
+
+                    }
+                }
             }
 
         }
