@@ -15,7 +15,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TheGamesDBAPI;
-
 namespace Spectabis_WPF
 {
     public partial class Library : Page
@@ -573,9 +572,11 @@ namespace Spectabis_WPF
         private void doArtScrapping(string _name)
         {
 
+            Properties.Settings.Default.artDB = "GiantBomb";
+
             //Calls the method, which sets loading boxart
             //Find out, which method is needed and use it
-            if(Properties.Settings.Default.showTitle == false)
+            if (Properties.Settings.Default.showTitle == false)
             {
                 this.Invoke(new Action(() => SetLoadingStateForImage(_name, 1)));
                 //SetLoadingStateForImage
@@ -588,21 +589,14 @@ namespace Spectabis_WPF
             //TheGamesDB API Scrapping
             if (Properties.Settings.Default.artDB == "TheGamesDB")
             {
-
-
-
+                Debug.WriteLine("Using TheGamesDB API");
                 //PushSnackbar("Downloading boxart for " + _name);
                 try
                 {
-
                     Debug.WriteLine("Starting ArtScrapping for " + _name);
-
-
-
                     //WebRequest.Create(_databaseurl).GetResponse();
                     string _title;
                     string _imgdir;
-
 
                     foreach (GameSearchResult game in GamesDB.GetGames(_name, "Sony Playstation 2"))
                     {
@@ -650,7 +644,18 @@ namespace Spectabis_WPF
                 }
             }
 
-            //add more scrapping APIs, when the time comes
+            //GiantBomb API
+            if (Properties.Settings.Default.artDB == "GiantBomb")
+            {
+                //PLEASE DON'T COMMIT THE API KEY
+                //FOR THE LOVE OF GOD, DON'T COMMIT THE API KEY
+                string ApiKey;
+
+                
+
+
+
+            }
 
         }
 
