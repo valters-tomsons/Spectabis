@@ -20,5 +20,8 @@
     <Setting Name="artDB" Type="System.String" Scope="User">
       <Value Profile="(Default)">TheGamesDB</Value>
     </Setting>
+    <Setting Name="APIKey_GiantBomb" Type="System.String" Scope="User">
+      <Value Profile="(Default)">null</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

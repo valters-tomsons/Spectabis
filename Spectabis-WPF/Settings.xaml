@@ -18,21 +18,31 @@
 
     <Grid Margin="0,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <StackPanel>
-            <materialDesign:Card x:Name="Interaction" Margin="10,10,10,0" VerticalAlignment="Top" Height="148" >
+
+            <materialDesign:Card x:Name="Interaction" Margin="10,10,10,0" VerticalAlignment="Top" Height="152" >
                 <Grid>
                     <Label FontSize="30" FontFamily="Roboto" Content="Spectabis" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
                     <StackPanel Orientation="Horizontal" Margin="10,55,0,0">
-                        
+
                         <StackPanel Orientation="Vertical">
                             <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="checkbox_Click"  HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom"/>
                             <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="checkbox_Click" HorizontalAlignment="Left" Width="139" Height="25" VerticalAlignment="Top"/>
                             <CheckBox x:Name="nightMode" Content="Night Mode" Click="checkbox_Click" HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom"/>
                         </StackPanel>
-                        
-                        <StackPanel Orientation="Vertical" Margin="10,0">
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox x:Name="AutoScrapping" Content="Automatic boxart scrapping" Click="checkbox_Click"/>
-                            </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Margin="10,4,0,0">
+                            <CheckBox x:Name="AutoScrapping" Content="Automatic boxart scrapping" Click="checkbox_Click"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" x:Name="Database_API_Stackpanel" Margin="12,0">
+                            <Label Content="Game database API:"/>
+                            <RadioButton Content="TheGamesDB" HorizontalAlignment="Left" x:Name="thegamesdb_radio" Click="artDB_click" />
+                            <RadioButton Content="GiantBomb" HorizontalAlignment="Left" x:Name="giantbomb_radio" Click="artDB_click"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" x:Name="APISettings_Panel">
+                            <Label>Giantbomb API Key:</Label>
+                            <TextBox Width="150" Text="null" x:Name="Api_Box" LostFocus="Api_Box_LostFocus"></TextBox>
                         </StackPanel>
                     </StackPanel>
 
@@ -53,9 +63,9 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="PCSX2 Directory:" Margin="5,14" VerticalAlignment="Center" Grid.Column="0" Height="27"/>
-                            <Button Name="Save_Button" Click="Save_Directory" Margin="5,12,5,11" Grid.Column="1" Height="Auto">Save</Button>
-                            <Button Margin="5,12,5,11" Grid.Column="2" Style="{StaticResource MaterialDesignRaisedLightButton}" Height="Auto">Browse</Button>
-                            <TextBox Name="emudir_text" Grid.Column="3" VerticalAlignment="Center" TextAlignment="Left" Text="C:\Program Filez\SpectabisWPF\folder\anotherfolder\PCSX2" FontFamily="Roboto" Width="Auto" Margin="10" Height="30"/>
+                            <Button x:Name="Save_Button" Click="Save_Directory" Margin="5,12,5,11" Grid.Column="1" Height="Auto" Content="Save"/>
+                            <Button Margin="5,12,5,11" Grid.Column="2" Style="{StaticResource MaterialDesignRaisedLightButton}" Height="Auto" Content="Browse"/>
+                            <TextBox x:Name="emudir_text" Grid.Column="3" VerticalAlignment="Center" TextAlignment="Left" Text="C:\Program Filez\SpectabisWPF\folder\anotherfolder\PCSX2" FontFamily="Roboto" Width="Auto" Margin="10" Height="30"/>
                         </Grid>
 
                     </StackPanel>

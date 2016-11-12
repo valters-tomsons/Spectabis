@@ -367,8 +367,7 @@ namespace Spectabis_WPF
 
         }
 
-        //Add game method
-        //_img = null if no game image
+        //Add game method //_img = null if no game image
         public void AddGame(string _img, string _isoDir, string _title)
         {
             //sanitize game's title for folder creation
@@ -577,9 +576,6 @@ namespace Spectabis_WPF
         //Automatic box art scanner method
         private void doArtScrapping(string _name)
         {
-
-            Properties.Settings.Default.artDB = "GiantBomb";
-
             //Calls the method, which sets loading boxart
             //Find out, which method is needed and use it
             if (Properties.Settings.Default.showTitle == false)
@@ -655,7 +651,7 @@ namespace Spectabis_WPF
             {
                 //PLEASE DON'T COMMIT THE API KEY
                 //FOR THE LOVE OF GOD, DON'T COMMIT THE API KEY
-                string ApiKey = "not sharing sorry";
+                string ApiKey = Properties.Settings.Default.APIKey_GiantBomb;
 
                 var giantBomb = new GiantBombRestClient(ApiKey);
 

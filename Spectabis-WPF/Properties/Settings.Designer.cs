@@ -94,5 +94,17 @@ namespace Spectabis_WPF.Properties {
                 this["artDB"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("null")]
+        public string APIKey_GiantBomb {
+            get {
+                return ((string)(this["APIKey_GiantBomb"]));
+            }
+            set {
+                this["APIKey_GiantBomb"] = value;
+            }
+        }
     }
 }
