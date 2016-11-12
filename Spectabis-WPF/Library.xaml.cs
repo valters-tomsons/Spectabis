@@ -649,14 +649,24 @@ namespace Spectabis_WPF
             //GiantBomb API
             if (Properties.Settings.Default.artDB == "GiantBomb")
             {
-                //PLEASE DON'T COMMIT THE API KEY
-                //FOR THE LOVE OF GOD, DON'T COMMIT THE API KEY
+                //Variables
                 string ApiKey = Properties.Settings.Default.APIKey_GiantBomb;
-
                 var giantBomb = new GiantBombRestClient(ApiKey);
+                List<GiantBomb.Api.Model.Game> resultGame = new List<GiantBomb.Api.Model.Game>();
 
                 //Search for game in DB, get its id, then get the image url
-                var resultGame = giantBomb.SearchForGames(_name).ToList();
+                try {
+                    resultGame = giantBomb.SearchForGames(_name).ToList();
+                }
+                catch {
+                    this.Invoke(new Action(() => PushSnackbar("Failed to connect to GiantBomb. Is the API key valid?")));
+
+                    //Reload game library
+                    this.Invoke(new Action(() => gamePanel.Children.Clear()));
+                    this.Invoke(new Action(() => reloadGames()));
+                    return;
+                }
+                
                 var FinalGame = giantBomb.GetGame(resultGame.First().Id);
                 string _imgdir = FinalGame.Image.SmallUrl;
 
@@ -679,10 +689,16 @@ namespace Spectabis_WPF
                         //Reload game library
                         this.Invoke(new Action(() => gamePanel.Children.Clear()));
                         this.Invoke(new Action(() => reloadGames()));
+                        return;
                     }
                     catch
                     {
+                        this.Invoke(new Action(() => PushSnackbar("Failed to download the image, check your internet connection.")));
 
+                        //Reload game library
+                        this.Invoke(new Action(() => gamePanel.Children.Clear()));
+                        this.Invoke(new Action(() => reloadGames()));
+                        return;
                     }
                 }
             }
