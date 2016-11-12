@@ -652,7 +652,10 @@ namespace Spectabis_WPF
                 //Variables
                 string ApiKey = Properties.Settings.Default.APIKey_GiantBomb;
                 var giantBomb = new GiantBombRestClient(ApiKey);
+
+                //list for game results
                 List<GiantBomb.Api.Model.Game> resultGame = new List<GiantBomb.Api.Model.Game>();
+
 
                 //Search for game in DB, get its id, then get the image url
                 try {
@@ -668,39 +671,52 @@ namespace Spectabis_WPF
                 }
                 
                 var FinalGame = giantBomb.GetGame(resultGame.First().Id);
-                string _imgdir = FinalGame.Image.SmallUrl;
-
-                Debug.WriteLine("Using GiantBomb API");
-                Debug.WriteLine("ApiKey = " + ApiKey);
-                Debug.WriteLine("Game ID: " + resultGame.First().Id);
-                Debug.WriteLine(_imgdir);
-
-                //Downloads the image
-                using (WebClient client = new WebClient())
+                List<GiantBomb.Api.Model.Platform> platforms = new List<GiantBomb.Api.Model.Platform>(FinalGame.Platforms);
+                foreach(var gamePlatform in platforms)
                 {
-                    //GiantBomb throws 403 if user-agent is less than 5 characters
-                    client.Headers.Add("user-agent","PCSX2 Spectabis frontend");
-
-                    try
+                    if(gamePlatform.Name == "PlayStation 2")
                     {
-                        client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
-                        File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
+                        string _imgdir = FinalGame.Image.SmallUrl;
 
-                        //Reload game library
-                        this.Invoke(new Action(() => gamePanel.Children.Clear()));
-                        this.Invoke(new Action(() => reloadGames()));
-                        return;
-                    }
-                    catch
-                    {
-                        this.Invoke(new Action(() => PushSnackbar("Failed to download the image, check your internet connection.")));
+                        Debug.WriteLine("Using GiantBomb API");
+                        Debug.WriteLine("ApiKey = " + ApiKey);
+                        Debug.WriteLine("Game ID: " + resultGame.First().Id);
+                        Debug.WriteLine(_imgdir);
 
-                        //Reload game library
-                        this.Invoke(new Action(() => gamePanel.Children.Clear()));
-                        this.Invoke(new Action(() => reloadGames()));
-                        return;
+                        //Downloads the image
+                        using (WebClient client = new WebClient())
+                        {
+                            //GiantBomb throws 403 if user-agent is less than 5 characters
+                            client.Headers.Add("user-agent", "PCSX2 Spectabis frontend");
+
+                            try
+                            {
+                                client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
+                                File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
+
+                                //Reload game library
+                                this.Invoke(new Action(() => gamePanel.Children.Clear()));
+                                this.Invoke(new Action(() => reloadGames()));
+                                return;
+                            }
+                            catch
+                            {
+                                this.Invoke(new Action(() => PushSnackbar("Failed to download the image, check your internet connection.")));
+
+                                //Reload game library
+                                this.Invoke(new Action(() => gamePanel.Children.Clear()));
+                                this.Invoke(new Action(() => reloadGames()));
+                                return;
+                            }
+                        }
                     }
                 }
+                this.Invoke(new Action(() => PushSnackbar("Something went horribly wrong... Couldn't find a game.")));
+
+                //Reload game library
+                this.Invoke(new Action(() => gamePanel.Children.Clear()));
+                this.Invoke(new Action(() => reloadGames()));
+                return;
             }
 
         }
