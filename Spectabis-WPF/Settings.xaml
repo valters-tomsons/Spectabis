@@ -28,8 +28,8 @@
                             <CheckBox x:Name="nightMode" Content="Night Mode" Click="checkbox_Click" HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom"/>
                         </StackPanel>
 
-                        <StackPanel Orientation="Vertical" Margin="10,4,0,0">
-                            <CheckBox x:Name="AutoScrapping" Content="Automatic boxart scrapping" Click="checkbox_Click"/>
+                        <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                            <CheckBox x:Name="AutoScrapping" Height="25" Content="Automatic boxart scrapping" Click="checkbox_Click"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical" x:Name="Database_API_Stackpanel" Margin="12,0">
