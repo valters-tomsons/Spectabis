@@ -379,6 +379,17 @@ namespace Spectabis_WPF
             _title = _title.Replace(@"<", string.Empty);
             _title = _title.Replace(@">", string.Empty);
 
+            //Checks, if the game profile already exists
+            if(Directory.Exists(BaseDirectory + @"\resources\configs\" + _title))
+            {
+                if(File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\Spectabis.ini"))
+                {
+                    PushSnackbar("Game Profile already exists!");
+                    return;
+                }
+            }
+
+            //Create a folder for game profile
             Directory.CreateDirectory(BaseDirectory + @"\resources\configs\" + _title);
 
             //Copies existing ini files from PCSX2
