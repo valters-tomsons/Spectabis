@@ -117,6 +117,7 @@ namespace Spectabis_WPF
                 if (Properties.Settings.Default.artDB == "TheGamesDB")
                 {
                     thegamesdb_radio.IsChecked = true;
+                    showApiSettings(false);
                 }
                 else if (Properties.Settings.Default.artDB == "GiantBomb")
                 {
@@ -129,6 +130,7 @@ namespace Spectabis_WPF
             {
                 Database_API_Stackpanel.IsEnabled = false;
                 Database_API_Stackpanel.Visibility = Visibility.Collapsed;
+                showApiSettings(false);
             }
         }
 
