@@ -181,6 +181,8 @@ namespace Spectabis_WPF
         private void Browse_Click(object sender, RoutedEventArgs e)
         {
             Ookii.Dialogs.Wpf.VistaFolderBrowserDialog BrowserDialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+            BrowserDialog.Description = "Select PCSX2 Directory";
+            BrowserDialog.UseDescriptionForTitle = true;
 
             //Create a return point, if selected path is invalid
             ShowDialog:
