@@ -56,9 +56,14 @@
                     </Image>
 
                     <Rectangle Fill="Black" Opacity="0.55"/>
-                    <Label x:Name="Header_title" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="50" FontFamily="Roboto" Foreground="White" />
+                    <Label VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White">
+                        <Label.Content>
+                            <AccessText TextWrapping="Wrap" x:Name="Header_title" HorizontalAlignment="Center"/>
+                        </Label.Content>
+                    </Label>
                     <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}" Click="CloseSettings_Button" Margin="10,10" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <materialDesign:PackIcon Kind="ExitToApp" Width="25" Height="25" />
+                        
                     </Button>
                 </Grid>
                 

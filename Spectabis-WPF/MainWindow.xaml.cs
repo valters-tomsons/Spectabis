@@ -133,7 +133,7 @@ namespace Spectabis_WPF
                 GameSettings.IsHitTestVisible = true;
 
                 //Set image and header text for the game
-                Header_title.Content = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_name);
+                Header_title.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_name);
                 GameSettings_Header.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg"));
 
 
