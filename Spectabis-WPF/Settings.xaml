@@ -15,10 +15,8 @@
       d:DesignHeight="500" d:DesignWidth="720"
       Title="Settings"
       >
-
     <Grid Margin="0,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <StackPanel>
-
             <materialDesign:Card x:Name="Interaction" Margin="10,10,10,0" VerticalAlignment="Top" Height="152" >
                 <Grid>
                     <Label FontSize="30" FontFamily="Roboto" Content="Spectabis" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
@@ -64,7 +62,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="PCSX2 Directory:" Margin="5,14" VerticalAlignment="Center" Grid.Column="0" Height="27"/>
                             <Button x:Name="Save_Button" Click="Save_Directory" Margin="5,12,5,11" Grid.Column="1" Height="Auto" Content="Save"/>
-                            <Button Margin="5,12,5,11" Grid.Column="2" Style="{StaticResource MaterialDesignRaisedLightButton}" Height="Auto" Content="Browse"/>
+                            <Button Margin="5,12,5,11" Grid.Column="2" Style="{StaticResource MaterialDesignRaisedLightButton}" Height="Auto" Content="Browse" Click="Browse_Click"/>
                             <TextBox x:Name="emudir_text" Grid.Column="3" VerticalAlignment="Center" TextAlignment="Left" Text="C:\Program Filez\SpectabisWPF\folder\anotherfolder\PCSX2" FontFamily="Roboto" Width="Auto" Margin="10" Height="30"/>
                         </Grid>
 

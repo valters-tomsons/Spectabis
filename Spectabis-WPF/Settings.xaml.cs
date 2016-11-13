@@ -176,5 +176,28 @@ namespace Spectabis_WPF
             Debug.WriteLine(Api_Box.Text);
             SaveSettings();
         }
+
+        //PCSX2 directory button 
+        private void Browse_Click(object sender, RoutedEventArgs e)
+        {
+            Ookii.Dialogs.Wpf.VistaFolderBrowserDialog BrowserDialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+
+            //Create a return point, if selected path is invalid
+            ShowDialog:
+            //Show the dialog and check, if directory contains pcsx2.exe
+            var BrowserResult = BrowserDialog.ShowDialog();
+            //If OK was clicked...
+            if(BrowserResult == true)
+            {
+                if (File.Exists(BrowserDialog.SelectedPath + @"/pcsx2.exe") == false)
+                {
+                    //If directory isn't PCSX2's, fall back to beginning
+                    PushSnackbar("Invalid Emulator Directory");
+                    goto ShowDialog;
+                }
+                //Set emudir textbox to location of selected directory
+                emudir_text.Text = BrowserDialog.SelectedPath;
+            }
+        }
     }
 }
