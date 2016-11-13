@@ -61,8 +61,8 @@
                             <AccessText TextWrapping="Wrap" x:Name="Header_title" HorizontalAlignment="Center"/>
                         </Label.Content>
                     </Label>
-                    <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}" Click="CloseSettings_Button" Margin="10,10" HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <materialDesign:PackIcon Kind="ExitToApp" Width="25" Height="25" />
+                    <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" Width="40" Height="40" Click="CloseSettings_Button" Margin="15,15" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <materialDesign:PackIcon Kind="ExitToApp" Width="24" Height="24" />
                         
                     </Button>
                 </Grid>
