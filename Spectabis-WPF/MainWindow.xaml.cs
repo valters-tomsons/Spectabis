@@ -25,6 +25,8 @@ namespace Spectabis_WPF
             //Saves settings between versions
             Properties.Settings.Default.Upgrade();
 
+            copyDLL();
+
 
             //Version
             Debug.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
@@ -316,6 +318,60 @@ namespace Spectabis_WPF
 
             //Open up PCSX2 wiki
             Process.Start(@"http://wiki.pcsx2.net/index.php?search=" + _query);
+        }
+
+        //Copy dll from emulator plugins
+        private static void copyDLL()
+        {
+            string emuDir = Properties.Settings.Default.emuDir;
+            Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\plugins\");
+            //Checks and copies needed plugin files from emulator directory, if they exist
+
+            if (File.Exists(emuDir + @"\plugins\LilyPad.dll"))
+            {
+                File.Copy(emuDir + @"\plugins\LilyPad.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\LilyPad.dll", true);
+            }
+
+            if (File.Exists(emuDir + @"\plugins\GSdx32-SSE2.dll"))
+            {
+                File.Copy(emuDir + @"\plugins\GSdx32-SSE2.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\GSdx32-SSE2.dll", true);
+            }
+
+            if (File.Exists(emuDir + @"\plugins\Spu2-X.dll"))
+            {
+                File.Copy(emuDir + @"\plugins\Spu2-X.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\Spu2-X.dll", true);
+            }
+        }
+
+        //Imports GPUconfigure from GSdx plugin
+        //All GSdx plugins have same settings, by the looks of it
+        //It has no inputs, but writes/reads the ini files where .exe is located at folder /inis/
+        [DllImport(@"\plugins\GSdx32-SSE2.dll")]
+        static public extern void GSconfigure();
+
+        //Configuration must be closed so .dll is not in use
+        [DllImport(@"\plugins\GSdx32-SSE2.dll")]
+        static public extern void GSclose();
+
+        //Video Settings button
+        private void VideoSettings_click(object sender, RoutedEventArgs e)
+        {
+            //Set currentgame from header title text
+            string currentGame = Header_title.Text;
+
+            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini"))
+            {
+                //Creates inis folder and copies it from game profile folder
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"inis");
+                File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", AppDomain.CurrentDomain.BaseDirectory + @"inis\GSdx.ini", true);
+            }
+
+            //GPUConfigure(); - Only software mode was available
+            GSconfigure();
+            GSclose();
+
+            File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"inis\GSdx.ini", AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", true);
+            Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"inis", true);
         }
     }
 }

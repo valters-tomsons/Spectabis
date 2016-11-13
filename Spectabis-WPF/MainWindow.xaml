@@ -88,7 +88,7 @@
                         <CheckBox x:Name="widescreen" Style="{StaticResource LargerCheckbox}">Widescreen Patches</CheckBox>
                         <CheckBox x:Name="hwmipmap" Style="{StaticResource LargerCheckbox}">Enable Hardware Mipmap Hack</CheckBox>
                     </StackPanel>
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" Width="301">
                         <StackPanel Orientation="Horizontal">
                             <Label>Zoom Level:</Label>
                             <TextBox x:Name="zoom">100.00</TextBox>
@@ -97,6 +97,11 @@
                             <Label>Aspect Ratio:</Label>
                             <ComboBox x:Name="aspectratio"></ComboBox>
                         </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <Button Click="VideoSettings_click">Video Settings</Button>
+                        <Button Margin="0,10">Audio Settings</Button>
+                        <Button>Input Settings</Button>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
