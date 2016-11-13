@@ -50,13 +50,21 @@ namespace Spectabis_WPF
             GameConfigs = BaseDirectory + @"\resources\configs\";
 
             //Adds supported game image files to a list
+            //Case sensitive, for some reason
             supportedGameFiles.Add("iso");
             supportedGameFiles.Add("bin");
             supportedGameFiles.Add("cso");
             supportedGameFiles.Add("gz");
 
+            supportedGameFiles.Add("ISO");
+            supportedGameFiles.Add("BIN");
+            supportedGameFiles.Add("CSO");
+            supportedGameFiles.Add("GZ");
+
             //Adds supported files for artScrapping to a list
+            //Case sensitive, for some reason
             supportedScrappingFiles.Add("iso");
+            supportedScrappingFiles.Add("ISO");
 
             //Adds known items to region a list
             regionList.Add("SLUS");
@@ -200,7 +208,9 @@ namespace Spectabis_WPF
         private void SpectabisConfig_Click(object sender, RoutedEventArgs e)
         {
             //Title of the last clicked game
-            string _title = Convert.ToString(clickedBoxArt.Tag);
+            string _name = Convert.ToString(clickedBoxArt.Tag);
+            ((MainWindow)Application.Current.MainWindow).Open_Settings(true, _name);
+
         }
 
         //Context Menu Remove button

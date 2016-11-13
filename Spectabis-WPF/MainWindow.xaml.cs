@@ -2,8 +2,10 @@
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -117,6 +119,44 @@ namespace Spectabis_WPF
         {
             mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
             MainWindow_Header.Text = "Library";
+        }
+
+        //Open settings sidewindow
+        //Bool true, to show - false to hide
+        public void Open_Settings(bool e, [Optional] string _name)
+        {
+            if(e == true)
+            {
+                //Show the panel and overlay
+                Overlay(true);
+                GameSettings.Opacity = 1;
+                GameSettings.IsHitTestVisible = true;
+
+                //Set image and header text for the game
+                Header_title.Content = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_name);
+                GameSettings_Header.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg"));
+
+
+                
+            }
+            else
+            {
+                //Hide panel
+                Overlay(false);
+                GameSettings.Opacity = 0;
+                GameSettings.IsHitTestVisible = false;
+            }
+        }
+
+        //Close Game Settings button click
+        private void CloseSettings_Button(object sender, RoutedEventArgs e)
+        {
+            //probably some code to save stuff
+
+            //Hide panel
+            Overlay(false);
+            GameSettings.Opacity = 0;
+            GameSettings.IsHitTestVisible = false;
         }
     }
 }
