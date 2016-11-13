@@ -100,8 +100,8 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                         <Button Click="VideoSettings_click">Video Settings</Button>
-                        <Button Margin="0,10">Audio Settings</Button>
-                        <Button>Input Settings</Button>
+                        <Button Click="AudioSettings_click" Margin="0,10">Audio Settings</Button>
+                        <Button Click="InputSettings_click">Input Settings</Button>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

@@ -373,5 +373,63 @@ namespace Spectabis_WPF
             File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"inis\GSdx.ini", AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", true);
             Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"inis", true);
         }
+
+
+        [DllImport(@"\plugins\Spu2-X.dll")]
+        static public extern void SPU2configure();
+
+        [DllImport(@"\plugins\Spu2-X.dll")]
+        static public extern void SPU2close();
+
+        //Audio Settings button
+        private void AudioSettings_click(object sender, RoutedEventArgs e)
+        {
+            string currentGame = Header_title.Text;
+
+            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini"))
+            {
+                //Creates inis folder and copies it from game profile folder
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"inis");
+                File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", AppDomain.CurrentDomain.BaseDirectory + @"inis\SPU2-X.ini", true);
+            }
+
+            SPU2configure();
+            SPU2close();
+
+            File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"inis\SPU2-X.ini", AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", true);
+            Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"inis", true);
+        }
+
+
+        [DllImport(@"\plugins\LilyPad.dll")]
+        static public extern void PADconfigure();
+
+        //Configuration must be closed so .dll is not in use
+        [DllImport(@"\plugins\LilyPad.dll")]
+        static public extern void PADclose();
+
+        private void InputSettings_click(object sender, RoutedEventArgs e)
+        {
+            string currentGame = Header_title.Text;
+
+            //Copy the existing .ini file for editing if it exists
+            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini"))
+            {
+                //Creates inis folder and copies it from game profile folder
+                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"inis");
+                File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", AppDomain.CurrentDomain.BaseDirectory + @"inis\LilyPad.ini", true);
+            }
+
+            //Calls the DLL configuration function
+            PADconfigure();
+
+            //Calls the configration close function
+            PADclose();
+
+            //Copies the modified file into the game profile & deletes the created folder
+            File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"inis\LilyPad.ini", AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", true);
+            Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"inis", true);
+        }
+
     }
 }
