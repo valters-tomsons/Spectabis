@@ -695,6 +695,7 @@ namespace Spectabis_WPF
                 try
                 {
                     resultGame = giantBomb.SearchForGames(_name).ToList();
+                    Thread.Sleep(1000);
                 }
                 catch
                 {
