@@ -517,9 +517,23 @@ namespace Spectabis_WPF
         //Catch created textbox key presses
         private void TitleEditBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            //Remove unsupported characters
+            TitleEditBox.Text = TitleEditBox.Text.Replace(@"/", string.Empty);
+            TitleEditBox.Text = TitleEditBox.Text.Replace(@"\", string.Empty);
+            TitleEditBox.Text = TitleEditBox.Text.Replace(@":", string.Empty);
+            TitleEditBox.Text = TitleEditBox.Text.Replace(@"|", string.Empty);
+            TitleEditBox.Text = TitleEditBox.Text.Replace(@"*", string.Empty);
+            TitleEditBox.Text = TitleEditBox.Text.Replace(@"<", string.Empty);
+            TitleEditBox.Text = TitleEditBox.Text.Replace(@">", string.Empty);
+
             //This is the only way to save the name
             if (e.Key == Key.Enter)
             {
+
+                //Save old name to a variable
+                string _oldName = Header_title.Text;
+                string _newName;
+
                 //Hide the textbox
                 TitleEditBox.Visibility = Visibility.Collapsed;
 
@@ -528,6 +542,26 @@ namespace Spectabis_WPF
 
                 //Show real label
                 Header_title.Visibility = Visibility.Visible;
+
+                //Save new name to the variable
+                _newName = Header_title.Text;
+
+                //Check, if old directory exists
+                if(Directory.Exists(BaseDirectory + @"\resources\configs\" + _oldName))
+                {
+                    try
+                    {
+                        //Move old folder to new folder
+                        Directory.Move(BaseDirectory + @"\resources\configs\" + _oldName, BaseDirectory + @"\resources\configs\" + _newName);
+
+                        //Reload game library
+                        mainFrame.NavigationService.Refresh();
+                    }
+                    catch
+                    {
+                        Debug.WriteLine("Couldn't rename the folder");
+                    }
+                }
             }
 
             if (e.Key == Key.Escape)
@@ -538,8 +572,6 @@ namespace Spectabis_WPF
                 //Show real label
                 Header_title.Visibility = Visibility.Visible;
             }
-
-
         }
     }
 }

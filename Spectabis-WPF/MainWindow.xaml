@@ -56,7 +56,7 @@
             <MenuItem Name="Menu_Credits" Header="Credits" Width="200" Click="Menu_Credits_Click"/>
         </Menu>
 
-        <Grid x:Name="GameSettings" Opacity="1" IsHitTestVisible="False" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
+        <Grid x:Name="GameSettings" Opacity="0" IsHitTestVisible="False" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
             <Rectangle Fill="White" />
             <StackPanel Orientation="Vertical">
                 <Grid Margin="0,0,0,0" VerticalAlignment="Top" Width="700" Height="300">
@@ -67,7 +67,7 @@
                     </Image>
 
                     <Rectangle Fill="Black" Opacity="0.55"/>
-                    
+
                     <Label VerticalAlignment="Center" Visibility="Visible" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White">
                         <Label.Content>
                             <AccessText TextWrapping="Wrap" x:Name="Header_title" ToolTip="Double Click to change" MouseUp="Header_title_MouseUp" TextAlignment="Center"/>
@@ -109,17 +109,6 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-
-            <materialDesign:DialogHost x:Name="EditName_Dialog" IsOpen="False">
-                <materialDesign:DialogHost.DialogContent>
-                    <Grid>
-                        <StackPanel Orientation="Horizontal">
-                            <Label>Game Name</Label>
-                        </StackPanel>
-                    </Grid>
-                </materialDesign:DialogHost.DialogContent>
-            </materialDesign:DialogHost>
-
         </Grid>
     </Grid>
 </Controls:MetroWindow>
