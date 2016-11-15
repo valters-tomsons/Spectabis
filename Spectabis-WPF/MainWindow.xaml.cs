@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
 
 namespace Spectabis_WPF
@@ -474,8 +475,16 @@ namespace Spectabis_WPF
             //If the timer is not running, it's not a double click
             if (timeTimer.IsEnabled)
             {
-                Debug.WriteLine("A double click!");
-                EditName_Dialog.IsOpen = true;
+                //Hide the real title label
+                Header_title.Visibility = Visibility.Collapsed;
+
+                //Set text from label and make the textbox visible
+                TitleEditBox.Text = Header_title.Text;
+                TitleEditBox.Visibility = Visibility.Visible;
+
+                //Set focus to this textbox
+                TitleEditBox.Focus();
+                TitleEditBox.CaretIndex = TitleEditBox.Text.Length;
             }
             else
             {
@@ -488,11 +497,49 @@ namespace Spectabis_WPF
             }
         }
 
-        //Stop on tick
+        //Stop double-click timer on first tick
         private void timeTimer_Tick(object sender, EventArgs e)
         {
             Debug.WriteLine("Tick!");
             timeTimer.Stop();
+        }
+
+        //When created textbox loeses focus, show the real label and don't save changes
+        private void TitleEditBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            //Hide the textbox
+            TitleEditBox.Visibility = Visibility.Collapsed;
+
+            //Show real label
+            Header_title.Visibility = Visibility.Visible;
+        }
+
+        //Catch created textbox key presses
+        private void TitleEditBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            //This is the only way to save the name
+            if (e.Key == Key.Enter)
+            {
+                //Hide the textbox
+                TitleEditBox.Visibility = Visibility.Collapsed;
+
+                //Pass text to label
+                Header_title.Text = TitleEditBox.Text;
+
+                //Show real label
+                Header_title.Visibility = Visibility.Visible;
+            }
+
+            if (e.Key == Key.Escape)
+            {
+                //Hide the textbox
+                TitleEditBox.Visibility = Visibility.Collapsed;
+
+                //Show real label
+                Header_title.Visibility = Visibility.Visible;
+            }
+
+
         }
     }
 }

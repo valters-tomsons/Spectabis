@@ -67,11 +67,15 @@
                     </Image>
 
                     <Rectangle Fill="Black" Opacity="0.55"/>
-                    <Label VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White">
+                    
+                    <Label VerticalAlignment="Center" Visibility="Visible" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White">
                         <Label.Content>
-                            <AccessText TextWrapping="Wrap" x:Name="Header_title" ToolTip="Double Click to change" MouseUp="Header_title_MouseUp" HorizontalAlignment="Center"/>
+                            <AccessText TextWrapping="Wrap" x:Name="Header_title" ToolTip="Double Click to change" MouseUp="Header_title_MouseUp" TextAlignment="Center"/>
                         </Label.Content>
                     </Label>
+
+                    <TextBox x:Name="TitleEditBox" Visibility="Collapsed" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White" LostFocus="TitleEditBox_LostFocus" KeyDown="TitleEditBox_KeyDown" />
+
                     <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" Width="40" Height="40" Click="CloseSettings_Button" Margin="15,15" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <materialDesign:PackIcon Kind="ExitToApp" Width="24" Height="24" />
                     </Button>
