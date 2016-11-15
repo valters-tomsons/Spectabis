@@ -124,7 +124,7 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="TheGamesDBAPI">
-      <HintPath>D:\Program Files (x86)\Spectabis\TheGamesDBAPI.dll</HintPath>
+      <HintPath>D:\Program Files (x86)\Spectabis\lib\TheGamesDBAPI.dll</HintPath>
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />

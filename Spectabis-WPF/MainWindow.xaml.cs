@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Net.Cache;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -222,7 +223,35 @@ namespace Spectabis_WPF
         //Change boxart
         private void ChangeArt_Button(object sender, RoutedEventArgs e)
         {
-            //
+            Ookii.Dialogs.Wpf.VistaOpenFileDialog artBrowser = new Ookii.Dialogs.Wpf.VistaOpenFileDialog();
+            artBrowser.Title = "Browse to a new boxart image";
+
+            var browserResult = artBrowser.ShowDialog();
+            if(browserResult == true)
+            {
+                string _file = artBrowser.FileName;
+                string _game = Header_title.Text;
+
+                //Replace the boxart image
+                File.Copy(_file, BaseDirectory + @"\resources\configs\" + _game + @"\art.jpg", true);
+
+                //Reload the image in header
+                System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+                artSource.BeginInit();
+                artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+                artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+                artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+                artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                artSource.UriSource = new Uri(BaseDirectory + @"\resources\configs\" + _game + @"\art.jpg");
+                artSource.EndInit();
+                GameSettings_Header.Source = artSource;
+
+                //Reload game library
+                mainFrame.NavigationService.Refresh();
+
+            }
+
+
         }
 
         private void SaveGameSettings(string _name)

@@ -16,6 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TheGamesDBAPI;
+
 namespace Spectabis_WPF
 {
     public partial class Library : Page
@@ -232,7 +233,7 @@ namespace Spectabis_WPF
         }
 
         //Rescans the game config directory and adds them to gamePanel
-        private void reloadGames()
+        public void reloadGames()
         {
             if (Directory.Exists(GameConfigs))
             {
