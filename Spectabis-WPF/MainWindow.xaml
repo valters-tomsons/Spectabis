@@ -56,7 +56,7 @@
             <MenuItem Name="Menu_Credits" Header="Credits" Width="200" Click="Menu_Credits_Click"/>
         </Menu>
 
-        <Grid x:Name="GameSettings" Opacity="0" IsHitTestVisible="False" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
+        <Grid x:Name="GameSettings" Opacity="1" IsHitTestVisible="False" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
             <Rectangle Fill="White" />
             <StackPanel Orientation="Vertical">
                 <Grid Margin="0,0,0,0" VerticalAlignment="Top" Width="700" Height="300">
@@ -69,14 +69,14 @@
                     <Rectangle Fill="Black" Opacity="0.55"/>
                     <Label VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White">
                         <Label.Content>
-                            <AccessText TextWrapping="Wrap" x:Name="Header_title" HorizontalAlignment="Center"/>
+                            <AccessText TextWrapping="Wrap" x:Name="Header_title" ToolTip="Double Click to change" MouseUp="Header_title_MouseUp" HorizontalAlignment="Center"/>
                         </Label.Content>
                     </Label>
                     <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" Width="40" Height="40" Click="CloseSettings_Button" Margin="15,15" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <materialDesign:PackIcon Kind="ExitToApp" Width="24" Height="24" />
                     </Button>
-                    <Button Click="ChangeArt_Button" Style="{StaticResource MaterialDesignFlatButton}" Height="25" Width="80" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,5">Change</Button>
-                    <Button Click="SearchWiki_Button" Style="{StaticResource MaterialDesignFlatButton}" Height="25" Width="150" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,5">Search PCSX2 wiki</Button>
+                    <Button Click="ChangeArt_Button" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,5">Change</Button>
+                    <Button Click="SearchWiki_Button" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,5">PCSX2 wiki</Button>
                 </Grid>
 
                 <StackPanel Orientation="Horizontal" Margin="5,10">
@@ -105,6 +105,17 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
+
+            <materialDesign:DialogHost x:Name="EditName_Dialog" IsOpen="False">
+                <materialDesign:DialogHost.DialogContent>
+                    <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Label>Game Name</Label>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:DialogHost.DialogContent>
+            </materialDesign:DialogHost>
+
         </Grid>
     </Grid>
 </Controls:MetroWindow>

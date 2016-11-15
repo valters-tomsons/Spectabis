@@ -460,5 +460,39 @@ namespace Spectabis_WPF
             Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"inis", true);
         }
 
+        //Public timer, because it needs to stop itself
+        public System.Windows.Threading.DispatcherTimer timeTimer = new System.Windows.Threading.DispatcherTimer();
+
+        //Because labels don't support Click, i'll have to do it on my own
+        private void Header_title_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Debug.WriteLine("Clicked on game header!");
+
+            int TimeBetweenClicks = System.Windows.Forms.SystemInformation.DoubleClickTime;
+
+            //If the timer is not yet stopped, that means it's a double click
+            //If the timer is not running, it's not a double click
+            if (timeTimer.IsEnabled)
+            {
+                Debug.WriteLine("A double click!");
+                EditName_Dialog.IsOpen = true;
+            }
+            else
+            {
+                //Starts the timer, with system double click time as interval (500ms for me)
+                timeTimer.Interval = new TimeSpan(0, 0, 0, 0, TimeBetweenClicks);
+                timeTimer.Tick += timeTimer_Tick;
+                timeTimer.Start();
+
+                Debug.WriteLine("Started timer - after ms" + TimeBetweenClicks);
+            }
+        }
+
+        //Stop on tick
+        private void timeTimer_Tick(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Tick!");
+            timeTimer.Stop();
+        }
     }
 }

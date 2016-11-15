@@ -628,6 +628,7 @@ namespace Spectabis_WPF
                 try
                 {
                     Debug.WriteLine("Starting ArtScrapping for " + _name);
+
                     //WebRequest.Create(_databaseurl).GetResponse();
                     string _title;
                     string _imgdir;
@@ -662,7 +663,7 @@ namespace Spectabis_WPF
                             }
                             catch
                             {
-
+                                this.Invoke(new Action(() => PushSnackbar("Failed to connect to TheGamesDB")));
                             }
                         }
 
@@ -673,8 +674,7 @@ namespace Spectabis_WPF
                 }
                 catch
                 {
-
-
+                    this.Invoke(new Action(() => PushSnackbar("Failed to connect to TheGamesDB")));
                 }
             }
 
