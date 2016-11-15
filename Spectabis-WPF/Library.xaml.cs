@@ -103,17 +103,22 @@ namespace Spectabis_WPF
             clickedBoxArt = (Image)sender;
             Debug.WriteLine(Convert.ToString(clickedBoxArt.Tag) + " - clicked");
 
-            if(File.Exists(emuDir + @"\pcsx2.exe"))
-            {
-                PushSnackbar("PCSX2 installation corrupt");
-            }
-
             //Get isoDir from Spectabis.ini
             //string _cfgDir = BaseDirectory + @"resources\configs\" + clickedBoxArt.Tag;
             string _cfgDir = GameConfigs + @"/" + clickedBoxArt.Tag;
 
             var _gameIni = new IniFile(_cfgDir + @"\spectabis.ini");
             var _isoDir = _gameIni.Read("isoDirectory", "Spectabis");
+
+            if (File.Exists(emuDir + @"\pcsx2.exe") == false)
+            {
+                PushSnackbar("PCSX2 installation corrupt");
+            }
+
+            if (File.Exists(_isoDir) == false)
+            {
+                PushSnackbar("Game doesn't exist anymore");
+            }
 
             //Save needed click count to variable
             int _ClickCount;
