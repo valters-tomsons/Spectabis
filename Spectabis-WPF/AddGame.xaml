@@ -4,15 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Spectabis_WPF"
-      mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="600"
+      mc:Ignorable="d"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         Background="{DynamicResource MaterialDesignPaper}"
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-      Title="Add Game">
+      Title="Add Game" Height="506.103" Width="823.676">
 
     <materialDesign:Card Margin="30,10,29,10" VerticalAlignment="Stretch">
         <StackPanel Orientation="Vertical">
