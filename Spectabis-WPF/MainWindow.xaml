@@ -38,6 +38,7 @@
             <ColumnDefinition Width="201*"/>
             <ColumnDefinition Width="791*"/>
         </Grid.ColumnDefinitions>
+        
         <DockPanel Grid.ColumnSpan="2">
             <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Left" Height="66">
                 <DockPanel>
@@ -55,8 +56,7 @@
             <MenuItem Name="Menu_Appearance" Header="Apperance" Width="200"/>
             <MenuItem Name="Menu_Credits" Header="Credits" Width="200" Click="Menu_Credits_Click"/>
         </Menu>
-
-        <Grid x:Name="GameSettings" Opacity="0" IsHitTestVisible="False" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
+        <Grid x:Name="GameSettings" Opacity="1" IsHitTestVisible="False" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
             <Rectangle Fill="White" />
             <StackPanel Orientation="Vertical">
                 <Grid Margin="0,0,0,0" VerticalAlignment="Top" Width="700" Height="300">
@@ -74,7 +74,7 @@
                         </Label.Content>
                     </Label>
 
-                    <TextBox x:Name="TitleEditBox" Visibility="Collapsed" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White" LostFocus="TitleEditBox_LostFocus" KeyDown="TitleEditBox_KeyDown" />
+                    <TextBox x:Name="TitleEditBox" BorderThickness="0" Visibility="Collapsed" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White" LostFocus="TitleEditBox_LostFocus" KeyDown="TitleEditBox_KeyDown" />
 
                     <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" Width="40" Height="40" Click="CloseSettings_Button" Margin="15,15" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <materialDesign:PackIcon Kind="ExitToApp" Width="24" Height="24" />
@@ -94,11 +94,11 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Width="301">
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Zoom Level:"/>
+                            <Label Content="Zoom Level:" Width="95"/>
                             <TextBox x:Name="zoom" Text="100.00"/>
                         </StackPanel>
                         <StackPanel Margin="0,5" Orientation="Horizontal">
-                            <Label Content="Aspect Ratio:"/>
+                            <Label Width="95" Content="Aspect Ratio:"/>
                             <ComboBox x:Name="aspectratio"/>
                         </StackPanel>
                     </StackPanel>
@@ -109,6 +109,23 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
+
+
+            <materialDesign:DialogHost x:Name="BrowserDialog">
+                <materialDesign:DialogHost.DialogContent>
+                    <Border BorderThickness="0" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                            MinWidth="300" Height="200" ClipToBounds="True">
+                        <materialDesign:Card>
+                            <StackPanel Orientation="Vertical">
+                                <Label>Game File Location:</Label>
+                                <TextBox>C:asdasdasdasdadasdasd.dasa</TextBox>
+                                <Button>Browse</Button>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Border>
+                </materialDesign:DialogHost.DialogContent>
+            </materialDesign:DialogHost>
+
         </Grid>
     </Grid>
 </Controls:MetroWindow>

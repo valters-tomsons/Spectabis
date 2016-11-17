@@ -46,6 +46,8 @@ namespace Spectabis_WPF
                 Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = _framerate });
             }
 
+            //Hide game settings panel, which is visible in designer
+            Open_Settings(false);
 
             //Sets nightmode from variable
             new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
