@@ -227,6 +227,7 @@ namespace Spectabis_WPF
         private void ChangeArt_Button(object sender, RoutedEventArgs e)
         {
             Ookii.Dialogs.Wpf.VistaOpenFileDialog artBrowser = new Ookii.Dialogs.Wpf.VistaOpenFileDialog();
+            artBrowser.Filter = "JPEG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png";
             artBrowser.Title = "Browse to a new boxart image";
 
             var browserResult = artBrowser.ShowDialog();
