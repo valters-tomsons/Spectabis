@@ -240,6 +240,7 @@ namespace Spectabis_WPF
                 //selected file is indeed a url file
                 if(_file.Contains(".url"))
                 {
+                    Debug.WriteLine("File was URL, returning.");
                     return;
                 }
 
