@@ -66,12 +66,22 @@ namespace Spectabis_WPF
         //Shows & hides overlay, when appropriate
         private void MenuToggleButton_Checked(object sender, RoutedEventArgs e)
         {
+            if(GameSettings.Visibility == Visibility.Visible)
+            {
+                MenuToggleButton.IsChecked = false;
+                return;
+            }
             sideMenu.Visibility = Visibility.Visible;
             Overlay(true);
         }
 
         private void MenuToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
+            if (GameSettings.Visibility == Visibility.Visible)
+            {
+                MenuToggleButton.IsChecked = false;
+                return;
+            }
             sideMenu.Visibility = Visibility.Collapsed;
             Overlay(false);
         }
@@ -195,8 +205,7 @@ namespace Spectabis_WPF
 
                 //Show the panel and overlay
                 Overlay(true);
-                GameSettings.Opacity = 1;
-                GameSettings.IsHitTestVisible = true;
+                GameSettings.Visibility = Visibility.Visible;
 
                 //Set image and header text for the game
                 Header_title.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_name);
@@ -206,8 +215,7 @@ namespace Spectabis_WPF
             {
                 //Hide panel
                 Overlay(false);
-                GameSettings.Opacity = 0;
-                GameSettings.IsHitTestVisible = false;
+                GameSettings.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -219,8 +227,7 @@ namespace Spectabis_WPF
 
             //Hide panel
             Overlay(false);
-            GameSettings.Opacity = 0;
-            GameSettings.IsHitTestVisible = false;
+            GameSettings.Visibility = Visibility.Collapsed;
         }
 
         //Change boxart
