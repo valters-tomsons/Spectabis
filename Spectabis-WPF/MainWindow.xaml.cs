@@ -236,6 +236,13 @@ namespace Spectabis_WPF
                 string _file = artBrowser.FileName;
                 string _game = Header_title.Text;
 
+                //Url files don't get filtered, so let's just not break the game profile and stop, if 
+                //selected file is indeed a url file
+                if(_file.Contains(".url"))
+                {
+                    return;
+                }
+
                 //Replace the boxart image
                 File.Copy(_file, BaseDirectory + @"\resources\configs\" + _game + @"\art.jpg", true);
 

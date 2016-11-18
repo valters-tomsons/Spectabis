@@ -267,6 +267,7 @@ namespace Spectabis_WPF
                         System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
                         //Opens the filestream
                         artSource.BeginInit();
+
                         //Fixes the caching issues, where cached copy would just hang around and bother me for two days
                         artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
                         artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
