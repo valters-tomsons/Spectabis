@@ -56,7 +56,7 @@
             <MenuItem Name="Menu_Appearance" Header="Apperance" Width="200"/>
             <MenuItem Name="Menu_Credits" Header="Credits" Width="200" Click="Menu_Credits_Click"/>
         </Menu>
-        <Grid x:Name="GameSettings" Visibility="Collapsed" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
+        <Grid x:Name="GameSettings" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
             <Rectangle Fill="White" />
             <StackPanel Orientation="Vertical">
                 <Grid Margin="0,0,0,0" VerticalAlignment="Top" Width="700" Height="300">
