@@ -55,12 +55,17 @@ namespace Spectabis_WPF
             //If emuDir is not set, launch first time setup
             if (Properties.Settings.Default.emuDir == "null")
             {
-                Frame FirstSetup = new Frame();
-                FirstSetup.Source = new Uri("FirstTimeSetup.xaml", UriKind.Relative);
+                FirstSetupFrame.Visibility = Visibility.Visible;
             }
 
 
 
+        }
+
+        //Hides first time setup frame
+        public void HideFirsttimeSetup()
+        {
+            FirstSetupFrame.Visibility = Visibility.Collapsed;
         }
 
         //Shows & hides overlay, when appropriate

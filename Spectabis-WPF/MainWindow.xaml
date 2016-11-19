@@ -33,100 +33,105 @@
         </Style>
     </Window.Resources>
 
-    <Grid Focusable="False">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="201*"/>
-            <ColumnDefinition Width="791*"/>
-        </Grid.ColumnDefinitions>
-        
-        <DockPanel Grid.ColumnSpan="2">
-            <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Left" Height="66">
-                <DockPanel>
-                    <ToggleButton Focusable="False" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  IsChecked="False" x:Name="MenuToggleButton" Checked="MenuToggleButton_Checked" Unchecked="MenuToggleButton_Unchecked"/>
+    <Grid>
+        <Grid Focusable="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="201*"/>
+                <ColumnDefinition Width="791*"/>
+            </Grid.ColumnDefinitions>
 
-                    <TextBlock Name="MainWindow_Header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Roboto" FontSize="22" Text="Library"/>
-                </DockPanel>
-            </materialDesign:ColorZone>
-        </DockPanel>
-        <Frame x:Name="mainFrame" Focusable="False" Source="Library.xaml" Margin="1,70,1,1" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden"/>
-        <Rectangle x:Name="overlay" Focusable="False" Fill="Gray" Margin="0,66,0,0" Grid.ColumnSpan="2" Opacity="0" IsEnabled="False" IsHitTestVisible="False" />
-        <Menu x:Name="sideMenu" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,66,0,0" Width="200" MinWidth="200" MaxWidth="200">
-            <MenuItem Name="Menu_Library" Header="Library" Width="200" Click="Menu_Library_Click"/>
-            <MenuItem Name="Menu_Settings" Header="Settings" Width="200" Click="Menu_Settings_Click"/>
-            <MenuItem Name="Menu_Appearance" Header="Apperance" Width="200"/>
-            <MenuItem Name="Menu_Credits" Header="Credits" Width="200" Click="Menu_Credits_Click"/>
-        </Menu>
-        <Grid x:Name="GameSettings" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
-            <Rectangle Fill="White" />
-            <StackPanel Orientation="Vertical">
-                <Grid Margin="0,0,0,0" VerticalAlignment="Top" Width="700" Height="300">
-                    <Image x:Name="GameSettings_Header" Focusable="False" RenderOptions.BitmapScalingMode="Fant" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
-                        <Image.Effect>
-                            <BlurEffect Radius="15" KernelType="Gaussian" RenderingBias="Performance" />
-                        </Image.Effect>
-                    </Image>
+            <DockPanel Grid.ColumnSpan="2">
+                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Left" Height="66">
+                    <DockPanel>
+                        <ToggleButton Focusable="False" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  IsChecked="False" x:Name="MenuToggleButton" Checked="MenuToggleButton_Checked" Unchecked="MenuToggleButton_Unchecked"/>
 
-                    <Rectangle Fill="Black" Opacity="0.55"/>
+                        <TextBlock Name="MainWindow_Header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Roboto" FontSize="22" Text="Library"/>
+                    </DockPanel>
+                </materialDesign:ColorZone>
+            </DockPanel>
+            <Frame x:Name="mainFrame" Focusable="False" Source="Library.xaml" Margin="1,70,1,1" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden"/>
+            <Rectangle x:Name="overlay" Focusable="False" Fill="Gray" Margin="0,66,0,0" Grid.ColumnSpan="2" Opacity="0" IsEnabled="False" IsHitTestVisible="False" />
+            <Menu x:Name="sideMenu" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,66,0,0" Width="200" MinWidth="200" MaxWidth="200">
+                <MenuItem Name="Menu_Library" Header="Library" Width="200" Click="Menu_Library_Click"/>
+                <MenuItem Name="Menu_Settings" Header="Settings" Width="200" Click="Menu_Settings_Click"/>
+                <MenuItem Name="Menu_Appearance" Header="Apperance" Width="200"/>
+                <MenuItem Name="Menu_Credits" Header="Credits" Width="200" Click="Menu_Credits_Click"/>
+            </Menu>
+            <Grid x:Name="GameSettings" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
+                <Rectangle Fill="White" />
+                <StackPanel Orientation="Vertical">
+                    <Grid Margin="0,0,0,0" VerticalAlignment="Top" Width="700" Height="300">
+                        <Image x:Name="GameSettings_Header" Focusable="False" RenderOptions.BitmapScalingMode="Fant" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                            <Image.Effect>
+                                <BlurEffect Radius="15" KernelType="Gaussian" RenderingBias="Performance" />
+                            </Image.Effect>
+                        </Image>
 
-                    <Label VerticalAlignment="Center" Visibility="Visible" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White">
-                        <Label.Content>
-                            <AccessText TextWrapping="Wrap" x:Name="Header_title" ToolTip="Double Click to change" MouseUp="Header_title_MouseUp" TextAlignment="Center"/>
-                        </Label.Content>
-                    </Label>
+                        <Rectangle Fill="Black" Opacity="0.55"/>
 
-                    <TextBox x:Name="TitleEditBox" BorderThickness="0" Visibility="Collapsed" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White" LostFocus="TitleEditBox_LostFocus" KeyDown="TitleEditBox_KeyDown" />
+                        <Label VerticalAlignment="Center" Visibility="Visible" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White">
+                            <Label.Content>
+                                <AccessText TextWrapping="Wrap" x:Name="Header_title" ToolTip="Double Click to change" MouseUp="Header_title_MouseUp" TextAlignment="Center"/>
+                            </Label.Content>
+                        </Label>
 
-                    <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" Focusable="False" Width="40" Height="40" Click="CloseSettings_Button" Margin="15,15" HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <materialDesign:PackIcon Kind="ExitToApp" Width="24" Height="24" />
-                    </Button>
-                    <Button Click="ChangeArt_Button" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,5">Change Boxart</Button>
-                    <Button Visibility="Collapsed" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,5">Change File</Button>
-                    <Button Click="SearchWiki_Button" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,5">PCSX2 wiki</Button>
-                </Grid>
+                        <TextBox x:Name="TitleEditBox" BorderThickness="0" Visibility="Collapsed" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White" LostFocus="TitleEditBox_LostFocus" KeyDown="TitleEditBox_KeyDown" />
 
-                <StackPanel Orientation="Horizontal" Margin="5,10">
-                    <StackPanel Orientation="Vertical">
-                        <CheckBox x:Name="fullscreen" Style="{StaticResource LargerCheckbox}">Fullscreen</CheckBox>
-                        <CheckBox x:Name="nogui" Style="{StaticResource LargerCheckbox}">No Graphical Interface</CheckBox>
-                        <CheckBox x:Name="fullboot" Style="{StaticResource LargerCheckbox}">Display BIOS when booting</CheckBox>
-                        <CheckBox x:Name="nohacks" Style="{StaticResource LargerCheckbox}">Disable Speedhacks</CheckBox>
-                        <CheckBox x:Name="widescreen" Style="{StaticResource LargerCheckbox}">Widescreen Patches</CheckBox>
-                        <CheckBox x:Name="hwmipmap" Style="{StaticResource LargerCheckbox}">Enable Hardware Mipmap Hack</CheckBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical" Width="301">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="Zoom Level:" Width="95"/>
-                            <TextBox x:Name="zoom" Text="100.00"/>
+                        <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" Focusable="False" Width="40" Height="40" Click="CloseSettings_Button" Margin="15,15" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="ExitToApp" Width="24" Height="24" />
+                        </Button>
+                        <Button Click="ChangeArt_Button" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,5">Change Boxart</Button>
+                        <Button Visibility="Collapsed" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,5">Change File</Button>
+                        <Button Click="SearchWiki_Button" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,5">PCSX2 wiki</Button>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" Margin="5,10">
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox x:Name="fullscreen" Style="{StaticResource LargerCheckbox}">Fullscreen</CheckBox>
+                            <CheckBox x:Name="nogui" Style="{StaticResource LargerCheckbox}">No Graphical Interface</CheckBox>
+                            <CheckBox x:Name="fullboot" Style="{StaticResource LargerCheckbox}">Display BIOS when booting</CheckBox>
+                            <CheckBox x:Name="nohacks" Style="{StaticResource LargerCheckbox}">Disable Speedhacks</CheckBox>
+                            <CheckBox x:Name="widescreen" Style="{StaticResource LargerCheckbox}">Widescreen Patches</CheckBox>
+                            <CheckBox x:Name="hwmipmap" Style="{StaticResource LargerCheckbox}">Enable Hardware Mipmap Hack</CheckBox>
                         </StackPanel>
-                        <StackPanel Margin="0,5" Orientation="Horizontal">
-                            <Label Width="95" Content="Aspect Ratio:"/>
-                            <ComboBox x:Name="aspectratio"/>
+                        <StackPanel Orientation="Vertical" Width="301">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Zoom Level:" Width="95"/>
+                                <TextBox x:Name="zoom" Text="100.00"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,5" Orientation="Horizontal">
+                                <Label Width="95" Content="Aspect Ratio:"/>
+                                <ComboBox x:Name="aspectratio"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                        <Button Click="VideoSettings_click" Focusable="False">Video Settings</Button>
-                        <Button Click="AudioSettings_click" Focusable="False" Margin="0,10">Audio Settings</Button>
-                        <Button Click="InputSettings_click" Focusable="False">Input Settings</Button>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <Button Click="VideoSettings_click" Focusable="False">Video Settings</Button>
+                            <Button Click="AudioSettings_click" Focusable="False" Margin="0,10">Audio Settings</Button>
+                            <Button Click="InputSettings_click" Focusable="False">Input Settings</Button>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
-            </StackPanel>
 
 
-            <materialDesign:DialogHost Focusable="False" x:Name="BrowserDialog">
-                <materialDesign:DialogHost.DialogContent>
-                    <Border BorderThickness="0" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
+                <materialDesign:DialogHost Focusable="False" x:Name="BrowserDialog">
+                    <materialDesign:DialogHost.DialogContent>
+                        <Border BorderThickness="0" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
                             MinWidth="300" Height="200" ClipToBounds="True">
-                        <materialDesign:Card>
-                            <StackPanel Orientation="Vertical">
-                                <Label>Game File Location:</Label>
-                                <TextBox>C:asdasdasdasdadasdasd.dasa</TextBox>
-                                <Button>Browse</Button>
-                            </StackPanel>
-                        </materialDesign:Card>
-                    </Border>
-                </materialDesign:DialogHost.DialogContent>
-            </materialDesign:DialogHost>
+                            <materialDesign:Card>
+                                <StackPanel Orientation="Vertical">
+                                    <Label>Game File Location:</Label>
+                                    <TextBox>C:asdasdasdasdadasdasd.dasa</TextBox>
+                                    <Button>Browse</Button>
+                                </StackPanel>
+                            </materialDesign:Card>
+                        </Border>
+                    </materialDesign:DialogHost.DialogContent>
+                </materialDesign:DialogHost>
 
+            </Grid>
         </Grid>
+
+        <Frame x:Name="FirstSetupFrame" Visibility="Collapsed" Margin="0,0,0,0" Source="FirstTimeSetup.xaml" />
+
     </Grid>
 </Controls:MetroWindow>

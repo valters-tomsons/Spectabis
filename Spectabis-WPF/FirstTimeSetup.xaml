@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Spectabis_WPF"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
+      d:DesignHeight="400" d:DesignWidth="600"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         Background="{DynamicResource MaterialDesignPaper}"
@@ -14,7 +14,7 @@
       Title="FirstTimeSetup">
 
     <Grid>
-        <Rectangle x:Name="overlay" Margin="0,0,0,0" Grid.ColumnSpan="2">
+        <Rectangle x:Name="overlay" Margin="0,0,0,0">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0,1" MappingMode="RelativeToBoundingBox" StartPoint="1,0">
                     <GradientStop Color="#FF225F74" Offset="1"/>
@@ -22,6 +22,11 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="label" Content="Welcome to Spectabis" HorizontalAlignment="Left" Margin="138,120,0,0" VerticalAlignment="Top" Foreground="#DDFFFFFF"/>
+        
+        <StackPanel VerticalAlignment="Center">
+            <Image Source="/resources/SPECTABIS_logotext.png" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" MaxWidth="1018" MaxHeight="188" Margin="50,0" />
+            <Label HorizontalAlignment="Center" Foreground="White" Margin="0,5,0,0" FontSize="20" FontFamily="Roboto">Select PCSX2 Installation Directory</Label>
+            <Button Style="{DynamicResource MaterialDesignFlatButton}" Focusable="False" MaxWidth="180" Margin="0,15,0,0" x:Name="PrimaryButton" Content="Browse" Click="PrimaryButton_Click" />
+        </StackPanel>
     </Grid>
 </Page>
