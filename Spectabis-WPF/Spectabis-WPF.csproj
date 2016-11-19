@@ -56,7 +56,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>SPECTABIS_icon.ico</ApplicationIcon>
+    <ApplicationIcon>spectabis_multisizeicon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -225,6 +225,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\SPECTABIS_logotext.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="spectabis_multisizeicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
