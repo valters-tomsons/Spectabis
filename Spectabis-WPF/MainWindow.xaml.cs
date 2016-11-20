@@ -24,6 +24,9 @@ namespace Spectabis_WPF
         {
             InitializeComponent();
 
+            //Catch commandline arguments
+            CatchCommandLineArguments();
+
             //Saves settings between versions
             Properties.Settings.Default.Upgrade();
 
@@ -58,11 +61,8 @@ namespace Spectabis_WPF
                 FirstSetupFrame.Visibility = Visibility.Visible;
             }
 
-
-
-            //Catch commandline arguments
-            CatchCommandLineArguments();
-
+            //Open game library page
+            mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
 
 
         }

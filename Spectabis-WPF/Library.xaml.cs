@@ -43,6 +43,9 @@ namespace Spectabis_WPF
         public BackgroundWorker artScrapper = new BackgroundWorker();
         private AutoResetEvent _resetEvent = new AutoResetEvent(false);
 
+        //Make alist of all arguments
+        public List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
+
         public Library()
         {
             InitializeComponent();
@@ -92,8 +95,11 @@ namespace Spectabis_WPF
             QueueThread.WorkerReportsProgress = true;
             QueueThread.DoWork += QueueThread_DoWork;
 
-
+            //Load game profiles
             reloadGames();
+
+
+            
         }
 
 
@@ -245,6 +251,12 @@ namespace Spectabis_WPF
         //Rescans the game config directory and adds them to gamePanel
         public void reloadGames()
         {
+            //If command line argument "-ignoreporfiles", then do nothing
+            if(arguments.Contains("-ignoreprofiles"))
+            {
+                return;
+            }
+
             if (Directory.Exists(GameConfigs))
             {
                 //Makes a collection of game folders from game config directory
