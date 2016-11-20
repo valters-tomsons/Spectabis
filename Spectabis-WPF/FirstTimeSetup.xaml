@@ -27,6 +27,8 @@
             <Image Source="/resources/SPECTABIS_logotext.png" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" MaxWidth="1018" MaxHeight="188" Margin="50,0" />
             <Label HorizontalAlignment="Center" Foreground="White" Margin="0,5,0,0" FontSize="20" FontFamily="Roboto">Select PCSX2 Installation Directory</Label>
             <Button Style="{DynamicResource MaterialDesignFlatButton}" Focusable="False" MaxWidth="180" Margin="0,15,0,0" x:Name="PrimaryButton" Content="Browse" Click="PrimaryButton_Click" />
+            
         </StackPanel>
+        <Label HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10" FontSize="14" Foreground="LightBlue">Don't have PCSX2?</Label>
     </Grid>
 </Page>
