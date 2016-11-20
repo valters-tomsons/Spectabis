@@ -393,23 +393,41 @@ namespace Spectabis_WPF
         //Copy dll from emulator plugins
         private static void copyDLL()
         {
-            string emuDir = Properties.Settings.Default.emuDir;
+            Debug.WriteLine("copyDLL");
+
+            string emuDir = Properties.Settings.Default.emuDir + @"\plugins\";
             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\plugins\");
             //Checks and copies needed plugin files from emulator directory, if they exist
 
-            if (File.Exists(emuDir + @"\plugins\LilyPad.dll"))
+            //Read plugin directory value from advanced.ini
+            if(File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\advanced.ini"))
             {
-                File.Copy(emuDir + @"\plugins\LilyPad.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\LilyPad.dll", true);
+                Debug.WriteLine("advanced.ini found!");
+                var advancedIni = new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"\advanced.ini");
+
+                var pluginDir = advancedIni.Read("pluginDir", "Directories");
+                Debug.WriteLine("pluginDir=" + pluginDir);
+                if(Directory.Exists(pluginDir))
+                {
+                    emuDir = pluginDir + @"\";
+                    Debug.WriteLine(emuDir);
+                }
             }
 
-            if (File.Exists(emuDir + @"\plugins\GSdx32-SSE2.dll"))
+
+            if (File.Exists(emuDir + "LilyPad.dll"))
             {
-                File.Copy(emuDir + @"\plugins\GSdx32-SSE2.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\GSdx32-SSE2.dll", true);
+                File.Copy(emuDir + "LilyPad.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\LilyPad.dll", true);
             }
 
-            if (File.Exists(emuDir + @"\plugins\Spu2-X.dll"))
+            if (File.Exists(emuDir + "GSdx32-SSE2.dll"))
             {
-                File.Copy(emuDir + @"\plugins\Spu2-X.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\Spu2-X.dll", true);
+                File.Copy(emuDir + "GSdx32-SSE2.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\GSdx32-SSE2.dll", true);
+            }
+
+            if (File.Exists(emuDir + "Spu2-X.dll"))
+            {
+                File.Copy(emuDir + "Spu2-X.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\Spu2-X.dll", true);
             }
         }
 
