@@ -60,6 +60,23 @@ namespace Spectabis_WPF
 
 
 
+            //Catch commandline arguments
+            CatchCommandLineArguments();
+
+
+
+        }
+
+        private void CatchCommandLineArguments()
+        {
+            //Make alist of all arguments
+            List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
+
+            //Force first time setup
+            if (arguments.Contains("-firsttime"))
+            {
+                FirstSetupFrame.Visibility = Visibility.Visible;
+            }
         }
 
         //Hides first time setup frame
