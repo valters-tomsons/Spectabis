@@ -1,4 +1,4 @@
 language: csharp
 solution: Spectabis-WPF.sln
 mono: none
-dotnet: 1.0.0-preview2-003121
+dotnet: 1.0.0-preview2-003131
