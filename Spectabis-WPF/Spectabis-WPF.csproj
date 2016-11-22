@@ -123,8 +123,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TheGamesDBAPI">
-      <HintPath>D:\Program Files (x86)\Spectabis\lib\TheGamesDBAPI.dll</HintPath>
+    <Reference Include="TheGamesDBAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TheGamesDBAPI.1.0.0\lib\TheGamesDBAPI.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
