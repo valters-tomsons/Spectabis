@@ -48,6 +48,7 @@ namespace Spectabis_WPF
 
                     //Set up next step
                     BigLogo.Visibility = Visibility.Collapsed;
+                    DownloadLabel.Visibility = Visibility.Collapsed;
 
                     MainLabel.Content = "Select Boxart searching method";
                     TGDB_Description.Visibility = Visibility.Visible;
