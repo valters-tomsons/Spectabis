@@ -17,7 +17,29 @@
 
     <materialDesign:Card MinHeight="380" MinWidth="580" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
         <Grid>
-            <TextBox HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="300" Height="55" FontSize="30" FontFamily="Roboto">Silent Fap 2</TextBox>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Orientation="Vertical" Grid.Column="0">
+                <TextBox VerticalAlignment="Top" Margin="10,0,10,0" FontSize="25" HorizontalContentAlignment="Center" >Game Name Here</TextBox>
+                <Button Width="150" Margin="0,20">Select File</Button>
+            </StackPanel>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="65" />
+                </Grid.RowDefinitions>
+
+                <Image Source="resources/art.jpg" Grid.Row="0"/>
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <CheckBox Margin="0,5" HorizontalAlignment="Center" Content="Automatic Box art" />
+                    <Button Width="200" Content="Select Image" />
+                </StackPanel>
+            </Grid>
+
         </Grid>
     </materialDesign:Card>
 </Page>
