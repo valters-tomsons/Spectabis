@@ -16,6 +16,7 @@
         Title="Library">
 
     <Grid>
+        <Label x:Name="NoGameLabel" Margin="0,50" VerticalAlignment="Top" HorizontalAlignment="Center" Content="To add a game, just drag and drop file here!" FontSize="20" Foreground="DarkGray"/>
         <WrapPanel x:Name="gamePanel" ScrollViewer.VerticalScrollBarVisibility="Auto"  HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
 
         <Button Visibility="Collapsed" Style="{StaticResource MaterialDesignFloatingActionAccentButton}"

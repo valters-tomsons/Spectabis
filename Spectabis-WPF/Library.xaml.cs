@@ -246,11 +246,18 @@ namespace Spectabis_WPF
             {
                 Directory.Delete(GameConfigs + @"/" + clickedBoxArt.Tag, true);
             }
+
+            //Reload game list
+            reloadGames();
         }
 
         //Rescans the game config directory and adds them to gamePanel
         public void reloadGames()
         {
+
+            //Checks, if any games are added to the library
+            bool gamesExist = false;
+
             //If command line argument "-ignoreporfiles", then do nothing
             if(arguments.Contains("-ignoreprofiles"))
             {
@@ -333,6 +340,8 @@ namespace Spectabis_WPF
                             }
                         }
 
+                        gamesExist = true;
+
                         //If showtitle is selected
                         if (Properties.Settings.Default.showTitle == true)
                         {
@@ -348,6 +357,17 @@ namespace Spectabis_WPF
                         }
                     }
                 }
+
+                //Show "drag&drop" hint accordingly
+                if(gamesExist == false)
+                {
+                    NoGameLabel.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    NoGameLabel.Visibility = Visibility.Collapsed;
+                }
+
             }
 
             Directory.CreateDirectory(GameConfigs);
