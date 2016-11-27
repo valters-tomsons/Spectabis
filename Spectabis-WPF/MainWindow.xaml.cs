@@ -67,6 +67,12 @@ namespace Spectabis_WPF
 
         }
 
+        //Method that invokes AddGame method from Library.cs
+        public void addGameToLibrary()
+        {
+            
+        }
+
         private void CatchCommandLineArguments()
         {
             //Make alist of all arguments
@@ -288,11 +294,16 @@ namespace Spectabis_WPF
                 GameSettings_Header.Source = artSource;
 
                 //Reload game library
-                mainFrame.NavigationService.Refresh();
+                reloadLibrary();
 
             }
 
 
+        }
+
+        public void reloadLibrary()
+        {
+            mainFrame.NavigationService.Refresh();
         }
 
         private void SaveGameSettings(string _name)
@@ -613,7 +624,7 @@ namespace Spectabis_WPF
                         Directory.Move(BaseDirectory + @"\resources\configs\" + _oldName, BaseDirectory + @"\resources\configs\" + _newName);
 
                         //Reload game library
-                        mainFrame.NavigationService.Refresh();
+                        reloadLibrary();
                     }
                     catch
                     {

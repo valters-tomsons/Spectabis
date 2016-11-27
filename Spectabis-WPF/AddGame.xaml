@@ -24,8 +24,10 @@
             
             <StackPanel Orientation="Vertical" Grid.Column="0">
                 <TextBox VerticalAlignment="Top" Margin="10,0,10,0" FontSize="25" HorizontalContentAlignment="Center" >Game Name Here</TextBox>
-                <Button Width="150" Margin="0,20">Select File</Button>
+                <Button Click="SelectGame_Click" Width="150" Margin="0,20">Select File</Button>
             </StackPanel>
+
+            <Button x:Name="CompleteButton" Click="Complete_Click" IsEnabled="False" Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Add Game"/>
 
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -33,10 +35,10 @@
                     <RowDefinition Height="65" />
                 </Grid.RowDefinitions>
 
-                <Image Source="resources/art.jpg" Grid.Row="0"/>
+                <Image x:Name="BoxPreview" Source="resources/art.jpg" Grid.Row="0"/>
                 <StackPanel Grid.Row="1" Orientation="Vertical">
-                    <CheckBox Margin="0,5" HorizontalAlignment="Center" Content="Automatic Box art" />
-                    <Button Width="200" Content="Select Image" />
+                    <CheckBox x:Name="AutoBoxart" Margin="0,5" HorizontalAlignment="Center" Content="Automatic Box art" />
+                    <Button Click="SelectBoxart_Click" Width="200" Content="Select Image" />
                 </StackPanel>
             </Grid>
 

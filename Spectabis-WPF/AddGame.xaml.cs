@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Ookii;
+using System;
+using System.Net.Cache;
 
 namespace Spectabis_WPF
 {
@@ -23,6 +14,67 @@ namespace Spectabis_WPF
         public AddGame()
         {
             InitializeComponent();
+
+            if(Properties.Settings.Default.autoBoxart == true)
+            {
+                AutoBoxart.IsEnabled = true;
+            }
+            else
+            {
+                AutoBoxart.IsEnabled = false;
+            }
+        }
+
+        string imageSource;
+
+        //Browse game
+        private void SelectGame_Click(object sender, RoutedEventArgs e)
+        {
+            Ookii.Dialogs.Wpf.VistaOpenFileDialog gameBrowser = new Ookii.Dialogs.Wpf.VistaOpenFileDialog();
+            gameBrowser.Filter = "ISO File|*.iso|GZ File|*.gz|CSO File|*.cso|BIN File|*.bin";
+
+            var gameResult = gameBrowser.ShowDialog();
+            if(gameResult.Value == true)
+            {
+                CompleteButton.IsEnabled = true;
+            }
+
+        }
+
+        //Select boxart Image button
+        private void SelectBoxart_Click(object sender, RoutedEventArgs e)
+        {
+            Ookii.Dialogs.Wpf.VistaOpenFileDialog imageBrowser = new Ookii.Dialogs.Wpf.VistaOpenFileDialog();
+            imageBrowser.Filter = "JPEG Image|*.jpg|PNG Image|*.png";
+
+            //Open dialog
+            var imageResult = imageBrowser.ShowDialog();
+            if(imageResult.Value == true)
+            {
+                imageSource = imageBrowser.FileName;
+
+                //Reload the image in boxart preview
+                System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+                artSource.BeginInit();
+                artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+                artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+                artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+                artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                artSource.UriSource = new Uri(imageSource);
+                artSource.EndInit();
+
+                BoxPreview.Source = artSource;
+            }
+        }
+
+        //Add game to library and create a profile
+        private void Complete_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            
+            //Invokes mainWindow class which reloads game library
+            ((MainWindow)Application.Current.MainWindow).reloadLibrary();
         }
     }
 }
