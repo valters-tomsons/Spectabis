@@ -651,5 +651,22 @@ namespace Spectabis_WPF
             MainWindow_Header.Text = "Color Themes";
             Overlay(false);
         }
+
+        //When Window closes
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //Clear Temp files
+            ClearTemp();
+        }
+
+        //Clears _temp folder
+        private void ClearTemp()
+        {
+            string[] _tempdir = Directory.GetFiles(BaseDirectory + @"\resources\_temp\");
+            foreach(var file in _tempdir)
+            {
+                File.Delete(file);
+            }
+        }
     }
 }

@@ -20,7 +20,9 @@
         MinWidth="800"
         MinHeight="550"
         ShowIconOnTitleBar="False"
-        Title="Spectabis" Height="600" Width="1000" Visibility="Visible" Icon="SPECTABIS_icon.ico">
+        Title="Spectabis" 
+        Closing="MainWindow_Closing"
+        Height="600" Width="1000" Visibility="Visible" Icon="SPECTABIS_icon.ico">
 
     <Window.Resources>
         <Style TargetType="CheckBox" x:Key="LargerCheckbox" BasedOn="{StaticResource MaterialDesignCheckBox}">
