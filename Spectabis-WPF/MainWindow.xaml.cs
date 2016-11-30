@@ -20,6 +20,7 @@ namespace Spectabis_WPF
 
         public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -63,6 +64,7 @@ namespace Spectabis_WPF
 
             //Open game library page
             mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
+
 
 
         }
@@ -641,6 +643,13 @@ namespace Spectabis_WPF
                 //Show real label
                 Header_title.Visibility = Visibility.Visible;
             }
+        }
+
+        private void Menu_Themes_Click(object sender, RoutedEventArgs e)
+        {
+            mainFrame.Source = new Uri("Themes.xaml", UriKind.Relative);
+            MainWindow_Header.Text = "Color Themes";
+            Overlay(false);
         }
     }
 }

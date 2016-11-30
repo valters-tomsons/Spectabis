@@ -41,7 +41,7 @@
             </Grid.ColumnDefinitions>
 
             <DockPanel Grid.ColumnSpan="2">
-                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Left" Height="66">
+                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth1" Mode="PrimaryMid" DockPanel.Dock="Left" Height="66">
                     <DockPanel>
                         <ToggleButton Focusable="False" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  IsChecked="False" x:Name="MenuToggleButton" Checked="MenuToggleButton_Checked" Unchecked="MenuToggleButton_Unchecked"/>
 
@@ -54,7 +54,7 @@
             <Menu x:Name="sideMenu" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,66,0,0" Width="200" MinWidth="200" MaxWidth="200">
                 <MenuItem Name="Menu_Library" Header="Library" Width="200" Click="Menu_Library_Click"/>
                 <MenuItem Name="Menu_Settings" Header="Settings" Width="200" Click="Menu_Settings_Click"/>
-                <MenuItem Name="Menu_Appearance" Header="Apperance" Width="200"/>
+                <MenuItem Name="Menu_Appearance" Header="Apperance" Width="200" Click="Menu_Themes_Click" />
                 <MenuItem Name="Menu_Credits" Header="Credits" Width="200" Click="Menu_Credits_Click"/>
             </Menu>
             <Grid x:Name="GameSettings" HorizontalAlignment="Right" Margin="0,0,0,0" Grid.Column="1" Width="700">
