@@ -33,7 +33,6 @@ namespace Spectabis_WPF
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            
             foreach (Swatch swatch in Swatches)
             {
                 SetPrimary(swatch);
