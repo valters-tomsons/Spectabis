@@ -16,9 +16,14 @@
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       TextElement.FontWeight="Medium">
 
-    <Grid>
-        <Button x:Name="button" Click="button_Click" Content="Button" HorizontalAlignment="Left" Margin="107,147,0,0" VerticalAlignment="Top" Width="75"/>
+    <FrameworkElement.Resources>
+        <Style x:Key="CardStyle" TargetType="{x:Type materialDesign:Card}">
+            <Setter Property="Margin" Value="5,5" />
+        </Style>
+    </FrameworkElement.Resources>
 
+    <Grid>
+        <WrapPanel x:Name="SwatchPanel" />
     </Grid>
 
 </Page>
