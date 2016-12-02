@@ -144,6 +144,7 @@
     <Compile Include="FirstTimeSetup.xaml.cs">
       <DependentUpon>FirstTimeSetup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PaletteSelectorViewModel.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>

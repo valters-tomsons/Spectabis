@@ -8,15 +8,17 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="Themes"
       
+      xmlns:materialDesignColors="clr-namespace:MaterialDesignColors;assembly=MaterialDesignColors"
+      xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       Background="{DynamicResource MaterialDesignPaper}"
       FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-      TextElement.FontWeight="Medium"
-      
-      >
+      TextElement.FontWeight="Medium">
 
     <Grid>
-        <Button Click="Button_Click">click</Button>
+        <Button x:Name="button" Click="button_Click" Content="Button" HorizontalAlignment="Left" Margin="107,147,0,0" VerticalAlignment="Top" Width="75"/>
+
     </Grid>
+
 </Page>
