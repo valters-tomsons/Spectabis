@@ -106,5 +106,17 @@ namespace Spectabis_WPF.Properties {
                 this["APIKey_GiantBomb"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("bluegrey")]
+        public string swatch {
+            get {
+                return ((string)(this["swatch"]));
+            }
+            set {
+                this["swatch"] = value;
+            }
+        }
     }
 }

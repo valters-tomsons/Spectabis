@@ -23,5 +23,8 @@
     <Setting Name="APIKey_GiantBomb" Type="System.String" Scope="User">
       <Value Profile="(Default)">null</Value>
     </Setting>
+    <Setting Name="swatch" Type="System.String" Scope="User">
+      <Value Profile="(Default)">bluegrey</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -33,7 +33,6 @@ namespace Spectabis_WPF
 
             copyDLL();
 
-
             //Version
             Debug.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
             Title = "Spectabis " + Assembly.GetExecutingAssembly().GetName().Version;
@@ -65,8 +64,17 @@ namespace Spectabis_WPF
             //Open game library page
             mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
 
+            SetPrimary(Properties.Settings.Default.swatch);
 
 
+
+        }
+
+        //Set primary color scheme
+        private void SetPrimary(string swatch)
+        {
+            Debug.WriteLine("Setting PrimaryColor to " + swatch);
+            new PaletteHelper().ReplacePrimaryColor(swatch);
         }
 
         //Method that invokes AddGame method from Library.cs

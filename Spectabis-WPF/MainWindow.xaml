@@ -106,7 +106,7 @@
                                 <ComboBox x:Name="aspectratio"/>
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <StackPanel Orientation="Vertical" Margin="-5,0" VerticalAlignment="Center">
                             <Button Click="VideoSettings_click" Focusable="False">Video Settings</Button>
                             <Button Click="AudioSettings_click" Focusable="False" Margin="0,10">Audio Settings</Button>
                             <Button Click="InputSettings_click" Focusable="False">Input Settings</Button>
