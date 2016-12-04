@@ -71,5 +71,26 @@
             </materialDesign:Card>
         </StackPanel>
         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar"/>
+        
+        <materialDesign:DialogHost x:Name="GiantBombWarning" Visibility="Collapsed">
+            <materialDesign:DialogHost.DialogContent>
+                <Border BorderThickness="0" BorderBrush="{DynamicResource PrimaryHueMidBrush}" ClipToBounds="True" x:Name="WarningContent">
+                    <materialDesign:Card Height="75">
+                        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                            <Label HorizontalAlignment="Center">GiantBomb API is faster and more reliable. Sadly, you must register and get an API key from GiantBomb. Register now?</Label>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" Click="Giantbomb_Yes" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10,0,10,0">YES</Button>
+                                <Button Grid.Column="2" Click="Giantbomb_No" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10,0,10,0">NO</Button>
+                            </Grid>
+                        </StackPanel>
+                    </materialDesign:Card>
+                </Border>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
     </Grid>
 </Page>

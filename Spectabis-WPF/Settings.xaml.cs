@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,8 +29,6 @@ namespace Spectabis_WPF
             Api_Box.Text = Properties.Settings.Default.APIKey_GiantBomb;
 
             emudir_text.Text = Properties.Settings.Default.emuDir;
-
-
 
             ShowAPISelection();
         }
@@ -68,6 +67,33 @@ namespace Spectabis_WPF
         private void checkbox_Click(object sender, RoutedEventArgs e)
         {
             SaveSettings();
+        }
+
+        //Show giantbomb warning dialog
+        //if bool is true, hide the warning
+        private void ShowGiantBombWarning([Optional]bool hide)
+        {
+            GiantBombWarning.Visibility = Visibility.Visible;
+            WarningContent.Visibility = Visibility.Visible;
+            GiantBombWarning.ShowDialog(WarningContent);
+            if(hide == true)
+            {
+                GiantBombWarning.Visibility = Visibility.Collapsed;
+                WarningContent.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        //giantbomb warning dialog "yes button"
+        private void Giantbomb_Yes(object sender, RoutedEventArgs e)
+        {
+            ShowGiantBombWarning(true);
+            Process.Start("http://www.giantbomb.com/api/");
+        }
+
+        //giantbomb warning dialog "no button"
+        private void Giantbomb_No(object sender, RoutedEventArgs e)
+        {
+            ShowGiantBombWarning(true);
         }
 
         //Save PCSX2 directory button
@@ -145,10 +171,7 @@ namespace Spectabis_WPF
                 //Proceed only, if GiantBomb wasn't checked before clicking
                 if(Properties.Settings.Default.artDB != "GiantBomb")
                 {
-                    if(MessageBox.Show(@"GiantBomb API is faster and reliable. Sadly, you must register and get an API key from GiantBomb. Register now?", "It's better, trust me.", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                    {
-                        Process.Start(@"http://www.giantbomb.com/api/");
-                    }
+                    ShowGiantBombWarning();
                 }
             }
 
