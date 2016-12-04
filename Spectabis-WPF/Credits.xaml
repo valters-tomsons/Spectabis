@@ -49,7 +49,7 @@
             <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="http://artcallspixro.deviantart.com/">
                 <StackPanel Orientation="Vertical">
                     <TextBlock>Pixro</TextBlock>
-                    <Label>Everything that's not material design</Label>
+                    <Label>Spectabis Logo and other beautiful graphics</Label>
                 </StackPanel>
             </materialDesign:Card>
 
