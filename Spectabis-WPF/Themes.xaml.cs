@@ -65,23 +65,54 @@ namespace Spectabis_WPF
             cardContainer.Content = cardPanel;
 
             //Create a label inside Stackpanel which contains name of the swatch
-            Label swatchName = new Label();
-            swatchName.Content = tag;
-            swatchName.Width = cardContainer.Width;
-            //Show, that the bluegrey is the default color
-            if (tag == "bluegrey")
-            {
-                swatchName.Content = tag + "(default)";
-            }
-            swatchName.HorizontalContentAlignment = HorizontalAlignment.Center;
+            Label swatchName = CreateLabel(swatch, cardContainer.Width);
             cardPanel.Children.Add(swatchName);
 
+            //Create a button
+            Button ChangeButton = CreateButton(swatch);
+            cardPanel.Children.Add(ChangeButton);
 
-            //Create a button inside StackPanel which has tag value of swatch name
+            //Add the card to wrappanel
+            SwatchPanel.Children.Add(cardContainer);
+
+        }
+
+        //Create a Label
+        private Label CreateLabel(Swatch swatch, double Width)
+        {
+            //Create a label inside Stackpanel which contains name of the swatch
+            Label swatchName = new Label();
+            swatchName.Content = swatch.Name;
+            swatchName.Width = Width;
+            //Show, that the bluegrey is the default color
+            if (swatch.Name == "bluegrey")
+            {
+                swatchName.Content = swatch.Name + " (default)";
+            }
+            swatchName.HorizontalContentAlignment = HorizontalAlignment.Center;
+            return swatchName;
+        }
+
+        //Create A Button
+        private Button CreateButton(Swatch swatch)
+        {
             Button ChangeButton = new Button();
-            ChangeButton.Margin = new Thickness(15,0,15,0);
-            ChangeButton.Content = "Apply";
-            ChangeButton.Tag = tag;
+            ChangeButton.Margin = new Thickness(15, 0, 15, 0);
+            ChangeButton.Tag = swatch.Name;
+
+            //Create a stackpanel inside button
+            StackPanel content = new StackPanel();
+            content.Orientation = Orientation.Horizontal;
+            ChangeButton.Content = content;
+
+            //Add an icon to button's content
+            PackIcon icon = CreateIcon();
+            content.Children.Add(icon);
+
+            //Add text to button's content
+            TextBlock text = new TextBlock();
+            text.Text = " Apply";
+            content.Children.Add(text);
 
             //Set the color of the button from hue in swatch
             Hue hue = swatch.PrimaryHues.ElementAt(7);
@@ -91,14 +122,18 @@ namespace Spectabis_WPF
             ChangeButton.BorderBrush = brush;
 
             ChangeButton.Click += ChangeButton_Click;
-            cardPanel.Children.Add(ChangeButton);
 
-            //Add the container card to wrappanel
-            SwatchPanel.Children.Add(cardContainer);
-
+            return ChangeButton;
         }
 
-        //Button inside Swatch card
+        private PackIcon CreateIcon()
+        {
+            PackIcon icon = new PackIcon();
+            icon.Kind = PackIconKind.Palette;
+            return icon;
+        }
+
+        //Button created inside swatch card click event
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
         {
             //Get sender button's tag
