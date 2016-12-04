@@ -141,6 +141,9 @@
     <Compile Include="AddGame.xaml.cs">
       <DependentUpon>AddGame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Credits.xaml.cs">
+      <DependentUpon>Credits.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FirstTimeSetup.xaml.cs">
       <DependentUpon>FirstTimeSetup.xaml</DependentUpon>
     </Compile>
@@ -151,6 +154,10 @@
       <DependentUpon>Themes.xaml</DependentUpon>
     </Compile>
     <Page Include="AddGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Credits.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

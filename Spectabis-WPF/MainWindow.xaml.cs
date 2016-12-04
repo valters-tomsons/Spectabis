@@ -161,7 +161,9 @@ namespace Spectabis_WPF
 
         private void Menu_Credits_Click(object sender, RoutedEventArgs e)
         {
-
+            mainFrame.Source = new Uri("Credits.xaml", UriKind.Relative);
+            MainWindow_Header.Text = "Credits";
+            Overlay(false);
         }
 
         public void Open_AddGame()

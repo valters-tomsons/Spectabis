@@ -116,8 +116,8 @@ namespace Spectabis_WPF
 
             //Set the color of the button from hue in swatch
             Hue hue = swatch.PrimaryHues.ElementAt(7);
-            SolidColorBrush brush = new SolidColorBrush(swatch.PrimaryHues.ElementAt(7).Color);
-            ChangeButton.Foreground = new SolidColorBrush(Colors.White);
+            SolidColorBrush brush = new SolidColorBrush(swatch.PrimaryHues.ElementAt(7).Color); //Selects seventh hue in selected swatch
+            ChangeButton.Foreground = new SolidColorBrush(Colors.White); //Sets icon and text color to white in all situations
             ChangeButton.Background = brush;
             ChangeButton.BorderBrush = brush;
 
