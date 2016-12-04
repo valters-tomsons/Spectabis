@@ -63,7 +63,7 @@
                 <Rectangle Fill="{DynamicResource MaterialDesignPaper}" />
                 <StackPanel Orientation="Vertical">
                     <Grid Margin="0,0,0,0" VerticalAlignment="Top" Width="700" Height="300">
-                        <Image x:Name="GameSettings_Header" Focusable="False" RenderOptions.BitmapScalingMode="Fant" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="UniformToFill">
+                        <Image x:Name="GameSettings_Header" Focusable="False" RenderOptions.BitmapScalingMode="Fant" Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch" Stretch="UniformToFill">
                             <Image.Effect>
                                 <BlurEffect Radius="15" KernelType="Gaussian" RenderingBias="Performance" />
                             </Image.Effect>
@@ -115,7 +115,7 @@
                 </StackPanel>
 
 
-                <materialDesign:DialogHost Focusable="False" x:Name="BrowserDialog">
+                <materialDesign:DialogHost Visibility="Collapsed" Focusable="False" x:Name="BrowserDialog">
                     <materialDesign:DialogHost.DialogContent>
                         <Border BorderThickness="0" BorderBrush="{DynamicResource PrimaryHueMidBrush}"
                             MinWidth="300" Height="200" ClipToBounds="True">
