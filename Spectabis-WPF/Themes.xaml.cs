@@ -6,6 +6,8 @@ using MaterialDesignColors;
 using MahApps;
 using System;
 using System.Diagnostics;
+using System.Windows.Media;
+using System.Linq;
 
 namespace Spectabis_WPF
 {
@@ -42,13 +44,15 @@ namespace Spectabis_WPF
             //Create a card for each swatch in swatch list
             foreach(Swatch swatch in Swatches)
             {
-                CreateCard(swatch.Name);
+                CreateCard(swatch);
             }
         }
 
         //Create a swatch card and add it to wrappanel
-        private void CreateCard(string tag)
+        private void CreateCard(Swatch swatch)
         {
+            string tag = swatch.Name;
+
             //Create a container card
             Card cardContainer = new Card();
             cardContainer.Height = 86;
@@ -72,11 +76,20 @@ namespace Spectabis_WPF
             swatchName.HorizontalContentAlignment = HorizontalAlignment.Center;
             cardPanel.Children.Add(swatchName);
 
+
             //Create a button inside StackPanel which has tag value of swatch name
             Button ChangeButton = new Button();
             ChangeButton.Margin = new Thickness(15,0,15,0);
             ChangeButton.Content = "Apply";
             ChangeButton.Tag = tag;
+
+            //Set the color of the button from hue in swatch
+            Hue hue = swatch.PrimaryHues.ElementAt(7);
+            SolidColorBrush brush = new SolidColorBrush(swatch.PrimaryHues.ElementAt(7).Color);
+            ChangeButton.Foreground = new SolidColorBrush(Colors.White);
+            ChangeButton.Background = brush;
+            ChangeButton.BorderBrush = brush;
+
             ChangeButton.Click += ChangeButton_Click;
             cardPanel.Children.Add(ChangeButton);
 

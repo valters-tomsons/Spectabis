@@ -24,6 +24,7 @@
 
     <Grid>
         <WrapPanel x:Name="SwatchPanel" />
+        
     </Grid>
 
 </Page>
