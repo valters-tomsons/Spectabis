@@ -56,7 +56,7 @@ namespace Spectabis_WPF
             //Create a container card
             Card cardContainer = new Card();
             cardContainer.Height = 86;
-            cardContainer.Width = 200;
+            cardContainer.Width = 180;
             cardContainer.Style = Resources["CardStyle"] as Style;
 
             //Place a StackPanel inside card

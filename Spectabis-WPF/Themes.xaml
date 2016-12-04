@@ -23,8 +23,7 @@
     </FrameworkElement.Resources>
 
     <Grid>
-        <WrapPanel x:Name="SwatchPanel" />
-        
+        <WrapPanel x:Name="SwatchPanel" Width="Auto" HorizontalAlignment="Center" />
     </Grid>
 
 </Page>
