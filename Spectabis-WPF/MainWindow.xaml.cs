@@ -407,6 +407,7 @@ namespace Spectabis_WPF
         {
             //Take the header title and replace spaces with + sign
             string _query = Header_title.Text;
+            _query = _query.Replace(" - ", ":+");
             _query = _query.Replace(" ", "+");
 
             //Open up PCSX2 wiki
