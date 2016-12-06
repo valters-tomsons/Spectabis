@@ -255,6 +255,9 @@ namespace Spectabis_WPF
         public void reloadGames()
         {
 
+            //Removes all games from list
+            gamePanel.Children.Clear();
+
             //Checks, if any games are added to the library
             bool gamesExist = false;
 
