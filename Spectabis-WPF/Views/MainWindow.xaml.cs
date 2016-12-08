@@ -24,6 +24,9 @@ namespace Spectabis_WPF.Views
         {
             InitializeComponent();
 
+            //Create a temp file folder
+            Directory.CreateDirectory(BaseDirectory + @"\resources\_temp\");
+
             //Catch commandline arguments
             CatchCommandLineArguments();
 
