@@ -24,5 +24,10 @@ namespace Spectabis_WPF
         {
             InitializeComponent();
         }
+
+		void Link_Click(object sender, RoutedEventArgs args) {
+			string url = Convert.ToString(((MaterialDesignThemes.Wpf.Card)sender).Tag);
+			System.Diagnostics.Process.Start(url);
+		}
     }
 }

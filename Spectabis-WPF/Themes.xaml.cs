@@ -17,7 +17,7 @@ namespace Spectabis_WPF
     public partial class Themes : Page
     {
 
-        public IEnumerable<Swatch> Swatches { get; }
+        public IEnumerable<Swatch> Swatches { get; private set; }
 
         public Themes()
         {

@@ -30,15 +30,6 @@
             <Setter Property="FontSize" Value="32" />
         </Style>
     </Page.Resources>
-
-    <x:Code>
-        <![CDATA[void Link_Click(object sender, RoutedEventArgs args)
-        {
-        string url = Convert.ToString(((Card)sender).Tag);
-        System.Diagnostics.Process.Start(url);
-        }
-        ]]>
-    </x:Code>
     <Grid>
         
 

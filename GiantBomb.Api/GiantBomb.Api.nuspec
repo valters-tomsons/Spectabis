@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>$version$</version>
+    <authors>kayub</authors>
+    <owners>kayub</owners>
+    <id>GiantBomb.Api</id>
+    <title>GiantBomb API (C#)</title>
+    <projectUrl>https://github.com/kamranayub/GiantBomb-CSharp</projectUrl>
+    <licenseUrl>https://github.com/kamranayub/GiantBomb-CSharp/blob/master/LICENSE.txt</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>RestSharp-based API wrapper for the GiantBomb games database public API</description>
+    <copyright>Copyright © kayub 2015</copyright>
+    <releaseNotes>
+      For changes, see README.
+    </releaseNotes>
+    <tags>giantbomb</tags>
+  </metadata>
+  <files>
+    <file src="readme.txt" target="readme.txt" />
+
+    <!-- .NET 4.5.2 will be inserted automatically -->
+    <file src="..\bin\Release\net452\GiantBomb.Api.pdb" target="lib\net452\GiantBomb.Api.pdb"/>
+    
+    <!-- .NET 4.6 -->
+    <file src="..\bin\Release\net46\GiantBomb.Api.dll" target="lib\net46\GiantBomb.Api.dll"/>
+    <file src="..\bin\Release\net46\GiantBomb.Api.pdb" target="lib\net46\GiantBomb.Api.pdb"/>
+
+    <!-- .NET 4.6.1 -->
+    <file src="..\bin\Release\net461\GiantBomb.Api.dll" target="lib\net461\GiantBomb.Api.dll"/>
+    <file src="..\bin\Release\net461\GiantBomb.Api.pdb" target="lib\net461\GiantBomb.Api.pdb"/>
+  </files>
+</package>

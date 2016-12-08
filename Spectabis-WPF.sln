@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectabis-WPF", "Spectabis-WPF\Spectabis-WPF.csproj", "{0547483E-5AA6-4036-B954-6FAF815BD2C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantBomb.Api", "GiantBomb.Api\GiantBomb.Api.csproj", "{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,12 @@ Global
 		{0547483E-5AA6-4036-B954-6FAF815BD2C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0547483E-5AA6-4036-B954-6FAF815BD2C0}.Release|x64.ActiveCfg = Release|x64
 		{0547483E-5AA6-4036-B954-6FAF815BD2C0}.Release|x64.Build.0 = Release|x64
+		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
