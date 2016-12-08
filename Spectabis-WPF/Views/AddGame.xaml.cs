@@ -1,10 +1,9 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using Ookii;
-using System;
+﻿using System;
 using System.Net.Cache;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace Spectabis_WPF
+namespace Spectabis_WPF.Views
 {
     /// <summary>
     /// Interaction logic for AddGame.xaml

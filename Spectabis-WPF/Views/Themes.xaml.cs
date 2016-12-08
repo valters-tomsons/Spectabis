@@ -1,15 +1,14 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using MaterialDesignThemes.Wpf;
+﻿using System;
 using System.Collections.Generic;
-using MaterialDesignColors;
-using MahApps;
-using System;
 using System.Diagnostics;
-using System.Windows.Media;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using MaterialDesignColors;
+using MaterialDesignThemes.Wpf;
 
-namespace Spectabis_WPF
+namespace Spectabis_WPF.Views
 {
     /// <summary>
     /// Interaction logic for Themes.xaml

@@ -1,7 +1,4 @@
-﻿using GiantBomb.Api;
-using MahApps.Metro.Controls;
-using SevenZip;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -15,9 +12,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using MahApps.Metro.Controls;
+using SevenZip;
 using TheGamesDBAPI;
 
-namespace Spectabis_WPF
+namespace Spectabis_WPF.Views
 {
     public partial class Library : Page
     {
@@ -718,7 +717,7 @@ namespace Spectabis_WPF
             {
                 //Variables
                 string ApiKey = Properties.Settings.Default.APIKey_GiantBomb;
-                var giantBomb = new GiantBombRestClient(ApiKey);
+                var giantBomb = new GiantBomb.Api.Resources.GiantBombRestClient(ApiKey);
 
                 //list for game results
                 List<GiantBomb.Api.Model.Game> resultGame = new List<GiantBomb.Api.Model.Game>();

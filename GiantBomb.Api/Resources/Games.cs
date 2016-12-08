@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
-using RestSharp;
 
-namespace GiantBomb.Api {
+namespace GiantBomb.Api.Resources {
     public partial class GiantBombRestClient {
 
         public Game GetGame(int id, string[] limitFields = null)

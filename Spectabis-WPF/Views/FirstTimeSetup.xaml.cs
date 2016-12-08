@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Spectabis_WPF
+namespace Spectabis_WPF.Views
 {
     /// <summary>
     /// Interaction logic for FirstTimeSetup.xaml

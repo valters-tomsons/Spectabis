@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="Spectabis_WPF.MainWindow"
+﻿<Controls:MetroWindow x:Class="Spectabis_WPF.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -22,7 +22,7 @@
         ShowIconOnTitleBar="False"
         Title="Spectabis" 
         Closing="MainWindow_Closing"
-        Height="600" Width="1000" Visibility="Visible" Icon="SPECTABIS_icon.ico">
+        Height="600" Width="1000" Visibility="Visible" Icon="/Resources/SPECTABIS_icon.ico">
 
     <Window.Resources>
         <Style TargetType="CheckBox" x:Key="LargerCheckbox" BasedOn="{StaticResource MaterialDesignCheckBox}">

@@ -1,13 +1,13 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using MaterialDesignThemes.Wpf;
 
-namespace Spectabis_WPF
+namespace Spectabis_WPF.Views
 {
     /// <summary>
     /// Interaction logic for Settings.xaml
