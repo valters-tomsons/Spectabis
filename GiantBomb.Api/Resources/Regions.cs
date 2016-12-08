@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using GiantBomb.Api.Model;
 
-namespace GiantBomb.Api.Resources
+namespace GiantBomb.Api
 {
     public partial class GiantBombRestClient
     {

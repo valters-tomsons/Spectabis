@@ -717,7 +717,7 @@ namespace Spectabis_WPF.Views
             {
                 //Variables
                 string ApiKey = Properties.Settings.Default.APIKey_GiantBomb;
-                var giantBomb = new GiantBomb.Api.Resources.GiantBombRestClient(ApiKey);
+                var giantBomb = new GiantBomb.Api.GiantBombRestClient(ApiKey);
 
                 //list for game results
                 List<GiantBomb.Api.Model.Game> resultGame = new List<GiantBomb.Api.Model.Game>();
