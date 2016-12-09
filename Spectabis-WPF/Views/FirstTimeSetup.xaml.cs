@@ -24,7 +24,7 @@ namespace Spectabis_WPF.Views
             if(StepCounter == 0)
             {
                 Ookii.Dialogs.Wpf.VistaOpenFileDialog emuBrowser = new Ookii.Dialogs.Wpf.VistaOpenFileDialog();
-                emuBrowser.Filter = "PCSX2 Executable | PCSX2.exe";
+                emuBrowser.Filter = "PCSX2 Executable | PCSX2.exe|Executable|*.exe";
 
                 //Show dialog
                 var browserResult = emuBrowser.ShowDialog();
