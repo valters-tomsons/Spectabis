@@ -24,7 +24,7 @@
 
                         <StackPanel Orientation="Vertical">
                             <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="checkbox_Click"  HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom"/>
-                            <CheckBox Visibility="Collapsed" x:Name="showTitles" Content="Show Game Titles" Click="checkbox_Click" HorizontalAlignment="Left" Width="139" Height="25" VerticalAlignment="Top"/>
+                            <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="checkbox_Click" HorizontalAlignment="Left" Width="139" Height="25" VerticalAlignment="Top"/>
                             <CheckBox x:Name="nightMode" Content="Night Mode" Click="checkbox_Click" HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom"/>
                         </StackPanel>
 

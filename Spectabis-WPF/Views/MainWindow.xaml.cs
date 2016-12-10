@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using MahApps.Metro.Controls;
 using MaterialDesignThemes.Wpf;
+using System.Linq;
 
 namespace Spectabis_WPF.Views
 {
@@ -598,6 +599,7 @@ namespace Spectabis_WPF.Views
         //Catch created textbox key presses
         private void TitleEditBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            List<string> chars = new List<string>();
             //Remove unsupported characters
             TitleEditBox.Text = TitleEditBox.Text.Replace(@"/", string.Empty);
             TitleEditBox.Text = TitleEditBox.Text.Replace(@"\", string.Empty);
@@ -606,6 +608,8 @@ namespace Spectabis_WPF.Views
             TitleEditBox.Text = TitleEditBox.Text.Replace(@"*", string.Empty);
             TitleEditBox.Text = TitleEditBox.Text.Replace(@"<", string.Empty);
             TitleEditBox.Text = TitleEditBox.Text.Replace(@">", string.Empty);
+
+            Debug.WriteLine(e.Key.ToString());
 
             //This is the only way to save the name
             if (e.Key == Key.Enter)

@@ -15,6 +15,7 @@ using System.Windows.Media;
 using MahApps.Metro.Controls;
 using SevenZip;
 using TheGamesDBAPI;
+using MaterialDesignThemes.Wpf;
 
 namespace Spectabis_WPF.Views
 {
@@ -96,9 +97,6 @@ namespace Spectabis_WPF.Views
 
             //Load game profiles
             reloadGames();
-
-
-            
         }
 
 
@@ -306,6 +304,8 @@ namespace Spectabis_WPF.Views
                         boxArt.Width = 150;
 
                         //Creates a gap between tiles
+                        //There is an issue, when scaling another object when referencing this object's size, the gap is added to the size
+                        //To counter this, use ActualSize
                         boxArt.Margin = new Thickness(10,0,0,0);
 
                         boxArt.Stretch = Stretch.Fill;
@@ -347,9 +347,36 @@ namespace Spectabis_WPF.Views
                         //If showtitle is selected
                         if (Properties.Settings.Default.showTitle == true)
                         {
-                            GroupBox gameTile = new GroupBox();
-                            gameTile.Content = boxArt;
-                            gameTile.Header = _gameName;
+                            Grid gameTile = new Grid();
+                            gameTile.MouseEnter += new MouseEventHandler(gameTile_MouseEnter);
+                            gameTile.MouseLeave += new MouseEventHandler(gameTile_MouseLeave);
+
+                            //Center boxart image
+                            boxArt.HorizontalAlignment = HorizontalAlignment.Center;
+                            gameTile.Children.Add(boxArt);
+
+                            //Create the colored rectangle
+                            System.Windows.Shapes.Rectangle overlay = new System.Windows.Shapes.Rectangle();
+                            overlay.Fill = CurrentPrimary();
+                            overlay.Opacity = 0.8;
+                            overlay.Visibility = Visibility.Collapsed;
+                            overlay.IsHitTestVisible = false;
+                            gameTile.Children.Add(overlay);
+
+                            //Create a textblock for game title
+                            TextBlock gameTitle = new TextBlock();
+                            gameTitle.HorizontalAlignment = HorizontalAlignment.Center;
+                            gameTitle.VerticalAlignment = VerticalAlignment.Bottom;
+                            gameTitle.Width = 150;
+                            gameTitle.FontSize = 16;
+                            gameTitle.Foreground = new SolidColorBrush(Colors.White);
+                            gameTitle.Margin = new Thickness(0,0,0,20);
+                            gameTitle.TextAlignment = TextAlignment.Center;
+                            gameTitle.TextWrapping = TextWrapping.Wrap;
+                            gameTitle.Visibility = Visibility.Visible;
+                            gameTile.Children.Add(gameTitle);
+
+
                             gamePanel.Children.Add(gameTile);
                         }
                         else
@@ -374,6 +401,84 @@ namespace Spectabis_WPF.Views
 
             Directory.CreateDirectory(GameConfigs);
 
+        }
+
+        //Get primary color from current palette
+        public SolidColorBrush CurrentPrimary()
+        {
+            PaletteHelper PaletteQuery = new PaletteHelper();
+            Palette currentPalette = PaletteQuery.QueryPalette();
+            SolidColorBrush brush = new SolidColorBrush(currentPalette.PrimarySwatch.PrimaryHues.ElementAt(7).Color);
+            return brush;
+        }
+
+        //Mouse enter for game tile
+        private void gameTile_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var gameTile = (Grid)sender;
+            string gameName = null;
+            double actualWidth = 0;
+
+            //All objects in gametile Tile
+            foreach (object child in gameTile.Children)
+            {
+                //Get the image tag and game name
+                if(child.GetType().ToString() == "System.Windows.Controls.Image")
+                {
+                    var control = (Image)child;
+
+                    //Get the tag(game name) and size of the boxart
+                    gameName = control.Tag.ToString();
+                    actualWidth = control.ActualWidth;
+                }
+
+                //Show the color overlay
+                if (child.GetType().ToString() == "System.Windows.Shapes.Rectangle")
+                {
+                    var control = (System.Windows.Shapes.Rectangle)child;
+                    control.Visibility = Visibility.Visible;
+
+                    //fix the size issue created by margin
+                    control.Width = actualWidth;
+                    control.HorizontalAlignment = HorizontalAlignment.Right;
+                }
+
+                //Show the game title
+                if (child.GetType().ToString() == "System.Windows.Controls.TextBlock")
+                {
+                    var control = (TextBlock)child;
+
+                    control.Text = gameName;
+                    control.Visibility = Visibility.Visible;
+
+                    //fix the size issue created by margin
+                    control.HorizontalAlignment = HorizontalAlignment.Right;
+                }
+            }
+        }
+
+        //Mouse leave for game tile
+        private void gameTile_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var gameTile = (Grid)sender;
+
+            //All objects in gametile Tile
+            foreach (object child in gameTile.Children)
+            {
+                //color overlay
+                if (child.GetType().ToString() == "System.Windows.Shapes.Rectangle")
+                {
+                    var control = (System.Windows.Shapes.Rectangle)child;
+                    control.Visibility = Visibility.Collapsed;
+                }
+
+                //game title
+                if (child.GetType().ToString() == "System.Windows.Controls.TextBlock")
+                {
+                    var control = (TextBlock)child;
+                    control.Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
         //Push snackbar function
