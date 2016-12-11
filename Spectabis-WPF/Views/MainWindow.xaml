@@ -105,11 +105,15 @@
                                 <Label Width="95" Content="Aspect Ratio:"/>
                                 <ComboBox x:Name="aspectratio"/>
                             </StackPanel>
+                            <StackPanel Margin="0,0" Orientation="Vertical">
+                                <CheckBox  x:Name="Shader_Checkbox" Style="{StaticResource LargerCheckbox}" Click="Shader_Checkbox_Click">Custom Shaders</CheckBox>
+                                <Button x:Name="Shader_Button" HorizontalAlignment="Left" Margin="5,5" Width="120" Content="Configure" ToolTip="Use on your own risk!" Click="ShaderButton_Click"/>
+                            </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="-5,0" VerticalAlignment="Center">
-                            <Button Click="VideoSettings_click" Focusable="False">Video Settings</Button>
-                            <Button Click="AudioSettings_click" Focusable="False" Margin="0,10">Audio Settings</Button>
-                            <Button Click="InputSettings_click" Focusable="False">Input Settings</Button>
+                            <Button Click="VideoSettings_click" Focusable="False" ToolTip="Configure GSDX">Video Settings</Button>
+                            <Button Click="AudioSettings_click" Focusable="False" ToolTip="Configure SPUX-2" Margin="0,10">Audio Settings</Button>
+                            <Button Click="InputSettings_click" Focusable="False" ToolTip="Configure Lillypad">Input Settings</Button>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

@@ -210,7 +210,10 @@ namespace Spectabis_WPF.Views
                 //GDSX file mipmap hack
                 var gsdxIni = new IniFile(_cfgDir + @"\GSdx.ini");
                 var _mipmaphack = gsdxIni.Read("UserHacks_mipmap", "Settings");
+                var _shaderfx = gsdxIni.Read("shaderfx", "Settings");
+
                 if (_mipmaphack == "1") { hwmipmap.IsChecked = true; } else { hwmipmap.IsChecked = false; }
+                if (_shaderfx == "1") { Shader_Checkbox.IsChecked = true; Shader_Button.IsEnabled = true; } else { Shader_Checkbox.IsChecked = false; Shader_Button.IsEnabled = false; }
 
 
                 //Reads the PCSX2_ui ini file
@@ -309,8 +312,6 @@ namespace Spectabis_WPF.Views
                 reloadLibrary();
 
             }
-
-
         }
 
         public void reloadLibrary()
@@ -384,6 +385,18 @@ namespace Spectabis_WPF.Views
                 gsdxIni.Write("UserHacks_mipmap", "0", "Settings");
             }
 
+            //Shader status - written to gsdx.ini
+            if (Shader_Checkbox.IsChecked == true)
+            {
+                gsdxIni.Write("shaderfx", "1", "Settings");
+                CopyShaders(_name);
+                WriteGSdxFX(_name);
+            }
+            else
+            {
+                gsdxIni.Write("shaderfx", "0", "Settings");
+            }
+
             //Aspect ratio - written to PCSX2_ui ini
             if(aspectratio.SelectedIndex == 0)
             {
@@ -453,6 +466,62 @@ namespace Spectabis_WPF.Views
             {
                 File.Copy(emuDir + "Spu2-X.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\Spu2-X.dll", true);
             }
+        }
+
+        //shader config button
+        private void ShaderButton_Click(object sender, RoutedEventArgs e)
+        {
+            string currentGame = Header_title.Text;
+            string GSdxfx = BaseDirectory + @"resources\configs\" + currentGame + @"\GSdx.fx";
+            string GSdxfxini = BaseDirectory + @"resources\configs\" + currentGame + @"\GSdx_FX_Settings.ini";
+
+            if (File.Exists(BaseDirectory + @"resources\configs\" + currentGame + @"\GSdx.fx") == false)
+            {
+                CopyShaders(currentGame);
+            }
+
+            WriteGSdxFX(currentGame);
+
+            //open shader config file
+            Process.Start(GSdxfxini);
+        }
+
+        //Disable & enable configure shader button according to checkbox
+        private void Shader_Checkbox_Click(object sender, RoutedEventArgs e)
+        {
+            if(Shader_Checkbox.IsChecked == true)
+            {
+                Shader_Button.IsEnabled = true;
+            }
+            else
+            {
+                Shader_Button.IsEnabled = false;
+            }
+        }
+
+        //copy shader files from emulator directory to game profile
+        private void CopyShaders(string currentGame)
+        {
+            string GSdxfx = BaseDirectory + @"resources\configs\" + currentGame + @"\GSdx.fx";
+            string GSdxfxini = BaseDirectory + @"resources\configs\" + currentGame + @"\GSdx_FX_Settings.ini";
+
+            if(File.Exists(GSdxfx) == false)
+            {
+                File.Copy(Properties.Settings.Default.emuDir + @"\shaders\GSdx.fx", GSdxfx);
+                File.Copy(Properties.Settings.Default.emuDir + @"\shaders\GSdx_FX_Settings.ini", GSdxfxini);
+            }
+        }
+
+        //Write shader file locations to GSdx ini
+        private void WriteGSdxFX(string currentGame)
+        {
+            string GSdxfx = BaseDirectory + @"resources\configs\" + currentGame + @"\GSdx.fx";
+            string GSdxfxini = BaseDirectory + @"resources\configs\" + currentGame + @"\GSdx_FX_Settings.ini";
+
+            var GSdx = new IniFile(BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini");
+            GSdx.Write("shaderfx_glsl", GSdxfx, "Settings");
+            GSdx.Write("shaderfx_conf", GSdxfxini, "Settings");
+            Debug.WriteLine("Shader files written to GSdx.ini");
         }
 
         //Imports GPUconfigure from GSdx plugin
