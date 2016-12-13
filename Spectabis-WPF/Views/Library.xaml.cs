@@ -16,6 +16,7 @@ using MahApps.Metro.Controls;
 using SevenZip;
 using TheGamesDBAPI;
 using MaterialDesignThemes.Wpf;
+using WpfAnimatedGif;
 
 namespace Spectabis_WPF.Views
 {
@@ -344,6 +345,8 @@ namespace Spectabis_WPF.Views
 
                         gamesExist = true;
 
+                        //Define the grid for game tiles
+
                         //If showtitle is selected
                         if (Properties.Settings.Default.showTitle == true)
                         {
@@ -376,13 +379,17 @@ namespace Spectabis_WPF.Views
                             gameTitle.Visibility = Visibility.Visible;
                             gameTile.Children.Add(gameTitle);
 
-
                             gamePanel.Children.Add(gameTile);
                         }
                         else
                         {
                             //Adds the object to gamePanel
-                            gamePanel.Children.Add(boxArt);
+                            Grid gameTile = new Grid();
+
+                            boxArt.HorizontalAlignment = HorizontalAlignment.Center;
+                            gameTile.Children.Add(boxArt);
+
+                            gamePanel.Children.Add(gameTile);
                         }
                     }
                 }
@@ -748,16 +755,7 @@ namespace Spectabis_WPF.Views
         private void doArtScrapping(string _name)
         {
             //Calls the method, which sets loading boxart
-            //Find out, which method is needed and use it
-            if (Properties.Settings.Default.showTitle == false)
-            {
-                this.Invoke(new Action(() => SetLoadingStateForImage(_name, 1)));
-                //SetLoadingStateForImage
-            }
-            else if (Properties.Settings.Default.showTitle == true)
-            {
-
-            }
+            this.Invoke(new Action(() => SetLoadingStateForImage(_name)));
 
             //TheGamesDB API Scrapping
             if (Properties.Settings.Default.artDB == "TheGamesDB")
@@ -911,67 +909,39 @@ namespace Spectabis_WPF.Views
 
         }
 
-        //Two methods to set loading image, sorry
-        //Finds and sets it, by finding an object with appropriate tag
-        //Use these accordingly, by finding value of Properties.Settings.Default.showTitle!
-        // _phase is used to differenciate between progress
 
-        //Use only, if using Image style boxart ("not showing game titles")
-        public void SetLoadingStateForImage(string _tagName, int _phase)
+        //"loading boxart" overlay for games which are currently downloading boxart
+        public void SetLoadingStateForImage(string _tagName)
         {
-            //Sets image source of game to loading
-            foreach (Image game in gamePanel.Children)
+            //Location of loading gif
+            string LoadingPlaceholder = BaseDirectory + @"resources\_temp\spinner.gif";
+
+            //All objects in gamePanel
+            foreach (Grid gameTile in gamePanel.Children)
             {
-                if (Convert.ToString(game.Tag) == _tagName)
+                foreach(var obj in gameTile.Children)
                 {
-                    //set source to loading image
-                    System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
-                    //Opens the filestream
-                    artSource.BeginInit();
+                    //Find the Image boxart
+                    if(obj.GetType().ToString() == "System.Windows.Controls.Image")
+                    {
+                        Image boxArt = (Image)obj;
+                        //If gamebox is the same as requested, change it
+                        if(boxArt.Tag.ToString() == _tagName)
+                        {
+                            //set source to loading image
+                            System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+                            //Opens the filestream
+                            artSource.BeginInit();
+                            artSource.UriSource = new Uri(LoadingPlaceholder);
+                            artSource.EndInit();
 
-                    //Fixes the caching issues, where cached copy would just hang around and bother me for two days
-                    artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
-                    artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
-                    artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
-                    artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-
-                    //shouldn't do this, but I can
-                    if(_phase == 1)
-                    {
-                        artSource.UriSource = new Uri(@"http://smashinghub.com/wp-content/uploads/2014/08/cool-loading-animated-gif-8.gif");
+                            ImageBehavior.SetAnimatedSource(boxArt, artSource);
+                            return;
+                        }
                     }
-                    else if(_phase == 2)
-                    {
-                        //
-                    }
-                    else if (_phase == 3)
-                    {
-                        //
-                    }
-                    else if(_phase ==4)
-                    {
-                        //
-                    }
-                    
-                    //Closes the filestream
-                    artSource.EndInit();
-
-                    game.Source = artSource;
                 }
             }
 
         }
-
-
-
-        //Use only, if using Groupbox style boxart ("showing game titles")
-        public void SetLoadingStateForGroups()
-        {
-
-            //some code will probably come here in time
-
-        }
-
-
     }
 }
