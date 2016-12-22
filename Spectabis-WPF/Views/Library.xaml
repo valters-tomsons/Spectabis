@@ -17,8 +17,12 @@
 
     <Grid>
         <Label x:Name="NoGameLabel" Margin="0,50" VerticalAlignment="Top" HorizontalAlignment="Center" Content="To add a game, just drag and drop file here!" FontSize="20" Foreground="DarkGray"/>
-        <WrapPanel x:Name="gamePanel" ScrollViewer.VerticalScrollBarVisibility="Auto"  HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
-        <Button Visibility="Collapsed" Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="gamePanel" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
+        </ScrollViewer>
+        
+        <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                         Margin="0,0,50,100"
                         ToolTip="Add Game" Width="56" Height="56" HorizontalAlignment="Right" Name="PlusButton" VerticalAlignment="Bottom" Click="PlusButton_CLick">
             <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
