@@ -933,6 +933,7 @@ namespace Spectabis_WPF.Views
                             //Opens the filestream
                             artSource.BeginInit();
                             artSource.UriSource = new Uri(LoadingPlaceholder);
+                            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
                             artSource.EndInit();
 
                             ImageBehavior.SetAnimatedSource(boxArt, artSource);

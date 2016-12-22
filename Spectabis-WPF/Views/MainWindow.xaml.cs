@@ -66,7 +66,8 @@ namespace Spectabis_WPF.Views
 
             SetPrimary(Properties.Settings.Default.swatch);
 
-
+            //Copy spinner.gif to temporary files
+            Properties.Resources.spinner.Save(BaseDirectory + @"resources\_temp\spinner.gif");
 
         }
 
