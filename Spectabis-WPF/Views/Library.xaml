@@ -15,18 +15,41 @@
          DragOver="Grid_DragOver" Drop="Grid_Drop" AllowDrop="True"
         Title="Library">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+
+
     <Grid>
+
         <Label x:Name="NoGameLabel" Margin="0,50" VerticalAlignment="Top" HorizontalAlignment="Center" Content="To add a game, just drag and drop file here!" FontSize="20" Foreground="DarkGray"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <WrapPanel x:Name="gamePanel" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
         </ScrollViewer>
-        
-        <Button Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
-                        Margin="0,0,50,100"
-                        ToolTip="Add Game" Width="56" Height="56" HorizontalAlignment="Right" Name="PlusButton" VerticalAlignment="Bottom" Click="PlusButton_CLick">
-            <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
-        </Button>
+
+        <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" Margin="0,0,50,100" Width="56" Height="56" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Vertical">
+                <Button ToolTip="Add Directory" Click="Directory_Click">
+                    <materialDesign:PackIcon Kind="Folder" Height="20" Width="20" />
+                </Button>
+
+                <Button ToolTip="Add Game" Click="PlusButton_Click">
+                    <materialDesign:PackIcon Kind="Playstation" Height="20" Width="20" />
+                </Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
 
         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar"/>
     </Grid>

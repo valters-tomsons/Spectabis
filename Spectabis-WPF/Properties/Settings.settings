@@ -26,5 +26,8 @@
     <Setting Name="swatch" Type="System.String" Scope="User">
       <Value Profile="(Default)">bluegrey</Value>
     </Setting>
+    <Setting Name="gameDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">null</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

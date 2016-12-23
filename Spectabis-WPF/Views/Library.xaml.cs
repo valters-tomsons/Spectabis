@@ -242,7 +242,15 @@ namespace Spectabis_WPF.Views
             //Delete profile folder
             if (Directory.Exists(GameConfigs + @"/" + clickedBoxArt.Tag))
             {
-                Directory.Delete(GameConfigs + @"/" + clickedBoxArt.Tag, true);
+                try
+                {
+                    Directory.Delete(GameConfigs + @"/" + clickedBoxArt.Tag, true);
+                }
+                catch
+                {
+                    PushSnackbar("Failed to delete game files!");
+                }
+               
             }
 
             //Reload game list
@@ -394,8 +402,10 @@ namespace Spectabis_WPF.Views
                     }
                 }
 
+                ScanGameDirectory();
+
                 //Show "drag&drop" hint accordingly
-                if(gamesExist == false)
+                if (gamesExist == false)
                 {
                     NoGameLabel.Visibility = Visibility.Visible;
                 }
@@ -407,6 +417,8 @@ namespace Spectabis_WPF.Views
             }
 
             Directory.CreateDirectory(GameConfigs);
+
+
 
         }
 
@@ -654,18 +666,26 @@ namespace Spectabis_WPF.Views
             //Opens the archive
             using (SevenZipExtractor archivedFile = new SevenZipExtractor(_isoDir))
             {
-                //loops throught each file name
-                foreach (var file in archivedFile.ArchiveFileData)
+                try
                 {
-                    _filename = new string(file.FileName.Take(4).ToArray());
-                    //If filename contains region code...
-                    if (regionList.Contains(_filename))
+                    //loops throught each file name
+                    foreach (var file in archivedFile.ArchiveFileData)
                     {
-                        //Return forged serial number
-                        gameserial = file.FileName.Replace(".", String.Empty);
-                        gameserial = gameserial.Replace("_", "-");
-                        return gameserial;
+                        _filename = new string(file.FileName.Take(4).ToArray());
+                        //If filename contains region code...
+                        if (regionList.Contains(_filename))
+                        {
+                            //Return forged serial number
+                            gameserial = file.FileName.Replace(".", String.Empty);
+                            gameserial = gameserial.Replace("_", "-");
+                            return gameserial;
+                        }
                     }
+                
+                }
+                catch
+                {
+                    PushSnackbar("Failed to game game's serial number!");
                 }
                 return gameserial;
             }
@@ -705,12 +725,36 @@ namespace Spectabis_WPF.Views
         }
 
         //Plus Button
-        private void PlusButton_CLick(object sender, RoutedEventArgs e)
+        private void PlusButton_Click(object sender, RoutedEventArgs e)
         {
-            //AddGame(null, @"D:\Program Files (x86)\PCSX2\ICO\softc.iso", @"example");
 
             //Invokes mainWindow class which navigates to AddGame.xaml
             ((MainWindow)Application.Current.MainWindow).Open_AddGame();
+        }
+
+        //"Add Directory" button
+        private void Directory_Click(object sender, RoutedEventArgs e)
+        {
+            var DirectoryDialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+            DirectoryDialog.Description = "Add Game Directory";
+            DirectoryDialog.UseDescriptionForTitle = true;
+
+            var DialogResult = DirectoryDialog.ShowDialog();
+
+            if(DialogResult.Value == true)
+            {
+                Properties.Settings.Default.gameDirectory = DirectoryDialog.SelectedPath;
+                Properties.Settings.Default.Save();
+                reloadGames();
+
+                Debug.WriteLine(DirectoryDialog.SelectedPath  + " set as directory!");
+            }
+            else
+            {
+                Properties.Settings.Default.gameDirectory = "null";
+                Properties.Settings.Default.Save();
+                PushSnackbar("Game directory folder has been removed!");
+            }
         }
 
         //timer for async task list
@@ -944,5 +988,80 @@ namespace Spectabis_WPF.Views
             }
 
         }
+
+        //Returns a list of all games loaded in spectabis
+        public List<string> LoadedISOs()
+        {
+            List<string> gameList = new List<string>();
+
+            //Get all directories in Spectabis config folder
+            string[] _gamesdir = Directory.GetDirectories(GameConfigs);
+
+            //Scan each game for Spectabis.ini
+            foreach(var game in _gamesdir)
+            {
+                if(File.Exists(game + @"\spectabis.ini"))
+                {
+                    IniFile SpectabisIni = new IniFile(game + @"\spectabis.ini");
+                    var isoDir = SpectabisIni.Read("isoDirectory", "Spectabis");
+                    gameList.Add(isoDir);
+                }
+            }
+
+
+            return gameList;
+        }
+
+        public void ScanGameDirectory()
+        {
+            if(Properties.Settings.Default.gameDirectory != "null")
+            {
+                //If game directory doesn't exist, stop and remove it from variable
+                if(Directory.Exists(Properties.Settings.Default.gameDirectory) == false)
+                {
+                    PushSnackbar("Game Directory doesn't exist anymore!");
+                    Properties.Settings.Default.gameDirectory = "null";
+                    Properties.Settings.Default.Save();
+                }
+
+                string[] _fileList = Directory.GetFiles(Properties.Settings.Default.gameDirectory);
+                Debug.WriteLine(_fileList.Count() + " files found!");
+
+                //Go through each file
+                foreach(var file in _fileList)
+                {
+                    //Check, if file type is in supported file types
+                    if (supportedGameFiles.Any(s => file.EndsWith(s)))
+                    {
+                        //Check if file is already loaded in Spectabis
+                        List<string> IsoList = LoadedISOs(); 
+                        if(IsoList.Contains(file) == false)
+                        {
+                            Debug.WriteLine(file + " is not loaded, adding!");
+
+                            //If file supports extraction of serial number, then do just that
+                            if(supportedScrappingFiles.Any(s => file.EndsWith(s)))
+                            {
+                                string serial = GetSerialNumber(file);
+                                string title = GetGameName(serial);
+
+                                AddGame("null", file, title);
+                            }
+                            else
+                            {
+                                string title = Path.GetFileNameWithoutExtension(file);
+
+                                AddGame("null", file, title);
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine(file + " is already loaded, skipping.");
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }
