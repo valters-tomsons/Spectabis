@@ -17,12 +17,17 @@
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         WindowStartupLocation="CenterScreen" 
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        MinWidth="800"
-        MinHeight="550"
+                      
+        MinWidth="900"
+        MinHeight="605"    
+        
+        Width="1180"
+        Height="680"  
+                      
         ShowIconOnTitleBar="False"
         Title="Spectabis" 
         Closing="MainWindow_Closing"
-        Height="600" Width="1000" Visibility="Visible" Icon="/Resources/SPECTABIS_icon.ico">
+         Visibility="Visible" Icon="/Resources/SPECTABIS_icon.ico">
 
     <Window.Resources>
         <Style TargetType="CheckBox" x:Key="LargerCheckbox" BasedOn="{StaticResource MaterialDesignCheckBox}">

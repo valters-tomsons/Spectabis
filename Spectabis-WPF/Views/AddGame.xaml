@@ -24,7 +24,7 @@
             
             <StackPanel Orientation="Vertical" Grid.Column="0">
                 <TextBox VerticalAlignment="Top" Margin="10,0,10,0" FontSize="25" HorizontalContentAlignment="Center" >Game Name Here</TextBox>
-                <Button Click="SelectGame_Click" Width="150" Margin="0,20">Select File</Button>
+                <Button Click="SelectGame_Click" Width="150" Margin="65,20" Content="Select File"/>
             </StackPanel>
 
             <Button x:Name="CompleteButton" Click="Complete_Click" IsEnabled="False" Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Add Game"/>

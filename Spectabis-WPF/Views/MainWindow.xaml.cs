@@ -150,6 +150,8 @@ namespace Spectabis_WPF.Views
             MainWindow_Header.Text = "Library";
             Overlay(false);
 
+            Debug.WriteLine(this.Width + " x " + this.Height);
+
         }
 
         //Menu - Settings Button
