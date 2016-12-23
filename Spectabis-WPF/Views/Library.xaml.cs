@@ -234,6 +234,10 @@ namespace Spectabis_WPF.Views
             //Title of the last clicked game
             string _title = Convert.ToString(clickedBoxArt.Tag);
 
+            //Reads the game's iso file and adds it to blacklist
+            IniFile SpectabisINI = new IniFile(GameConfigs + @"\" + _title + @"\spectabis.ini");
+            AddToBlacklist(SpectabisINI.Read("isoDirectory", "Spectabis"));
+
             clickedBoxArt.Source = null;
             UpdateLayout();
 
@@ -245,6 +249,7 @@ namespace Spectabis_WPF.Views
                 try
                 {
                     Directory.Delete(GameConfigs + @"/" + clickedBoxArt.Tag, true);
+                    
                 }
                 catch
                 {
@@ -1037,21 +1042,36 @@ namespace Spectabis_WPF.Views
                         List<string> IsoList = LoadedISOs(); 
                         if(IsoList.Contains(file) == false)
                         {
-                            Debug.WriteLine(file + " is not loaded, adding!");
+                            Debug.WriteLine(file + " is not loaded, prompting to add!");
 
-                            //If file supports extraction of serial number, then do just that
-                            if(supportedScrappingFiles.Any(s => file.EndsWith(s)))
+                            //Checks, if file is in blacklist file
+                            if(IsGameBlacklisted(file) == false)
                             {
-                                string serial = GetSerialNumber(file);
-                                string title = GetGameName(serial);
-
-                                AddGame("null", file, title);
-                            }
-                            else
-                            {
-                                string title = Path.GetFileNameWithoutExtension(file);
-
-                                AddGame("null", file, title);
+                                //Show a Yes/No message box
+                                //If "Yes" then add the game, if not, add it to blacklist
+                                MessageBoxResult result = MessageBox.Show("Do you want to add " + Path.GetFileNameWithoutExtension(file) + " ?", "New game found!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                                if (result == MessageBoxResult.Yes)
+                                {
+                                    //If file supports extraction of serial number, then do just that
+                                    if (supportedScrappingFiles.Any(s => file.EndsWith(s)))
+                                    {
+                                        //If file supports scrapping, then do that
+                                        string serial = GetSerialNumber(file);
+                                        string title = GetGameName(serial);
+                                        AddGame(null, file, title);
+                                    }
+                                    else
+                                    {
+                                        //Add game and use file name as game name
+                                        string title = Path.GetFileNameWithoutExtension(file);
+                                        AddGame(null, file, title);
+                                    }
+                                }
+                                else
+                                {
+                                    //Add game to blacklist file
+                                    AddToBlacklist(file);
+                                }
                             }
                         }
                         else
@@ -1060,6 +1080,46 @@ namespace Spectabis_WPF.Views
                         }
                     }
                 }
+            }
+        }
+
+        private void AddToBlacklist(string _file)
+        {
+            //Create a folder and blacklist.text if it doesn't exist
+            Directory.CreateDirectory(BaseDirectory + @"\resources\logs\");
+            if(File.Exists(BaseDirectory + @"\resources\logs\blacklist.txt") == false)
+            {
+                var newFile = File.Create(BaseDirectory + @"\resources\logs\blacklist.txt");
+                newFile.Close();
+            }
+
+
+            //Add a line to blacklist
+            StreamWriter blacklistFile = new StreamWriter(BaseDirectory + @"\resources\logs\blacklist.txt", append:true);
+            blacklistFile.WriteLine(_file);
+            blacklistFile.Close();
+        }
+
+        private bool IsGameBlacklisted(string _file)
+        {
+            //Create a folder and blacklist.text if it doesn't exist
+            Directory.CreateDirectory(BaseDirectory + @"\resources\logs\");
+            if (File.Exists(BaseDirectory + @"\resources\logs\blacklist.txt") == false)
+            {
+                var newFile = File.Create(BaseDirectory + @"\resources\logs\blacklist.txt");
+                newFile.Close();
+            }
+
+            StreamReader blacklistFile = new StreamReader(BaseDirectory + @"\resources\logs\blacklist.txt");
+            if(blacklistFile.ReadToEnd().Contains(_file))
+            {
+                blacklistFile.Close();
+                return true;
+            }
+            else
+            {
+                blacklistFile.Close();
+                return false;
             }
         }
 
