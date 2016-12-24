@@ -20,6 +20,8 @@ namespace Spectabis_WPF.Views
 
         public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
+        //Side panel width value
+        public static readonly double PanelWidth = 700;
 
         public MainWindow()
         {
@@ -49,9 +51,6 @@ namespace Spectabis_WPF.Views
                 Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = _framerate });
             }
 
-            //Hide game settings panel, which is visible in designer
-            Open_Settings(false);
-
             //Sets nightmode from variable
             new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
 
@@ -68,6 +67,8 @@ namespace Spectabis_WPF.Views
 
             //Copy spinner.gif to temporary files
             Properties.Resources.spinner.Save(BaseDirectory + @"resources\_temp\spinner.gif");
+
+            GameSettings.Width = PanelWidth;
 
         }
 
@@ -252,6 +253,7 @@ namespace Spectabis_WPF.Views
                 //Show the panel and overlay
                 Overlay(true);
                 GameSettings.Visibility = Visibility.Visible;
+                SlideInPanelAnimation();
 
                 //Set image and header text for the game
                 Header_title.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_name);
@@ -261,8 +263,38 @@ namespace Spectabis_WPF.Views
             {
                 //Hide panel
                 Overlay(false);
-                GameSettings.Visibility = Visibility.Collapsed;
+                SlideOutPanelAnimation();
             }
+        }
+
+        public static readonly Duration PanelSlideTime = TimeSpan.FromMilliseconds(120);
+
+        //Side panel sliding in animation, must be triggered after visiblity change
+        public void SlideInPanelAnimation()
+        {
+            DoubleAnimation da = new DoubleAnimation();
+            da.From = 0;
+            da.To = PanelWidth;
+            da.Duration = PanelSlideTime;
+            GameSettings.BeginAnimation(System.Windows.Controls.Grid.WidthProperty, da);
+            
+        }
+
+        //Side Panel sliding out animation
+        public void SlideOutPanelAnimation()
+        {
+            DoubleAnimation da = new DoubleAnimation();
+            da.Completed += new EventHandler(SlideOutPanelAnimation_Finished);
+            da.From = PanelWidth;
+            da.To = 0;
+            da.Duration = PanelSlideTime;
+            GameSettings.BeginAnimation(System.Windows.Controls.Grid.WidthProperty, da);
+        }
+
+        //When sliding out animated has finished, hide the panel, because things rely on the panel's visiblity
+        private void SlideOutPanelAnimation_Finished(object sender, EventArgs e)
+        {
+            GameSettings.Visibility = Visibility.Collapsed;
         }
 
         //Close Game Settings button click
@@ -273,7 +305,7 @@ namespace Spectabis_WPF.Views
 
             //Hide panel
             Overlay(false);
-            GameSettings.Visibility = Visibility.Collapsed;
+            Open_Settings(false);
         }
 
         //Change boxart
