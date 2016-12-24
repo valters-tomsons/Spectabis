@@ -1,4 +1,4 @@
-﻿namespace GiantBomb.Api {
+﻿namespace GiantBombApi {
     public class ResourceTypes
     {
         public const int Games = 3030;

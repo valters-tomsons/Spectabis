@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace GiantBomb.Api.Model {
+namespace GiantBombApi.Model {
     public class Release {
         public int Id { get; set; }
         public string ApiDetailUrl { get; set; }

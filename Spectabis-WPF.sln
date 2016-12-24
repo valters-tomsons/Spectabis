@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectabis-WPF", "Spectabis-WPF\Spectabis-WPF.csproj", "{0547483E-5AA6-4036-B954-6FAF815BD2C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantBomb.Api", "GiantBomb.Api\GiantBomb.Api.csproj", "{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantBombApi", "GiantBombApi\GiantBombApi.csproj", "{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

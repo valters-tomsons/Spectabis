@@ -2,35 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GiantBomb.Api.Model;
 
-namespace GiantBomb.Api {
+namespace GiantBombApi {
     public partial class GiantBombRestClient {
 
-        public IEnumerable<Game> SearchForGames(string query, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
+        public IEnumerable<Model.Game> SearchForGames(string query, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null)
         {
             return SearchForGamesAsync(query, page, pageSize, limitFields).Result;
         }
 
-        public async Task<IEnumerable<Game>> SearchForGamesAsync(string query, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null) {
+        public async Task<IEnumerable<Model.Game>> SearchForGamesAsync(string query, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null) {
             var result = await InternalSearchForGames(query, page, pageSize, limitFields).ConfigureAwait(false);
 
-            if (result.StatusCode == GiantBombBase.StatusOk)
+            if (result.StatusCode == Model.GiantBombBase.StatusOk)
                 return result.Results;
 
             return null;
         }
 
-        public IEnumerable<Game> SearchForAllGames(string query, string[] limitFields = null)
+        public IEnumerable<Model.Game> SearchForAllGames(string query, string[] limitFields = null)
         {
             return SearchForAllGamesAsync(query, limitFields).Result;
         }
 
-        public async Task<IEnumerable<Game>> SearchForAllGamesAsync(string query, string[] limitFields = null) {
-            var results = new List<Game>();
+        public async Task<IEnumerable<Model.Game>> SearchForAllGamesAsync(string query, string[] limitFields = null) {
+            var results = new List<Model.Game>();
             var result = await InternalSearchForGames(query, limitFields: limitFields).ConfigureAwait(false);
 
-            if (result == null || result.StatusCode != GiantBombBase.StatusOk)
+            if (result == null || result.StatusCode != Model.GiantBombBase.StatusOk)
                 return null;
 
             results.AddRange(result.Results);
@@ -42,7 +41,7 @@ namespace GiantBomb.Api {
                 for (var i = 2; i <= remaining; i++) {
                     result = await InternalSearchForGames(query, i, result.Limit, limitFields).ConfigureAwait(false);
 
-                    if (result.StatusCode != GiantBombBase.StatusOk)
+                    if (result.StatusCode != Model.GiantBombBase.StatusOk)
                         break;
 
                     results.AddRange(result.Results);
@@ -53,20 +52,20 @@ namespace GiantBomb.Api {
             // Can only do it if we have IDs in the resultset
             if (limitFields == null || limitFields.Contains("id"))
             {
-                results = results.Distinct(new GameDistinctComparer()).ToList();
+                results = results.Distinct(new Model.GameDistinctComparer()).ToList();
             }
 
             return results;
         }
 
-        internal async Task<GiantBombResults<Game>> InternalSearchForGames(string query, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null)
+        internal async Task<Model.GiantBombResults<Model.Game>> InternalSearchForGames(string query, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null)
         {
             var request = GetListResource("search", page, pageSize, limitFields);
 
             request.AddParameter("query", query);
             request.AddParameter("resources", "game");
 
-            return await ExecuteAsync<GiantBombResults<Game>>(request).ConfigureAwait(false);
+            return await ExecuteAsync<Model.GiantBombResults<Model.Game>>(request).ConfigureAwait(false);
         }
     }
 }

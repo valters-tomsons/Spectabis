@@ -3,12 +3,13 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Spectabis_WPF"
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="600"
       Title="AddGame"
-      
+      x:Name="This"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:views="clr-namespace:Spectabis_WPF.Views"
+      xmlns:gif="http://wpfanimatedgif.codeplex.com"
       Background="{DynamicResource MaterialDesignPaper}"
       FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -23,11 +24,12 @@
             </Grid.ColumnDefinitions>
             
             <StackPanel Orientation="Vertical" Grid.Column="0">
-                <TextBox VerticalAlignment="Top" Margin="10,0,10,0" FontSize="25" HorizontalContentAlignment="Center" >Game Name Here</TextBox>
+                <TextBox x:Name="GameNameTextBox" VerticalAlignment="Top" Margin="10,0,10,0" FontSize="25" HorizontalContentAlignment="Center" >Game Name Here</TextBox>
                 <Button Click="SelectGame_Click" Width="150" Margin="65,20" Content="Select File"/>
+                <TextBlock x:Name="GameInfoTextBlock"></TextBlock>
             </StackPanel>
 
-            <Button x:Name="CompleteButton" Click="Complete_Click" IsEnabled="False" Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Add Game"/>
+            <Button Grid.Column="0" x:Name="CompleteButton" Click="Complete_Click" IsEnabled="False" Margin="0,5" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="Finish Add"/>
 
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -35,7 +37,31 @@
                     <RowDefinition Height="65" />
                 </Grid.RowDefinitions>
 
-                <Image x:Name="BoxPreview" Source="resources/art.jpg" Grid.Row="0"/>
+                <Image x:Name="BoxPreview" Grid.Row="0">
+                    <Image.Style>
+                        <Style TargetType="Image">
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding FormState, ElementName=This}" Value="{x:Static views:AddGameFormState.Waiting}">
+                                    <Setter Property="Source" Value="/Spectabis;component/Resources/art.jpg" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding FormState, ElementName=This}" Value="{x:Static views:AddGameFormState.Downloading}">
+                                    <Setter Property="gif:ImageBehavior.AnimatedSource" Value="/Spectabis;component/Resources/spinner.gif" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding FormState, ElementName=This}" Value="{x:Static views:AddGameFormState.Completed}">
+                                    <Setter Property="Source" Value="{Binding GameArtSource, ElementName=This}" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding FormState, ElementName=This}" Value="{x:Static views:AddGameFormState.Failed}">
+                                    <Setter Property="Source" Value="/Spectabis;component/Resources/error_art.jpg" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <CheckBox x:Name="AutoBoxart" Margin="0,5" HorizontalAlignment="Center" Content="Automatic Box art" />
                     <Button Click="SelectBoxart_Click" Width="200" Content="Select Image" />

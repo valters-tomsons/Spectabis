@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GiantBomb.Api.Model;
 using RestSharp;
 
-namespace GiantBomb.Api
+namespace GiantBombApi
 {
     public interface IGiantBombRestClient
     {
@@ -18,7 +17,7 @@ namespace GiantBomb.Api
         /// <param name="id">The platform's ID</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Platform GetPlatform(int id, string[] limitFields = null);
+        Model.Platform GetPlatform(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets a single platform
@@ -26,19 +25,19 @@ namespace GiantBomb.Api
         /// <param name="id">The platform's ID</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<Platform> GetPlatformAsync(int id, string[] limitFields = null);
+        Task<Model.Platform> GetPlatformAsync(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets list of platforms
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Platform> GetPlatforms(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
+        IEnumerable<Model.Platform> GetPlatforms(int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Gets list of platforms
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<Platform>> GetPlatformsAsync(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
+        Task<IEnumerable<Model.Platform>> GetPlatformsAsync(int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Get a region
@@ -46,7 +45,7 @@ namespace GiantBomb.Api
         /// <param name="id"></param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Region GetRegion(int id, string[] limitFields = null);
+        Model.Region GetRegion(int id, string[] limitFields = null);
 
         /// <summary>
         /// Get a region
@@ -54,7 +53,7 @@ namespace GiantBomb.Api
         /// <param name="id"></param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<Region> GetRegionAsync(int id, string[] limitFields = null);
+        Task<Model.Region> GetRegionAsync(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets list of regions
@@ -63,7 +62,7 @@ namespace GiantBomb.Api
         /// <param name="pageSize">The number of results per page (default: 100)</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        IEnumerable<Region> GetRegions(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
+        IEnumerable<Model.Region> GetRegions(int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Gets list of regions
@@ -72,7 +71,7 @@ namespace GiantBomb.Api
         /// <param name="pageSize">The number of results per page (default: 100)</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<IEnumerable<Region>> GetRegionsAsync(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
+        Task<IEnumerable<Model.Region>> GetRegionsAsync(int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Gets a game with the given ID
@@ -80,7 +79,7 @@ namespace GiantBomb.Api
         /// <param name="id">The ID of the game</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Game GetGame(int id, string[] limitFields = null);
+        Model.Game GetGame(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets a game with the given ID
@@ -88,7 +87,7 @@ namespace GiantBomb.Api
         /// <param name="id">The ID of the game</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<Game> GetGameAsync(int id, string[] limitFields = null);
+        Task<Model.Game> GetGameAsync(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets list of games
@@ -97,7 +96,7 @@ namespace GiantBomb.Api
         /// <param name="pageSize">The number of results per page (default: 100)</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        IEnumerable<Game> GetGames(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
+        IEnumerable<Model.Game> GetGames(int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Gets list of games
@@ -106,7 +105,7 @@ namespace GiantBomb.Api
         /// <param name="pageSize">The number of results per page (default: 100)</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<IEnumerable<Game>> GetGamesAsync(int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
+        Task<IEnumerable<Model.Game>> GetGamesAsync(int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Gets a release with the given ID
@@ -114,7 +113,7 @@ namespace GiantBomb.Api
         /// <param name="id">The ID of the release</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Release GetRelease(int id, string[] limitFields = null);
+        Model.Release GetRelease(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets a release with the given ID
@@ -122,7 +121,7 @@ namespace GiantBomb.Api
         /// <param name="id">The ID of the release</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<Release> GetReleaseAsync(int id, string[] limitFields = null);
+        Task<Model.Release> GetReleaseAsync(int id, string[] limitFields = null);
 
         /// <summary>
         /// Gets all releases for a game with the given ID (multiple requests)
@@ -130,7 +129,7 @@ namespace GiantBomb.Api
         /// <param name="gameId">The ID of the game to get releases for</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        IEnumerable<Release> GetReleasesForGame(int gameId, string[] limitFields = null);
+        IEnumerable<Model.Release> GetReleasesForGame(int gameId, string[] limitFields = null);
 
         /// <summary>
         /// Gets all releases for a game with the given ID (multiple requests)
@@ -138,7 +137,7 @@ namespace GiantBomb.Api
         /// <param name="gameId">The ID of the game to get releases for</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<IEnumerable<Release>> GetReleasesForGameAsync(int gameId, string[] limitFields = null);
+        Task<IEnumerable<Model.Release>> GetReleasesForGameAsync(int gameId, string[] limitFields = null);
 
         /// <summary>
         /// Gets all releases for the given game (multiple requests)
@@ -146,7 +145,7 @@ namespace GiantBomb.Api
         /// <param name="game">The game to get releases for</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        IEnumerable<Release> GetReleasesForGame(Game game, string[] limitFields = null);
+        IEnumerable<Model.Release> GetReleasesForGame(Model.Game game, string[] limitFields = null);
 
         /// <summary>
         /// Gets all releases for the given game (multiple requests)
@@ -154,7 +153,7 @@ namespace GiantBomb.Api
         /// <param name="game">The game to get releases for</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<IEnumerable<Release>> GetReleasesForGameAsync(Game game, string[] limitFields = null);
+        Task<IEnumerable<Model.Release>> GetReleasesForGameAsync(Model.Game game, string[] limitFields = null);
 
         /// <summary>
         /// Searches for a game by keyword and gets paged results
@@ -164,7 +163,7 @@ namespace GiantBomb.Api
         /// <param name="pageSize">The number of results per page (default: 100)</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        IEnumerable<Game> SearchForGames(string query, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
+        IEnumerable<Model.Game> SearchForGames(string query, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Searches for a game by keyword and gets paged results
@@ -174,7 +173,7 @@ namespace GiantBomb.Api
         /// <param name="pageSize">The number of results per page (default: 100)</param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<IEnumerable<Game>> SearchForGamesAsync(string query, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] limitFields = null);
+        Task<IEnumerable<Model.Game>> SearchForGamesAsync(string query, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] limitFields = null);
 
         /// <summary>
         /// Searches for a game by keyword and recursively gets all results to enable sorting, filtering, etc.
@@ -182,7 +181,7 @@ namespace GiantBomb.Api
         /// <param name="query"></param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        IEnumerable<Game> SearchForAllGames(string query, string[] limitFields = null);
+        IEnumerable<Model.Game> SearchForAllGames(string query, string[] limitFields = null);
 
         /// <summary>
         /// Searches for a game by keyword and recursively gets all results to enable sorting, filtering, etc.
@@ -190,7 +189,7 @@ namespace GiantBomb.Api
         /// <param name="query"></param>
         /// <param name="limitFields">List of field names to include in the response. Use this if you want to reduce the size of the response payload.</param>
         /// <returns></returns>
-        Task<IEnumerable<Game>> SearchForAllGamesAsync(string query, string[] limitFields = null);
+        Task<IEnumerable<Model.Game>> SearchForAllGamesAsync(string query, string[] limitFields = null);
 
         /// <summary>
         /// Gets a list resource request
@@ -202,7 +201,7 @@ namespace GiantBomb.Api
         /// <param name="sortOptions">Results will be sorted by field names in the order you specify</param>
         /// <param name="filterOptions">Results will be filtered by the field name and value you specify</param>
         /// <returns></returns>
-        RestRequest GetListResource(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null);
+        RestRequest GetListResource(string resource, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null);
 
         /// <summary>
         /// Gets a typed list from a GiantBomb list resource request
@@ -215,7 +214,7 @@ namespace GiantBomb.Api
         /// <param name="sortOptions">Results will be sorted by field names in the order you specify</param>
         /// <param name="filterOptions">Results will be filtered by the field name and value you specify</param>
         /// <returns>A typed list of TResult</returns>
-        IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new();
+        IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new();
 
         /// <summary>
         /// Gets a typed list from a GiantBomb list resource request
@@ -228,7 +227,7 @@ namespace GiantBomb.Api
         /// <param name="sortOptions">Results will be sorted by field names in the order you specify</param>
         /// <param name="filterOptions">Results will be filtered by the field name and value you specify</param>
         /// <returns>A typed list of TResult</returns>
-        Task<IEnumerable<TResult>> GetListResourceAsync<TResult>(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new();
+        Task<IEnumerable<TResult>> GetListResourceAsync<TResult>(string resource, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new();
 
         /// <summary>
         /// Gets a single resource request

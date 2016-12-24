@@ -4,13 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using GiantBomb.Api.Model;
 using RestSharp;
 using RestSharp.Deserializers;
 
-namespace GiantBomb.Api {
+namespace GiantBombApi {
     public partial class GiantBombRestClient : IGiantBombRestClient {
         private readonly RestClient _client;
 
@@ -76,7 +74,7 @@ namespace GiantBomb.Api {
                 // handle GiantBomb raw errors without result wrapper
                 try
                 {                    
-                    var responseData = new JsonDeserializer().Deserialize<GiantBombBase>(response);
+                    var responseData = new JsonDeserializer().Deserialize<Model.GiantBombBase>(response);
 
                     if (responseData != null && !String.IsNullOrWhiteSpace(responseData.Error))
                     {
@@ -126,9 +124,9 @@ namespace GiantBomb.Api {
             return await _client.ExecuteTaskAsync(request).ConfigureAwait(false);
         }
 
-        public virtual RestRequest GetListResource(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) {
-            if (pageSize > GiantBombBase.DefaultLimit)
-                throw new ArgumentOutOfRangeException("pageSize", "Page size cannot be greater than " + GiantBombBase.DefaultLimit + ".");
+        public virtual RestRequest GetListResource(string resource, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) {
+            if (pageSize > Model.GiantBombBase.DefaultLimit)
+                throw new ArgumentOutOfRangeException("pageSize", "Page size cannot be greater than " + Model.GiantBombBase.DefaultLimit + ".");
 
             var request = new RestRequest {
                 Resource = resource + "/",
@@ -194,22 +192,22 @@ namespace GiantBomb.Api {
         }
 
         public virtual IEnumerable<TResult> GetListResource<TResult>(string resource, int page = 1,
-            int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null,
+            int pageSize = Model.GiantBombBase.DefaultLimit, string[] fieldList = null,
             IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null)
             where TResult : new()
         {
             return GetListResourceAsync<TResult>(resource, page, pageSize, fieldList, sortOptions, filterOptions).Result;
         }
 
-        public virtual async Task<IEnumerable<TResult>> GetListResourceAsync<TResult>(string resource, int page = 1, int pageSize = GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new()
+        public virtual async Task<IEnumerable<TResult>> GetListResourceAsync<TResult>(string resource, int page = 1, int pageSize = Model.GiantBombBase.DefaultLimit, string[] fieldList = null, IDictionary<string, SortDirection> sortOptions = null, IDictionary<string, object> filterOptions = null) where TResult : new()
         {
             var request = GetListResource(resource, page, pageSize, fieldList, sortOptions, filterOptions);
-            var results = await ExecuteAsync<GiantBombResults<TResult>>(request).ConfigureAwait(false);
+            var results = await ExecuteAsync<Model.GiantBombResults<TResult>>(request).ConfigureAwait(false);
 
-            if (results != null && results.StatusCode == GiantBombBase.StatusOk)
+            if (results != null && results.StatusCode == Model.GiantBombBase.StatusOk)
                 return results.Results;
 
-            if (results != null && results.StatusCode != GiantBombBase.StatusOk)
+            if (results != null && results.StatusCode != Model.GiantBombBase.StatusOk)
                 throw new GiantBombApiException(results.StatusCode, results.Error);
 
             return null;
@@ -223,21 +221,15 @@ namespace GiantBomb.Api {
 
         public virtual async Task<TResult> GetSingleResourceAsync<TResult>(string resource, int resourceId, int id, string[] fieldList = null) where TResult : class, new() {
             var request = GetSingleResource(resource, resourceId, id, fieldList);
-            var result = await ExecuteAsync<GiantBombResult<TResult>>(request).ConfigureAwait(false);
+            var result = await ExecuteAsync<Model.GiantBombResult<TResult>>(request).ConfigureAwait(false);
 
-            if (result != null && result.StatusCode == GiantBombBase.StatusOk)
+            if (result != null && result.StatusCode == Model.GiantBombBase.StatusOk)
                 return result.Results;
 
-            if (result != null && result.StatusCode != GiantBombBase.StatusOk)
+            if (result != null && result.StatusCode != Model.GiantBombBase.StatusOk)
                 throw new GiantBombApiException(result.StatusCode, result.Error);
 
             return null;
         }
-    }
-
-    public enum SortDirection
-    {
-        Ascending,
-        Descending
     }
 }

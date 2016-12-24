@@ -16,7 +16,6 @@ using MahApps.Metro.Controls;
 using SevenZip;
 using TheGamesDBAPI;
 using MaterialDesignThemes.Wpf;
-using WpfAnimatedGif;
 
 namespace Spectabis_WPF.Views
 {
@@ -869,10 +868,10 @@ namespace Spectabis_WPF.Views
             {
                 //Variables
                 string ApiKey = Properties.Settings.Default.APIKey_GiantBomb;
-                var giantBomb = new GiantBomb.Api.GiantBombRestClient(ApiKey);
+                var giantBomb = new GiantBombApi.GiantBombRestClient(ApiKey);
 
                 //list for game results
-                List<GiantBomb.Api.Model.Game> resultGame = new List<GiantBomb.Api.Model.Game>();
+                List<GiantBombApi.Model.Game> resultGame = new List<GiantBombApi.Model.Game>();
 
                 var PlatformFilter = new Dictionary<string, object>() { { "platform", "PlayStation 2" } };
 
@@ -893,16 +892,16 @@ namespace Spectabis_WPF.Views
                     return;
                 }
 
-                GiantBomb.Api.Model.Game FinalGame;
+                GiantBombApi.Model.Game FinalGame;
 
                 try
                 {
                     //loops through each game in resultGame list
-                    foreach (GiantBomb.Api.Model.Game game in resultGame)
+                    foreach (GiantBombApi.Model.Game game in resultGame)
                     {
                         //Gets game ID and makes a list of platforms it's available for
                         FinalGame = giantBomb.GetGame(game.Id);
-                        List<GiantBomb.Api.Model.Platform> platforms = new List<GiantBomb.Api.Model.Platform>(FinalGame.Platforms);
+                        List<GiantBombApi.Model.Platform> platforms = new List<GiantBombApi.Model.Platform>(FinalGame.Platforms);
 
                         //If game platform list contains "PlayStation 2", then start scrapping
                         foreach (var gamePlatform in platforms)
@@ -985,7 +984,7 @@ namespace Spectabis_WPF.Views
                             artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
                             artSource.EndInit();
 
-                            ImageBehavior.SetAnimatedSource(boxArt, artSource);
+                            WpfAnimatedGif.ImageBehavior.SetAnimatedSource(boxArt, artSource);
                             return;
                         }
                     }

@@ -1,6 +1,6 @@
 using System;
 
-namespace GiantBomb.Api.Model {
+namespace GiantBombApi.Model {
     public class Region {
         public int Id { get; set; }
         public string ApiDetailUrl { get; set; }

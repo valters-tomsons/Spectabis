@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GiantBomb.Api.Model {
+﻿namespace GiantBombApi.Model {
     public class Image {
         public string IconUrl { get; set; }
         public string MediumUrl { get; set; }

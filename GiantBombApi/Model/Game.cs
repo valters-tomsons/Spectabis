@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace GiantBomb.Api.Model {
+namespace GiantBombApi.Model {
     public class Game {
         public int Id { get; set; }
 

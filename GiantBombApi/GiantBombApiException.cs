@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GiantBomb.Api
+namespace GiantBombApi
 {
     public class GiantBombApiException : Exception
     {

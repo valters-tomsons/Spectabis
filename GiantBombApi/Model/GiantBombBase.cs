@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace GiantBomb.Api.Model {
+namespace GiantBombApi.Model {
     public class GiantBombBase {
         public string Error { get; set; }
         public int Limit { get; set; }

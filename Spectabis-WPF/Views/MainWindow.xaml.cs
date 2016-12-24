@@ -11,15 +11,12 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using MahApps.Metro.Controls;
 using MaterialDesignThemes.Wpf;
-using System.Linq;
 
 namespace Spectabis_WPF.Views
 {
     public partial class MainWindow : MetroWindow
     {
-
-        public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
+		public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         public MainWindow()
         {
@@ -66,9 +63,13 @@ namespace Spectabis_WPF.Views
 
             SetPrimary(Properties.Settings.Default.swatch);
 
-            //Copy spinner.gif to temporary files
-            Properties.Resources.spinner.Save(BaseDirectory + @"resources\_temp\spinner.gif");
-
+			//Copy spinner.gif to temporary files
+			{
+				var dir = BaseDirectory + "\\resources\\_temp";
+				if (Directory.Exists(dir) == false)
+					Directory.CreateDirectory(dir);
+				Properties.Resources.spinner.Save(dir + "\\spinner.gif");
+			}
         }
 
         //Set primary color scheme
