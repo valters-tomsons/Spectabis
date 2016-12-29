@@ -35,18 +35,18 @@
 
         <Label x:Name="NoGameLabel" Margin="0,50" VerticalAlignment="Top" HorizontalAlignment="Center" Content="To add a game, just drag and drop file here!" FontSize="20" Foreground="DarkGray"/>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
             <WrapPanel x:Name="gamePanel" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
         </ScrollViewer>
 
-        <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" Margin="0,0,50,100" Width="56" Height="56" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <StackPanel Orientation="Vertical">
-                <Button ToolTip="Add Directory" Click="Directory_Click">
-                    <materialDesign:PackIcon Kind="Folder" Height="20" Width="20" />
+        <materialDesign:PopupBox Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" Margin="0,0,50,100" Width="56" Height="56" HorizontalAlignment="Right" VerticalAlignment="Bottom" Focusable="False">
+            <StackPanel Orientation="Vertical" Focusable="False" Visibility="Collapsed" x:Name="PopupStackPanel">
+                <Button ToolTip="Add Directory" Click="Directory_Click" Focusable="False">
+                    <materialDesign:PackIcon Kind="Folder" Height="20" Width="20" Focusable="False"/>
                 </Button>
 
-                <Button ToolTip="Add Game" Click="PlusButton_Click">
-                    <materialDesign:PackIcon Kind="Playstation" Height="20" Width="20" />
+                <Button ToolTip="Add Game" Click="PlusButton_Click" Focusable="False">
+                    <materialDesign:PackIcon Kind="Playstation" Height="20" Width="20" Focusable="False"/>
                 </Button>
             </StackPanel>
         </materialDesign:PopupBox>

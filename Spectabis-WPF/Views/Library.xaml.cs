@@ -95,6 +95,9 @@ namespace Spectabis_WPF.Views
             QueueThread.WorkerReportsProgress = true;
             QueueThread.DoWork += QueueThread_DoWork;
 
+            //Set popup buttons visible
+            PopButtonHitTest(true);
+
             //Load game profiles
             reloadGames();
         }
@@ -1119,6 +1122,18 @@ namespace Spectabis_WPF.Views
             {
                 blacklistFile.Close();
                 return false;
+            }
+        }
+
+        void PopButtonHitTest(bool e)
+        {
+            if(e == true)
+            {
+                PopupStackPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                PopupStackPanel.Visibility = Visibility.Collapsed;
             }
         }
 
