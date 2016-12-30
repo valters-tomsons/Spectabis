@@ -111,6 +111,8 @@ namespace Spectabis_WPF.Views
 
             //xInput Initialization
             getCurrentController();
+
+            //xInput listener
             xListener.DoWork += xListener_DoWork;
 
             //detect new USB device
@@ -212,37 +214,46 @@ namespace Spectabis_WPF.Views
             //If left click
             if (e.XButton1 == e.LeftButton)
             {
-                //Creates a ContextMenu
-                ContextMenu gameContext = new ContextMenu();
-
-                //Emulator Settings menu button
-                MenuItem PCSX2config = new MenuItem();
-                PCSX2config.Header = "Configure in PCSX2";
-                PCSX2config.Click += PCSX2ConfigureGame_Click;
-
-                //Spectabis Config menu button
-                MenuItem SpectabisConfig = new MenuItem();
-                SpectabisConfig.Header = "Game Configuration";
-                SpectabisConfig.Click += SpectabisConfig_Click;
-
-                //Remove game menu button
-                MenuItem RemoveGame = new MenuItem();
-                RemoveGame.Header = "Remove Game";
-                RemoveGame.Click += RemoveGame_Click;
-
-                //Add buttons to context menu
-                gameContext.Items.Add(SpectabisConfig);
-                gameContext.Items.Add(PCSX2config);
-                gameContext.Items.Add(RemoveGame);
-
-                //Open context menu
-                gameContext.IsOpen = true;
+                OpenContext();
             }
 
 
 
         }
 
+        private void LaunchGame()
+        {
+
+        }
+
+        private void OpenContext()
+        {
+            //Creates a ContextMenu
+            ContextMenu gameContext = new ContextMenu();
+
+            //Emulator Settings menu button
+            MenuItem PCSX2config = new MenuItem();
+            PCSX2config.Header = "Configure in PCSX2";
+            PCSX2config.Click += PCSX2ConfigureGame_Click;
+
+            //Spectabis Config menu button
+            MenuItem SpectabisConfig = new MenuItem();
+            SpectabisConfig.Header = "Game Configuration";
+            SpectabisConfig.Click += SpectabisConfig_Click;
+
+            //Remove game menu button
+            MenuItem RemoveGame = new MenuItem();
+            RemoveGame.Header = "Remove Game";
+            RemoveGame.Click += RemoveGame_Click;
+
+            //Add buttons to context menu
+            gameContext.Items.Add(SpectabisConfig);
+            gameContext.Items.Add(PCSX2config);
+            gameContext.Items.Add(RemoveGame);
+
+            //Open context menu
+            gameContext.IsOpen = true;
+        }
 
         //Context Menu PCSX2 button
         private void PCSX2ConfigureGame_Click(object sender, RoutedEventArgs e)
@@ -362,6 +373,7 @@ namespace Spectabis_WPF.Views
                         boxArt.Stretch = Stretch.Fill;
                         boxArt.MouseDown += boxArt_Click;
                         boxArt.Tag = _gameName;
+                        boxArt.Focusable = true;
 
                         //Set BitmapScalingMode from advanced.ini if set
                         //Forgive me
@@ -438,6 +450,7 @@ namespace Spectabis_WPF.Views
 
                             boxArt.HorizontalAlignment = HorizontalAlignment.Center;
                             gameTile.Children.Add(boxArt);
+                            
 
                             gamePanel.Children.Add(gameTile);
                         }
@@ -1201,6 +1214,9 @@ namespace Spectabis_WPF.Views
                 {
                     //When new a controller is detected
                     setControllerState(1);
+
+                    xListener.RunWorkerAsync();
+                    Debug.WriteLine("Starting xListener thread!");
                 }
             }
             else
@@ -1246,7 +1262,25 @@ namespace Spectabis_WPF.Views
         //Controller input listener thread
         private void xListener_DoWork(object sender, DoWorkEventArgs e)
         {
+            currentXInputDevice xDevice = new currentXInputDevice();
 
+            var previousState = xController.GetState();
+            while (xController.IsConnected)
+            {
+                
+                var buttons = xController.GetState().Gamepad.Buttons;
+
+                //Check for buttons here!
+
+                if (xDevice.getPressedButton(buttons) == "Y")
+                {
+                    Dispatcher.BeginInvoke(new Action(() => { OpenContext(); }));
+                }
+
+                Thread.Sleep(100);
+            }
+
+            Debug.WriteLine("Disposing of xListener thread!");
         }
 
     }

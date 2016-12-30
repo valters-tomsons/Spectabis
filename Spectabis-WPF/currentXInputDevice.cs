@@ -19,5 +19,24 @@ namespace Spectabis_WPF
             }
             return null;
         }
+
+        //Returns pressed button as a string
+        public string getPressedButton(SharpDX.XInput.GamepadButtonFlags e)
+        {
+
+            string buttons = e.ToString();
+
+            //Get the first button
+            int index = buttons.IndexOf(',');
+            if(buttons.Contains(","))
+            {
+                if (index > 0)
+                {
+                    return buttons.Substring(0, index);
+                }
+                return null;
+            }
+            return buttons;
+        }
     }
 }
