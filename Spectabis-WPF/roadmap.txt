@@ -1,0 +1,12 @@
+Must:
+- "add a game" page
+- duplicate game detection
+
+Should:
+- improve "sanitize game name editor"
+- controller support (xinput already implemented)
+- xinput option in settings
+
+Could:
+- fix rare plugin crash
+- hide spectabis when pcsx2 is running, show when closed
