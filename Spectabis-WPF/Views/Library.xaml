@@ -33,6 +33,8 @@
 
     <Grid>
 
+        <Label x:Name="ControllerStatus" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,2" FontFamily="Roboto" Foreground="Gray" Opacity="0"/>
+
         <Label x:Name="NoGameLabel" Margin="0,50" VerticalAlignment="Top" HorizontalAlignment="Center" Content="To add a game, just drag and drop file here!" FontSize="20" Foreground="DarkGray"/>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">

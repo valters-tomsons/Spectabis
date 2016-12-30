@@ -16,6 +16,9 @@ using MahApps.Metro.Controls;
 using SevenZip;
 using TheGamesDBAPI;
 using MaterialDesignThemes.Wpf;
+using SharpDX.XInput;
+using System.Windows.Media.Animation;
+using System.Management;
 
 namespace Spectabis_WPF.Views
 {
@@ -43,8 +46,19 @@ namespace Spectabis_WPF.Views
         public BackgroundWorker artScrapper = new BackgroundWorker();
         private AutoResetEvent _resetEvent = new AutoResetEvent(false);
 
+        //Current xInput controller
+        public Controller xController;
+
+        //Controller input listener thread
+        public BackgroundWorker xListener = new BackgroundWorker();
+
+        //Events for USB device detection
+        private ManagementEventWatcher mwe_deletion;
+        private ManagementEventWatcher mwe_creation;
+
         //Make alist of all arguments
         public List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
+        
 
         public Library()
         {
@@ -95,13 +109,34 @@ namespace Spectabis_WPF.Views
             QueueThread.WorkerReportsProgress = true;
             QueueThread.DoWork += QueueThread_DoWork;
 
+            //xInput Initialization
+            getCurrentController();
+            xListener.DoWork += xListener_DoWork;
+
+            //detect new USB device
+            WqlEventQuery q_creation = new WqlEventQuery();
+            q_creation.EventClassName = "__InstanceCreationEvent";
+            q_creation.WithinInterval = new TimeSpan(0, 0, 2);
+            q_creation.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'";
+            mwe_creation = new ManagementEventWatcher(q_creation);
+            mwe_creation.EventArrived += new EventArrivedEventHandler(USBEventArrived);
+            mwe_creation.Start();
+
+            //detect USB device deletion
+            WqlEventQuery q_deletion = new WqlEventQuery();
+            q_deletion.EventClassName = "__InstanceDeletionEvent";
+            q_deletion.WithinInterval = new TimeSpan(0, 0, 2);
+            q_deletion.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'  ";
+            mwe_deletion = new ManagementEventWatcher(q_deletion);
+            mwe_deletion.EventArrived += new EventArrivedEventHandler(USBEventArrived);
+            mwe_deletion.Start();
+
             //Set popup buttons visible
             PopButtonHitTest(true);
 
             //Load game profiles
             reloadGames();
         }
-
 
         //MouseDown event on boxArt image
         private void boxArt_Click(object sender, MouseButtonEventArgs e)
@@ -1125,6 +1160,7 @@ namespace Spectabis_WPF.Views
             }
         }
 
+        //Controls "Plus" Button popup button visiblity
         void PopButtonHitTest(bool e)
         {
             if(e == true)
@@ -1135,6 +1171,82 @@ namespace Spectabis_WPF.Views
             {
                 PopupStackPanel.Visibility = Visibility.Collapsed;
             }
+        }
+
+       
+        //Detect when USB devices change
+        private void USBEventArrived(object sender, EventArrivedEventArgs e)
+        {
+            getCurrentController();
+        }
+
+        //Gets the currently connected controller
+        public void getCurrentController()
+        {
+            //Checks, if controller is connected before detecting a new controller
+            bool wasConnected = false;
+            if(xController != null)
+            {
+                wasConnected = true;
+            }
+
+            //currentXInputDevice.cs
+            currentXInputDevice getDevice = new currentXInputDevice();
+            xController = getDevice.getActiveController();
+            
+            //Show controller message, only when appropriate
+            if(xController != null)
+            {
+                if(wasConnected == false)
+                {
+                    //When new a controller is detected
+                    setControllerState(1);
+                }
+            }
+            else
+            {
+                if(wasConnected == true)
+                {
+                    //When controller is unplugged
+                    setControllerState(2);
+                }
+            }
+
+        }
+
+        //Sets controller state label text
+        private void setControllerState(int i)
+        {
+            string statusText = null;
+
+            if(i == 1)
+            {
+                statusText = "Controller Detected";
+            }
+            else if(i == 2)
+            {
+                statusText = "Controller Unplugged";
+            }
+
+            //Invoke Dispatcher, in case multiple USB devices are added at the same time
+            Dispatcher.BeginInvoke(new Action(() => {
+                //Set text from status
+                ControllerStatus.Content = statusText;
+
+                //Play fade-out animation
+                DoubleAnimation da = new DoubleAnimation();
+                da.Duration = TimeSpan.FromMilliseconds(1500);
+                da.From = 1;
+                da.To = 0;
+
+                ControllerStatus.BeginAnimation(Label.OpacityProperty, da);
+            }));
+        }
+
+        //Controller input listener thread
+        private void xListener_DoWork(object sender, DoWorkEventArgs e)
+        {
+
         }
 
     }
