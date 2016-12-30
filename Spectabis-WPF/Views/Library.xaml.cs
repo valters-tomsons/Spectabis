@@ -1243,6 +1243,10 @@ namespace Spectabis_WPF.Views
             {
                 statusText = "Controller Unplugged";
             }
+            else if(i == 3)
+            {
+                statusText = "DEBUG: A Pressed!";
+            }
 
             //Invoke Dispatcher, in case multiple USB devices are added at the same time
             Dispatcher.BeginInvoke(new Action(() => {
@@ -1272,9 +1276,9 @@ namespace Spectabis_WPF.Views
 
                 //Check for buttons here!
 
-                if (xDevice.getPressedButton(buttons) == "Y")
+                if (xDevice.getPressedButton(buttons) == "A")
                 {
-                    Dispatcher.BeginInvoke(new Action(() => { OpenContext(); }));
+                    Dispatcher.BeginInvoke(new Action(() => { setControllerState(3); }));
                 }
 
                 Thread.Sleep(100);
