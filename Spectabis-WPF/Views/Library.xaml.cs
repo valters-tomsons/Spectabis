@@ -1269,6 +1269,15 @@ namespace Spectabis_WPF.Views
             currentXInputDevice xDevice = new currentXInputDevice();
 
             var previousState = xController.GetState();
+
+            //Listen for command line arguments
+            if(arguments.Contains("-ignorexinput"))
+            {
+                Debug.WriteLine("Disposing of xListener thread!");
+                xListener.CancelAsync();
+                return;
+            }
+
             while (xController.IsConnected)
             {
                 
