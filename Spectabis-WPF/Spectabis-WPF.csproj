@@ -135,6 +135,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Domain\currentXInputDevice.cs" />
+    <Compile Include="Domain\GameProfile.cs" />
     <Compile Include="Domain\GetGameName.cs" />
     <Compile Include="Domain\GetRegions.cs" />
     <Compile Include="Domain\GetSerial.cs" />
