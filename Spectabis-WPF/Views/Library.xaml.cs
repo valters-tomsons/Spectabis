@@ -33,11 +33,6 @@ namespace Spectabis_WPF.Views
         //Temporary variable for rightclick funcionality
         public Image clickedBoxArt;
 
-        //Lists
-        public List<string> regionList = new List<string>();
-        public List<string> supportedGameFiles = new List<string>();
-        public List<string> supportedScrappingFiles = new List<string>();
-
         //Async game art scrapping variables
         List<string> taskQueue = new List<string>();
         public BackgroundWorker QueueThread = new BackgroundWorker();
@@ -66,23 +61,6 @@ namespace Spectabis_WPF.Views
 
             //Where game profile folders are saved
             GameConfigs = BaseDirectory + @"\resources\configs\";
-
-            //Adds supported game image files to a list
-            //Case sensitive, for some reason
-            supportedGameFiles.Add("iso");
-            supportedGameFiles.Add("bin");
-            supportedGameFiles.Add("cso");
-            supportedGameFiles.Add("gz");
-
-            supportedGameFiles.Add("ISO");
-            supportedGameFiles.Add("BIN");
-            supportedGameFiles.Add("CSO");
-            supportedGameFiles.Add("GZ");
-
-            //Adds supported files for artScrapping to a list
-            //Case sensitive, for some reason
-            supportedScrappingFiles.Add("iso");
-            supportedScrappingFiles.Add("ISO");
 
             //Starts the TaskQueue timer
             System.Windows.Threading.DispatcherTimer taskList = new System.Windows.Threading.DispatcherTimer();
@@ -565,10 +543,10 @@ namespace Spectabis_WPF.Views
             foreach (string file in files)
             {
                 //If file is a valid game file
-                if (supportedGameFiles.Any(s => file.EndsWith(s)))
+                if (SupportedGames.GameFiles.Any(s => file.EndsWith(s)))
                 {
                     //If file supports name scrapping
-                    if (supportedScrappingFiles.Any(s => file.EndsWith(s)))
+                    if (SupportedGames.ScrappingFiles.Any(s => file.EndsWith(s)))
                     {
                         string SerialNumber = GetSerial.GetSerialNumber(file);
                         string GameName = GetGameName.GetName(SerialNumber);
@@ -994,7 +972,7 @@ namespace Spectabis_WPF.Views
                 foreach(var file in _fileList)
                 {
                     //Check, if file type is in supported file types
-                    if (supportedGameFiles.Any(s => file.EndsWith(s)))
+                    if (SupportedGames.GameFiles.Any(s => file.EndsWith(s)))
                     {
                         //Check if file is already loaded in Spectabis
                         List<string> IsoList = LoadedISOs(); 
@@ -1011,7 +989,7 @@ namespace Spectabis_WPF.Views
                                 if (result == MessageBoxResult.Yes)
                                 {
                                     //If file supports extraction of serial number, then do just that
-                                    if (supportedScrappingFiles.Any(s => file.EndsWith(s)))
+                                    if (SupportedGames.ScrappingFiles.Any(s => file.EndsWith(s)))
                                     {
                                         //If file supports scrapping, then do that
                                         string serial = GetSerial.GetSerialNumber(file);
