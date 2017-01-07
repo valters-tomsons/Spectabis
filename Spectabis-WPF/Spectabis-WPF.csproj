@@ -134,13 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="currentXInputDevice.cs" />
-    <Compile Include="GameModel.cs" />
-    <Compile Include="Scraping\TheGamesDb.cs" />
-    <Compile Include="Scraping\GiantBomb.cs" />
-    <Compile Include="Scraping\IScrape.cs" />
-    <Compile Include="Scraping\WebRequest.cs" />
-    <Compile Include="SerialFinder.cs" />
+    <Compile Include="Domain\currentXInputDevice.cs" />
+    <Compile Include="Domain\GetGameName.cs" />
+    <Compile Include="Domain\GetRegions.cs" />
+    <Compile Include="Domain\GetSerial.cs" />
     <Compile Include="Views\AddGame.xaml.cs">
       <DependentUpon>AddGame.xaml</DependentUpon>
     </Compile>
@@ -180,7 +177,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IniFile.cs" />
+    <Compile Include="Domain\IniFile.cs" />
     <Compile Include="Views\Library.xaml.cs">
       <DependentUpon>Library.xaml</DependentUpon>
     </Compile>

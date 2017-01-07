@@ -13,12 +13,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using MahApps.Metro.Controls;
-using SevenZip;
 using TheGamesDBAPI;
 using MaterialDesignThemes.Wpf;
 using SharpDX.XInput;
 using System.Windows.Media.Animation;
 using System.Management;
+using Spectabis_WPF.Domain;
 
 namespace Spectabis_WPF.Views
 {
@@ -83,19 +83,6 @@ namespace Spectabis_WPF.Views
             //Case sensitive, for some reason
             supportedScrappingFiles.Add("iso");
             supportedScrappingFiles.Add("ISO");
-
-            //Adds known items to region a list
-            regionList.Add("SLUS");
-            regionList.Add("SCUS");
-            regionList.Add("SCES");
-            regionList.Add("SLES");
-            regionList.Add("SCPS");
-            regionList.Add("SLPS");
-            regionList.Add("SLPM");
-            regionList.Add("PSRM");
-            regionList.Add("SCED");
-            regionList.Add("SLPM");
-            regionList.Add("SIPS");
 
             //Starts the TaskQueue timer
             System.Windows.Threading.DispatcherTimer taskList = new System.Windows.Threading.DispatcherTimer();
@@ -583,8 +570,8 @@ namespace Spectabis_WPF.Views
                     //If file supports name scrapping
                     if (supportedScrappingFiles.Any(s => file.EndsWith(s)))
                     {
-                        string SerialNumber = GetSerialNumber(file);
-                        string GameName = GetGameName(SerialNumber);
+                        string SerialNumber = GetSerial.GetSerialNumber(file);
+                        string GameName = GetGameName.GetName(SerialNumber);
                         AddGame(null, file, GameName);
                     }
                     else
@@ -698,86 +685,7 @@ namespace Spectabis_WPF.Views
 
         }
 
-        //Get serial number for then given file
-        public string GetSerialNumber(string _isoDir)
-        {
-            string _filename;
-            string gameserial = "NULL";
 
-            //Checks, if process is 32-bit or 64
-            if (IntPtr.Size == 4)
-            {
-                //32-bit
-                SevenZipBase.SetLibraryPath(BaseDirectory + @"lib\7z-x86.dll");
-            }
-            else if (IntPtr.Size == 8)
-            {
-                //64-bit
-                SevenZipBase.SetLibraryPath(BaseDirectory + @"lib\7z-x64.dll");
-            }
-
-
-
-            //Opens the archive
-            using (SevenZipExtractor archivedFile = new SevenZipExtractor(_isoDir))
-            {
-                try
-                {
-                    //loops throught each file name
-                    foreach (var file in archivedFile.ArchiveFileData)
-                    {
-                        _filename = new string(file.FileName.Take(4).ToArray());
-                        //If filename contains region code...
-                        if (regionList.Contains(_filename))
-                        {
-                            //Return forged serial number
-                            gameserial = file.FileName.Replace(".", String.Empty);
-                            gameserial = gameserial.Replace("_", "-");
-                            return gameserial;
-                        }
-                    }
-                
-                }
-                catch
-                {
-                    PushSnackbar("Failed to game game's serial number!");
-                }
-                return gameserial;
-            }
-        }
-
-        //Returns a game name, using PCSX2 database file
-        public string GetGameName(string _gameserial)
-        {
-            string GameIndex = emuDir + @"\GameIndex.dbf";
-            string GameName = "UNKNOWN";
-
-            //Reads the GameIndex file by line
-            using (var reader = new StreamReader(GameIndex))
-            {
-
-                bool serialFound = false;
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-
-                    //Forges a GameIndex.dbf entry
-                    //If forged line appears in GameIndex.dbf stop and read the next line
-                    if (line.Contains("Serial = " + _gameserial))
-                    {
-                        serialFound = true;
-                    }
-                    //The next line which contains name associated with gameserial
-                    else if (serialFound == true)
-                    {
-                        //Cleans the data
-                        GameName = line.Replace("Name   = ", String.Empty);
-                        return GameName;
-                    }
-                }
-                return GameName;
-            }
-        }
 
         //Plus Button
         private void PlusButton_Click(object sender, RoutedEventArgs e)
@@ -1106,8 +1014,8 @@ namespace Spectabis_WPF.Views
                                     if (supportedScrappingFiles.Any(s => file.EndsWith(s)))
                                     {
                                         //If file supports scrapping, then do that
-                                        string serial = GetSerialNumber(file);
-                                        string title = GetGameName(serial);
+                                        string serial = GetSerial.GetSerialNumber(file);
+                                        string title = GetGameName.GetName(serial);
                                         AddGame(null, file, title);
                                     }
                                     else

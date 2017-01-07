@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using MahApps.Metro.Controls;
 using MaterialDesignThemes.Wpf;
+using Spectabis_WPF.Domain;
 
 namespace Spectabis_WPF.Views
 {
