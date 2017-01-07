@@ -62,6 +62,14 @@ namespace Spectabis_WPF.Views
             //Where game profile folders are saved
             GameConfigs = BaseDirectory + @"\resources\configs\";
 
+            var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
+            var _enableXInput = advancedIni.Read("EnableXinput", "Input");
+            if(_enableXInput == "false")
+            {
+                Debug.WriteLine("Disabling XInput...");
+                arguments.Add("-ignorexinput");
+            }
+
             //Starts the TaskQueue timer
             System.Windows.Threading.DispatcherTimer taskList = new System.Windows.Threading.DispatcherTimer();
             taskList.Tick += taskList_Tick;

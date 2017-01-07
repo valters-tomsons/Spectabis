@@ -67,9 +67,18 @@ namespace Spectabis_WPF.Domain
             gameIni.Write("fullboot", "0", "Spectabis");
             gameIni.Write("nohacks", "0", "Spectabis");
 
-            //Copy tempart from resources and filestream it to game profile
-            Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\_temp\art.jpg");
-            File.Copy(BaseDirectory + @"\resources\_temp\art.jpg", BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg", true);
+            
+            if(_img == null || File.Exists(_img))
+            {
+                //Copy tempart from resources
+                Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\_temp\art.jpg");
+                File.Copy(BaseDirectory + @"\resources\_temp\art.jpg", BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg", true);
+            }
+            else
+            {
+                File.Copy(_img, BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg", true);
+            }
+            
         }
 
         private static bool isFolder(string _dir)
