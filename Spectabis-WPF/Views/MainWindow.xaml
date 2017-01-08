@@ -54,7 +54,7 @@
             </DockPanel>
             <Frame x:Name="mainFrame" Focusable="False" Margin="1,75,1,1" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden"/>
             <Rectangle x:Name="overlay" Focusable="False" Fill="Gray" Margin="0,75,0,0" Grid.ColumnSpan="2" Opacity="0" IsEnabled="False" IsHitTestVisible="False" />
-            <Menu x:Name="sideMenu" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,66,0,0" Width="200" MinWidth="200" MaxWidth="200">
+            <Menu x:Name="sideMenu" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,75,0,0" Width="200" MinWidth="200" MaxWidth="200">
                 <MenuItem Name="Menu_Library" Header="Library" Width="200" Click="Menu_Library_Click"/>
                 <MenuItem Name="Menu_Settings" Header="Settings" Width="200" Click="Menu_Settings_Click"/>
                 <MenuItem Name="Menu_Appearance" Header="Appearance" Width="200" Click="Menu_Themes_Click" />
