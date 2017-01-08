@@ -36,7 +36,7 @@ namespace Spectabis_WPF.Views
 
             //Version
             Debug.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
-            Title = "Spectabis " + Assembly.GetExecutingAssembly().GetName().Version;
+            //Title = "Spectabis " + Assembly.GetExecutingAssembly().GetName().Version;
 
             //Advanced options ini
             if (File.Exists(BaseDirectory + @"\advanced.ini"))
