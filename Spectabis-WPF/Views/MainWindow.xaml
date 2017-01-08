@@ -3,11 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Spectabis_WPF"
-        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:wpf="http://materialdesigninxaml.net/winfx/xaml/themes"    
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
@@ -48,11 +44,11 @@
             </Grid.ColumnDefinitions>
 
             <DockPanel Grid.ColumnSpan="2">
-                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth1" Mode="PrimaryMid" DockPanel.Dock="Left" Height="66">
+                <materialDesign:ColorZone Padding="16" Mode="PrimaryMid" DockPanel.Dock="Left" Height="75">
                     <DockPanel>
                         <ToggleButton Focusable="False" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  IsChecked="False" x:Name="MenuToggleButton" Checked="MenuToggleButton_Checked" Unchecked="MenuToggleButton_Unchecked"/>
 
-                        <TextBlock Name="MainWindow_Header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Roboto" FontSize="22" Text="Library"/>
+                        <TextBlock Name="MainWindow_Header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Roboto Thin" FontSize="22" Text="Library"/>
                     </DockPanel>
                 </materialDesign:ColorZone>
             </DockPanel>
