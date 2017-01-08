@@ -82,29 +82,36 @@ namespace Spectabis_WPF.Views
             QueueThread.WorkerReportsProgress = true;
             QueueThread.DoWork += QueueThread_DoWork;
 
-            //xInput Initialization
-            getCurrentController();
+            if (arguments.Contains("-ignorexinput") == false)
+            {
+                Debug.WriteLine("xInput Initialization");
 
-            //xInput listener
-            xListener.DoWork += xListener_DoWork;
+                //xInput Initialization
+                getCurrentController();
 
-            //detect new USB device
-            WqlEventQuery q_creation = new WqlEventQuery();
-            q_creation.EventClassName = "__InstanceCreationEvent";
-            q_creation.WithinInterval = new TimeSpan(0, 0, 2);
-            q_creation.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'";
-            mwe_creation = new ManagementEventWatcher(q_creation);
-            mwe_creation.EventArrived += new EventArrivedEventHandler(USBEventArrived);
-            mwe_creation.Start();
+                //xInput listener
+                xListener.DoWork += xListener_DoWork;
 
-            //detect USB device deletion
-            WqlEventQuery q_deletion = new WqlEventQuery();
-            q_deletion.EventClassName = "__InstanceDeletionEvent";
-            q_deletion.WithinInterval = new TimeSpan(0, 0, 2);
-            q_deletion.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'  ";
-            mwe_deletion = new ManagementEventWatcher(q_deletion);
-            mwe_deletion.EventArrived += new EventArrivedEventHandler(USBEventArrived);
-            mwe_deletion.Start();
+                //detect new USB device
+                WqlEventQuery q_creation = new WqlEventQuery();
+                q_creation.EventClassName = "__InstanceCreationEvent";
+                q_creation.WithinInterval = new TimeSpan(0, 0, 2);
+                q_creation.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'";
+                mwe_creation = new ManagementEventWatcher(q_creation);
+                mwe_creation.EventArrived += new EventArrivedEventHandler(USBEventArrived);
+                mwe_creation.Start();
+
+                //detect USB device deletion
+                WqlEventQuery q_deletion = new WqlEventQuery();
+                q_deletion.EventClassName = "__InstanceDeletionEvent";
+                q_deletion.WithinInterval = new TimeSpan(0, 0, 2);
+                q_deletion.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'  ";
+                mwe_deletion = new ManagementEventWatcher(q_deletion);
+                mwe_deletion.EventArrived += new EventArrivedEventHandler(USBEventArrived);
+                mwe_deletion.Start();
+            }
+
+            
 
             //Set popup buttons visible
             PopButtonHitTest(true);
@@ -1163,14 +1170,6 @@ namespace Spectabis_WPF.Views
             currentXInputDevice xDevice = new currentXInputDevice();
 
             var previousState = xController.GetState();
-
-            //Listen for command line arguments
-            if(arguments.Contains("-ignorexinput"))
-            {
-                Debug.WriteLine("Disposing of xListener thread!");
-                xListener.CancelAsync();
-                return;
-            }
 
             while (xController.IsConnected)
             {
