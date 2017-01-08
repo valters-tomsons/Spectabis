@@ -61,8 +61,8 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="PCSX2 Directory:" Margin="5,14" VerticalAlignment="Center" Grid.Column="0" Height="27"/>
-                            <Button x:Name="Save_Button" Click="Save_Directory" Margin="5,12,5,11" Grid.Column="1" Height="Auto" Content="Save"/>
-                            <Button Margin="5,12,5,11" Grid.Column="2" Style="{StaticResource MaterialDesignRaisedLightButton}" Height="Auto" Content="Browse" Click="Browse_Click"/>
+                            <Button x:Name="Save_Button" FontFamily="Roboto Light" Click="Save_Directory" Margin="5,12,5,11" Grid.Column="1" Height="Auto" Content="Save"/>
+                            <Button Margin="5,12,5,11" Grid.Column="2" FontFamily="Roboto Light" Style="{StaticResource MaterialDesignRaisedLightButton}" Height="Auto" Content="Browse" Click="Browse_Click"/>
                             <TextBox x:Name="emudir_text" Grid.Column="3" VerticalAlignment="Center" TextAlignment="Left" Text="C:\Program Filez\SpectabisWPF\folder\anotherfolder\PCSX2" FontFamily="Roboto" Width="Auto" Margin="10" Height="30"/>
                         </Grid>
 
@@ -84,8 +84,8 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" Click="Giantbomb_Yes" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10,0,10,0">YES</Button>
-                                <Button Grid.Column="2" Click="Giantbomb_No" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10,0,10,0">NO</Button>
+                                <Button Grid.Column="0" Click="Giantbomb_Yes" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10,0,10,0" >YES</Button>
+                                <Button Grid.Column="2" Click="Giantbomb_No" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10,0,10,0" >NO</Button>
                             </Grid>
                         </StackPanel>
                     </materialDesign:Card>

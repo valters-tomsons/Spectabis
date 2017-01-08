@@ -48,12 +48,12 @@
                     <DockPanel>
                         <ToggleButton Focusable="False" Style="{StaticResource MaterialDesignHamburgerToggleButton}"  IsChecked="False" x:Name="MenuToggleButton" Checked="MenuToggleButton_Checked" Unchecked="MenuToggleButton_Unchecked"/>
 
-                        <TextBlock Name="MainWindow_Header" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Roboto Thin" FontSize="22" Text="Library"/>
+                        <TextBlock Name="MainWindow_Header" Margin="35,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Roboto Thin" FontSize="26" Text="Library"/>
                     </DockPanel>
                 </materialDesign:ColorZone>
             </DockPanel>
-            <Frame x:Name="mainFrame" Focusable="False" Margin="1,70,1,1" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden"/>
-            <Rectangle x:Name="overlay" Focusable="False" Fill="Gray" Margin="0,66,0,0" Grid.ColumnSpan="2" Opacity="0" IsEnabled="False" IsHitTestVisible="False" />
+            <Frame x:Name="mainFrame" Focusable="False" Margin="1,75,1,1" Grid.ColumnSpan="2" NavigationUIVisibility="Hidden"/>
+            <Rectangle x:Name="overlay" Focusable="False" Fill="Gray" Margin="0,70,0,0" Grid.ColumnSpan="2" Opacity="0" IsEnabled="False" IsHitTestVisible="False" />
             <Menu x:Name="sideMenu" Visibility="Collapsed" HorizontalAlignment="Left" Margin="0,66,0,0" Width="200" MinWidth="200" MaxWidth="200">
                 <MenuItem Name="Menu_Library" Header="Library" Width="200" Click="Menu_Library_Click"/>
                 <MenuItem Name="Menu_Settings" Header="Settings" Width="200" Click="Menu_Settings_Click"/>
@@ -72,13 +72,13 @@
 
                         <Rectangle Fill="Black" Opacity="0.55"/>
 
-                        <Label VerticalAlignment="Center" Visibility="Visible" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White">
+                        <Label VerticalAlignment="Center" Visibility="Visible" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto Light" Foreground="White">
                             <Label.Content>
                                 <AccessText TextWrapping="Wrap" x:Name="Header_title" ToolTip="Double Click to change" MouseUp="Header_title_MouseUp" TextAlignment="Center"/>
                             </Label.Content>
                         </Label>
 
-                        <TextBox x:Name="TitleEditBox" BorderThickness="0" Visibility="Collapsed" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto" Foreground="White" LostFocus="TitleEditBox_LostFocus" KeyDown="TitleEditBox_KeyDown" />
+                        <TextBox x:Name="TitleEditBox" BorderThickness="0" Visibility="Collapsed" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Width="700" Height="300" FontSize="50" FontFamily="Roboto Light" Foreground="White" LostFocus="TitleEditBox_LostFocus" KeyDown="TitleEditBox_KeyDown" />
 
                         <Button Style="{StaticResource MaterialDesignFloatingActionLightButton}" Focusable="False" Width="40" Height="40" Click="CloseSettings_Button" Margin="15,15" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <materialDesign:PackIcon Kind="ExitToApp" Width="24" Height="24" />

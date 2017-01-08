@@ -419,6 +419,7 @@ namespace Spectabis_WPF.Views
                             gameTitle.TextAlignment = TextAlignment.Center;
                             gameTitle.TextWrapping = TextWrapping.Wrap;
                             gameTitle.Visibility = Visibility.Visible;
+                            gameTitle.FontFamily = new FontFamily("Roboto Light");
                             gameTile.Children.Add(gameTitle);
 
                             gamePanel.Children.Add(gameTile);
