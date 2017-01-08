@@ -85,17 +85,17 @@
                         </Button>
                         <Button Click="ChangeArt_Button" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="20,5">Change Boxart</Button>
                         <Button Visibility="Collapsed" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,5">Change File</Button>
-                        <Button Click="SearchWiki_Button" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,5">PCSX2 wiki</Button>
+                        <Button Click="SearchWiki_Button" ToolTip="Search game's Wiki page in PCSX2 website" Focusable="False" Style="{StaticResource MaterialDesignFlatButton}" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,5">PCSX2 wiki</Button>
                     </Grid>
 
                     <StackPanel Orientation="Horizontal" Margin="5,10">
                         <StackPanel Orientation="Vertical">
-                            <CheckBox x:Name="fullscreen" Style="{StaticResource LargerCheckbox}">Fullscreen</CheckBox>
-                            <CheckBox x:Name="nogui" Style="{StaticResource LargerCheckbox}">No Graphical Interface</CheckBox>
-                            <CheckBox x:Name="fullboot" Style="{StaticResource LargerCheckbox}">Display BIOS when booting</CheckBox>
-                            <CheckBox x:Name="nohacks" Style="{StaticResource LargerCheckbox}">Disable Speedhacks</CheckBox>
-                            <CheckBox x:Name="widescreen" Style="{StaticResource LargerCheckbox}">Widescreen Patches</CheckBox>
-                            <CheckBox x:Name="hwmipmap" Style="{StaticResource LargerCheckbox}">Enable Hardware Mipmap Hack</CheckBox>
+                            <CheckBox x:Name="fullscreen" ToolTip="Launch game in fullscreen" Style="{StaticResource LargerCheckbox}">Fullscreen</CheckBox>
+                            <CheckBox x:Name="nogui" ToolTip="Don't display PCSX2 UI" Style="{StaticResource LargerCheckbox}">No Graphical Interface</CheckBox>
+                            <CheckBox x:Name="fullboot" ToolTip="Show classical PS2 startup" Style="{StaticResource LargerCheckbox}">Display BIOS when booting</CheckBox>
+                            <CheckBox x:Name="nohacks" ToolTip="Disable all speedhacks in emulator" Style="{StaticResource LargerCheckbox}">Disable Speedhacks</CheckBox>
+                            <CheckBox x:Name="widescreen" ToolTip="Use patches to play games in widescreen resolutions" Style="{StaticResource LargerCheckbox}">Widescreen Patches</CheckBox>
+                            <CheckBox x:Name="hwmipmap" ToolTip="Only in latest PCSX2 Developer Versions" Style="{StaticResource LargerCheckbox}">Enable Hardware Mipmap Hack</CheckBox>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Width="301">
                             <StackPanel Orientation="Horizontal">
