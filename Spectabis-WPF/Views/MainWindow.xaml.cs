@@ -17,7 +17,7 @@ namespace Spectabis_WPF.Views
 {
     public partial class MainWindow : MetroWindow
     {
-        public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        public static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         //Side panel width value
         public static readonly double PanelWidth = 700;
@@ -190,6 +190,7 @@ namespace Spectabis_WPF.Views
         {
             if(e == true)
             {
+
                 string _cfgDir = BaseDirectory + @"\resources\configs\" + _name;
 
                 //Reads the values from Spectabis ini
@@ -263,6 +264,7 @@ namespace Spectabis_WPF.Views
             }
             else
             {
+
                 //Hide panel
                 Overlay(false);
                 SlideOutPanelAnimation();

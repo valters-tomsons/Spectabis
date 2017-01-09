@@ -11,7 +11,7 @@ namespace Spectabis_WPF.Domain
         private static int index = 0;
 
         //Create a game profile
-        public static void Create(string _img, string _isoDir, string _title)
+        public static string Create(string _img, string _isoDir, string _title)
         {
             //sanitize game's title for folder creation
             _title = _title.Replace(@"/", string.Empty);
@@ -78,6 +78,8 @@ namespace Spectabis_WPF.Domain
             {
                 File.Copy(_img, BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg", true);
             }
+
+            return _title;
             
         }
 
