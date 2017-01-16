@@ -61,8 +61,20 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="PCSX2 Directory:" Margin="5,14" VerticalAlignment="Center" Grid.Column="0" Height="27"/>
-                            <Button x:Name="Save_Button" FontFamily="Roboto Light" Click="Save_Directory" Margin="5,12,5,11" Grid.Column="1" Height="Auto" Content="Save"/>
-                            <Button Margin="5,12,5,11" Grid.Column="2" FontFamily="Roboto Light" Style="{StaticResource MaterialDesignRaisedLightButton}" Height="Auto" Content="Browse" Click="Browse_Click"/>
+
+                            <Button x:Name="Save_Button" FontFamily="Roboto Light" Click="Save_Directory" Margin="5,12,5,11" Grid.Column="1" Height="Auto">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                    <TextBlock Text="Save"/>
+                                    <materialDesign:PackIcon Kind="ContentSave" Margin="5,0" />
+                                </StackPanel>
+                            </Button>
+
+                            <Button Margin="5,12,5,11" Grid.Column="2" FontFamily="Roboto Light" Style="{StaticResource MaterialDesignRaisedLightButton}" Height="Auto" Click="Browse_Click">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Text="Browse"/>
+                                    <materialDesign:PackIcon Kind="Folder" Margin="5,0" />
+                                </StackPanel>
+                            </Button>
                             <TextBox x:Name="emudir_text" Grid.Column="3" VerticalAlignment="Center" TextAlignment="Left" Text="C:\Program Filez\SpectabisWPF\folder\anotherfolder\PCSX2" FontFamily="Roboto" Width="Auto" Margin="10" Height="30"/>
                         </Grid>
 
