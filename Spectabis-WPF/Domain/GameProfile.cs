@@ -83,6 +83,14 @@ namespace Spectabis_WPF.Domain
             
         }
 
+        public static void Delete(string _title)
+        {
+            if(Directory.Exists(BaseDirectory + @"\resources\configs\" + _title))
+            {
+                Directory.Delete(BaseDirectory + @"\resources\configs\" + _title, true);
+            }
+        }
+
         private static bool isFolder(string _dir)
         {
             if(Directory.Exists(_dir))

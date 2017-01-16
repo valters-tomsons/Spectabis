@@ -9,7 +9,22 @@
       Background="{DynamicResource MaterialDesignPaper}"
       FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-      TextElement.FontWeight="Medium">
+      TextElement.FontWeight="Medium"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
         <Grid x:Name="PartTwo_Grid">
@@ -23,8 +38,14 @@
                 <TextBox x:Name="Name_Textbox" Text="Lol" TextWrapping="Wrap" Height="30" FontFamily="Roboto Light" FontSize="18" Margin="0,20" VerticalAlignment="Top" HorizontalContentAlignment="Center" />
                 <Button Content="Change Boxart" Width="150" Click="ChangeButton_Click"/>
             </StackPanel>
-            
 
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,50" Grid.Column="1" Orientation="Horizontal">
+                <TextBlock FontFamily="Roboto Light" FontSize="34" Foreground="Gray">Game added!</TextBlock>
+                <Button Style="{DynamicResource MaterialDesignFloatingActionLightButton}" Margin="15,0" Width="30" Height="30" ToolTip="Delete Game" Click="Delete_Click">
+                    <materialDesign:PackIcon Kind="Delete" />
+                </Button>
+                
+            </StackPanel>
         </Grid>
         
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">

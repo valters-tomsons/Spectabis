@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows.Media.Animation;
 using System;
 using System.Net.Cache;
+using System.Diagnostics;
 
 namespace Spectabis_WPF.Views
 {
@@ -93,6 +94,15 @@ namespace Spectabis_WPF.Views
                 Uri _img = new Uri(BaseDirectory + @"resources\configs\" + title + @"\art.jpg");
                 CacheImage(_img);
             }
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine(Name_Textbox.Text);
+            Debug.WriteLine(BaseDirectory + @"\resources\configs\" + Name_Textbox.Text);
+            GameProfile.Delete(Name_Textbox.Text);
+            ((MainWindow)Application.Current.MainWindow).Open_Library();
+
         }
 
         private void CacheImage(Uri _img)
