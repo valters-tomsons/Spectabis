@@ -679,6 +679,8 @@ namespace Spectabis_WPF.Views
 
         }
 
+
+
         //Plus Button
         private void PlusButton_Click(object sender, RoutedEventArgs e)
         {
