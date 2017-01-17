@@ -10,7 +10,7 @@ namespace Spectabis_WPF.Domain
         private static string emuDir = Properties.Settings.Default.emuDir;
         private static int index = 0;
 
-        //Create a game profile
+        //Creates a game profile and returns the created title, because of indexation
         public static string Create(string _img, string _isoDir, string _title)
         {
             //sanitize game's title for folder creation
@@ -85,12 +85,37 @@ namespace Spectabis_WPF.Domain
 
         public static void Delete(string _title)
         {
-            if(Directory.Exists(BaseDirectory + @"\resources\configs\" + _title))
+            if(isFolder(BaseDirectory + @"\resources\configs\" + _title))
             {
                 Directory.Delete(BaseDirectory + @"\resources\configs\" + _title, true);
             }
         }
 
+        public static string Rename(string _in, string _out)
+        {
+
+            string input = BaseDirectory + @"\resources\configs\" + _in;
+            string output = BaseDirectory + @"\resources\configs\" + _out;
+
+            if (isFolder(input))
+            {
+                if (getIndex(BaseDirectory + @"\resources\configs\" + _out) != 0)
+                {
+                    output = BaseDirectory + @"\resources\configs\" + _out + " (" + index + ")";
+                    Directory.Move(input, output);
+                    return _out + " (" + index + ")";
+                }
+
+                Directory.Move(input, output);
+                return _out;
+            }
+
+            return null;
+        }
+
+        //--
+
+        //No idea why i did this
         private static bool isFolder(string _dir)
         {
             if(Directory.Exists(_dir))
@@ -107,6 +132,7 @@ namespace Spectabis_WPF.Domain
         {
             index = 0;
 
+            //Enumerate folder index
             a: if (Directory.Exists(_dir))
             {
                 index++;

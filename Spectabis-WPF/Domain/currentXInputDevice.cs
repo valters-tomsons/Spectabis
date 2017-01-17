@@ -21,7 +21,7 @@ namespace Spectabis_WPF
         }
 
         //Returns pressed button as a string
-        public string getPressedButton(SharpDX.XInput.GamepadButtonFlags e)
+        public string getPressedButton(GamepadButtonFlags e)
         {
 
             string buttons = e.ToString();

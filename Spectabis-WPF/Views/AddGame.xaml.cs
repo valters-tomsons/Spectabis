@@ -155,5 +155,17 @@ namespace Spectabis_WPF.Views
             da.Duration = new Duration(TimeSpan.FromSeconds(1));
             PartTwo_Grid.BeginAnimation(Grid.OpacityProperty, da);
         }
+
+        //Game title textbox
+        private void Name_Textbox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine(title);
+            if (title != Name_Textbox.Text)
+            {
+                title = GameProfile.Rename(title, Name_Textbox.Text);
+                Name_Textbox.Text = title;
+                Debug.WriteLine(title);
+            }
+        }
     }
 }

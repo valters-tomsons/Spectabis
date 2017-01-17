@@ -35,7 +35,7 @@
 
             <Image x:Name="BoxArt" Stretch="Fill" Width="300" Height="400" Grid.Column="0" Source="/resources/art.jpg" />
             <StackPanel Orientation="Vertical" Grid.Column="1">
-                <TextBox x:Name="Name_Textbox" Text="Lol" TextWrapping="Wrap" Height="30" FontFamily="Roboto Light" FontSize="18" Margin="0,20" VerticalAlignment="Top" HorizontalContentAlignment="Center" />
+                <TextBox x:Name="Name_Textbox" Text="Lol" TextWrapping="Wrap" Height="30" FontFamily="Roboto Light" FontSize="18" Margin="0,20" VerticalAlignment="Top" HorizontalContentAlignment="Center" LostFocus="Name_Textbox_LostFocus" />
                 <Button Content="Change Boxart" Width="150" Click="ChangeButton_Click"/>
             </StackPanel>
 
