@@ -291,7 +291,7 @@ namespace Spectabis_WPF.Views
         }
 
         //Rescans the game config directory and adds them to gamePanel
-        public void reloadGames()
+        public void reloadGames(string query = "")
         {
 
             //Removes all games from list
@@ -314,6 +314,9 @@ namespace Spectabis_WPF.Views
                 //Loops through each folder in game config directory
                 foreach (string game in _gamesdir)
                 {
+                    //Loads only games that contain query string
+                    if(game.ToLower().Contains(query.ToLower()))
+
                     if (File.Exists(game + @"\Spectabis.ini"))
                     {
                         //Sets _gameName to name of the folder
@@ -1190,5 +1193,52 @@ namespace Spectabis_WPF.Views
             Debug.WriteLine("Disposing of xListener thread!");
         }
 
+        //Search bar key event
+        private void SearchBar_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Escape)
+            {
+                //Cancel search and reload full library
+                reloadGames();
+                SearchBar.Text = null;
+                MoveFocus(e);
+                e.Handled = true;
+            }
+            else if(e.Key == Key.Enter)
+            {
+                //Search and load only games with query
+                reloadGames(SearchBar.Text);
+                MoveFocus(e);
+                e.Handled = true;
+            }
+        }
+
+        //SearchBar "click"
+        private void SearchBar_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if(SearchBar.Text.Length != 0)
+            {
+                reloadGames();
+                SearchBar.Text = null;
+            }
+            
+        }
+
+        //Remove focus from textbox
+        private void MoveFocus(KeyEventArgs e)
+        {
+            //http://stackoverflow.com/questions/8203329/moving-to-next-control-on-enter-keypress-in-wpf
+
+            FocusNavigationDirection focusDirection = FocusNavigationDirection.Next;
+            TraversalRequest request = new TraversalRequest(focusDirection);
+            UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+
+            // Change keyboard focus.
+            if (elementWithFocus != null)
+            {
+                if (elementWithFocus.MoveFocus(request)) e.Handled = true;
+            }
+
+        }
     }
 }

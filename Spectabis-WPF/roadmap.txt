@@ -1,7 +1,3 @@
-Must:
-- "add a game" page
-- duplicate game detection
-
 Should:
 - improve "sanitize game name editor"
 - controller support (xinput already implemented)

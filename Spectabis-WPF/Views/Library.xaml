@@ -31,7 +31,6 @@
 
 
     <Grid>
-
         <Label x:Name="ControllerStatus" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5,2" FontFamily="Roboto" Foreground="Gray" Opacity="0"/>
 
         <Label x:Name="NoGameLabel" Margin="0,50" VerticalAlignment="Top" HorizontalAlignment="Center" Content="To add a game, just drag and drop file here!" FontSize="20" Foreground="DarkGray"/>
@@ -39,6 +38,12 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" Focusable="False">
             <WrapPanel x:Name="gamePanel" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5"/>
         </ScrollViewer>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,10">
+            <materialDesign:PackIcon Width="25" Height="25" Kind="magnify" VerticalAlignment="Center"/>
+            <TextBox VerticalAlignment="Center" x:Name="SearchBar" materialDesign:HintAssist.Hint="Search library" Width="200" KeyDown="SearchBar_KeyDown" GotFocus="SearchBar_GotFocus" />
+        </StackPanel>
+        
 
         <materialDesign:PopupBox PopupMode="MouseOver" Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" Margin="0,0,50,100" Width="56" Height="56" HorizontalAlignment="Right" VerticalAlignment="Bottom" Focusable="False">
             <StackPanel Orientation="Vertical" Focusable="False" Visibility="Collapsed" x:Name="PopupStackPanel">
@@ -53,5 +58,7 @@
         </materialDesign:PopupBox>
 
         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar"/>
+        
+        
     </Grid>
 </Page>

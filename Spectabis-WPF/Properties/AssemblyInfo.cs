@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Spectabis-WPF")]
-[assembly: AssemblyCopyright("FaithLV ©  2016")]
+[assembly: AssemblyCopyright("github.com/FaithLV")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
