@@ -7,6 +7,7 @@ using System.Windows.Media.Animation;
 using System;
 using System.Net.Cache;
 using System.Diagnostics;
+using System.Windows.Input;
 
 namespace Spectabis_WPF.Views
 {
@@ -166,6 +167,42 @@ namespace Spectabis_WPF.Views
                 Name_Textbox.Text = title;
                 Debug.WriteLine(title);
             }
+        }
+
+        private void Name_Textbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            //Cancel title change
+            if(e.Key == Key.Escape)
+            {
+                Name_Textbox.Text = title;
+                MoveFocus(e);
+                e.Handled = true;
+            }
+
+            //Accept title change
+            if(e.Key == Key.Enter)
+            {
+                title = Name_Textbox.Text;
+                MoveFocus(e);
+                e.Handled = true;
+            }
+        }
+
+        //Remove focus from textbox
+        private void MoveFocus(KeyEventArgs e)
+        {
+            //http://stackoverflow.com/questions/8203329/moving-to-next-control-on-enter-keypress-in-wpf
+
+            FocusNavigationDirection focusDirection = FocusNavigationDirection.Next;
+            TraversalRequest request = new TraversalRequest(focusDirection);
+            UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
+
+            // Change keyboard focus.
+            if (elementWithFocus != null)
+            {
+                if (elementWithFocus.MoveFocus(request)) e.Handled = true;
+            }
+
         }
     }
 }
