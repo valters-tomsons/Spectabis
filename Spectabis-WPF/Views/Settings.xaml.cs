@@ -24,6 +24,7 @@ namespace Spectabis_WPF.Views
             showTitles.IsChecked = Properties.Settings.Default.showTitle;
             nightMode.IsChecked = Properties.Settings.Default.nightMode;
             AutoScrapping.IsChecked = Properties.Settings.Default.autoBoxart;
+            SearchBar.IsChecked = Properties.Settings.Default.searchbar;
 
             Debug.WriteLine("GiantBomb API Key: " + Properties.Settings.Default.APIKey_GiantBomb);
             Api_Box.Text = Properties.Settings.Default.APIKey_GiantBomb;
@@ -41,6 +42,7 @@ namespace Spectabis_WPF.Views
             Properties.Settings.Default.showTitle = Convert.ToBoolean(showTitles.IsChecked);
             Properties.Settings.Default.nightMode = Convert.ToBoolean(nightMode.IsChecked);
             Properties.Settings.Default.autoBoxart = Convert.ToBoolean(AutoScrapping.IsChecked);
+            Properties.Settings.Default.searchbar = Convert.ToBoolean(SearchBar.IsChecked);
 
             Properties.Settings.Default.APIKey_GiantBomb = Api_Box.Text;
 

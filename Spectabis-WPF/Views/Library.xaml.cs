@@ -111,7 +111,11 @@ namespace Spectabis_WPF.Views
                 mwe_deletion.Start();
             }
 
-            
+            //Hide searchbar
+            if(Properties.Settings.Default.searchbar == false)
+            {
+                SearchPanel.Visibility = Visibility.Collapsed;
+            }
 
             //Set popup buttons visible
             PopButtonHitTest(true);
@@ -1172,12 +1176,10 @@ namespace Spectabis_WPF.Views
         private void xListener_DoWork(object sender, DoWorkEventArgs e)
         {
             currentXInputDevice xDevice = new currentXInputDevice();
-
             var previousState = xController.GetState();
 
             while (xController.IsConnected)
             {
-                
                 var buttons = xController.GetState().Gamepad.Buttons;
 
                 //Check for buttons here!
@@ -1221,7 +1223,6 @@ namespace Spectabis_WPF.Views
                 reloadGames();
                 SearchBar.Text = null;
             }
-            
         }
 
         //Remove focus from textbox
@@ -1238,7 +1239,6 @@ namespace Spectabis_WPF.Views
             {
                 if (elementWithFocus.MoveFocus(request)) e.Handled = true;
             }
-
         }
     }
 }
