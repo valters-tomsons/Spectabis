@@ -32,6 +32,9 @@ namespace Spectabis_WPF.Views
             //Saves settings between versions
             Properties.Settings.Default.Upgrade();
 
+            //Create resources folder
+            Directory.CreateDirectory(@"/resources/_temp");
+
             copyDLL();
 
             //Version

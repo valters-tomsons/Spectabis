@@ -41,7 +41,7 @@
 
                         <StackPanel Orientation="Vertical" x:Name="APISettings_Panel">
                             <Label>Giantbomb API Key:</Label>
-                            <TextBox Width="150" Text="null" x:Name="Api_Box" LostFocus="Api_Box_LostFocus"></TextBox>
+                            <TextBox Width="auto" Text="null" x:Name="Api_Box" LostFocus="Api_Box_LostFocus"></TextBox>
                         </StackPanel>
                     </StackPanel>
 
