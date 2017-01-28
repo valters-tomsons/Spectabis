@@ -132,7 +132,7 @@ namespace Spectabis_WPF.Views
 
             //Get isoDir from Spectabis.ini
             //string _cfgDir = BaseDirectory + @"resources\configs\" + clickedBoxArt.Tag;
-            string _cfgDir = GameConfigs + @"/" + clickedBoxArt.Tag;
+            string _cfgDir = GameConfigs + clickedBoxArt.Tag;
 
             var _gameIni = new IniFile(_cfgDir + @"\spectabis.ini");
             var _isoDir = _gameIni.Read("isoDirectory", "Spectabis");
@@ -181,12 +181,19 @@ namespace Spectabis_WPF.Views
                         if (_fullboot == "1") { _launchargs = _launchargs + "--fullboot "; }
                         if (_nohacks == "1") { _launchargs = _launchargs + "--nohacks "; }
 
-                        Debug.WriteLine(clickedBoxArt.Tag + " launched with commandlines:  " + _launchargs);
-                        Debug.WriteLine(clickedBoxArt.Tag + " launched from: " + _isoDir);
-                        Debug.WriteLine(emuDir + @"\pcsx2.exe", "" + _launchargs + "\"" + _isoDir + "\" --cfgpath \"" + _cfgDir + "\"");
+                        Debug.WriteLine($"{_launchargs} {_isoDir} --cfgpath {_cfgDir}");
 
-                        Process.Start(emuDir + @"\pcsx2.exe", "" + _launchargs + "\"" + _isoDir + "\" --cfgpath \"" + _cfgDir + "\"");
+                        //Paths in PCSX2 command arguments have to be in quotes...
+                        const string quote = "\"";
 
+                        //PCSX2 Process
+                        Process PCSX = new Process();
+                        PCSX.StartInfo.FileName = emuDir + @"\pcsx2.exe";
+                        PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath {quote}{_cfgDir}{quote}";
+                        PCSX.Start();
+
+                        //Elevate Process
+                        PCSX.PriorityClass = ProcessPriorityClass.AboveNormal;
                     }
                     else
                     {
