@@ -128,6 +128,7 @@
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Foreground="White" FontFamily="Roboto Light" FontSize="72" Text="PCSX2 is Running"/>
                 <TextBlock Foreground="White" HorizontalAlignment="Center" FontFamily="Roboto Light" FontSize="20" Text="Please exit PCSX2 emulator to use Spectabis" />
+                <Button Width="100" Height="35" Margin="0,15" Content="Force Stop" FontFamily="Roboto Light" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Click="ForceStop_Click"/>
             </StackPanel>
         </Grid>
         

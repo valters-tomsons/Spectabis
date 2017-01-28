@@ -53,7 +53,10 @@ namespace Spectabis_WPF.Views
 
         //Make alist of all arguments
         public List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
-        
+
+        //PCSX2 Process
+        private Process PCSX = new Process();
+
 
         public Library()
         {
@@ -187,7 +190,6 @@ namespace Spectabis_WPF.Views
                         const string quote = "\"";
 
                         //PCSX2 Process
-                        Process PCSX = new Process();
                         PCSX.StartInfo.FileName = emuDir + @"\pcsx2.exe";
                         PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath {quote}{_cfgDir}{quote}";
 
@@ -215,6 +217,20 @@ namespace Spectabis_WPF.Views
             if (e.XButton1 == e.LeftButton)
             {
                 OpenContext();
+            }
+        }
+
+        //Kill PCSX2 process
+        public void ForceStop()
+        {
+            try
+            {
+                PCSX.Kill();
+                BlockInput(false);
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
             }
         }
 

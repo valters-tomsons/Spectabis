@@ -84,12 +84,6 @@ namespace Spectabis_WPF.Views
             new PaletteHelper().ReplacePrimaryColor(swatch);
         }
 
-        //Method that invokes AddGame method from Library.cs
-        public void addGameToLibrary()
-        {
-            
-        }
-
         private void CatchCommandLineArguments()
         {
             //Make alist of all arguments
@@ -817,6 +811,12 @@ namespace Spectabis_WPF.Views
             {
                 Block.Visibility = Visibility.Collapsed;
             }
+        }
+
+        //Force Stop PCSX2 button
+        private void ForceStop_Click(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.Invoke(new Action(() => ((Library)mainFrame.Content).ForceStop()));
         }
     }
 }
