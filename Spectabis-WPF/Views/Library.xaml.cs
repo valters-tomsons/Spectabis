@@ -467,7 +467,7 @@ namespace Spectabis_WPF.Views
                             gameTitle.Width = 150;
                             gameTitle.FontSize = 16;
                             gameTitle.Foreground = new SolidColorBrush(Colors.White);
-                            gameTitle.Margin = new Thickness(0,0,0,20);
+                            gameTitle.Margin = new Thickness(0,0,0,30);
                             gameTitle.TextAlignment = TextAlignment.Center;
                             gameTitle.TextWrapping = TextWrapping.Wrap;
                             gameTitle.Visibility = Visibility.Visible;
