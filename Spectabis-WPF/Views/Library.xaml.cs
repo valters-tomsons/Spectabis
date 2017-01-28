@@ -394,7 +394,7 @@ namespace Spectabis_WPF.Views
                         //Creates a gap between tiles
                         //There is an issue, when scaling another object when referencing this object's size, the gap is added to the size
                         //To counter this, use ActualSize
-                        boxArt.Margin = new Thickness(10,0,0,0);
+                        boxArt.Margin = new Thickness(10,0,0,10);
 
                         boxArt.Stretch = Stretch.Fill;
                         boxArt.MouseDown += boxArt_Click;
@@ -524,6 +524,7 @@ namespace Spectabis_WPF.Views
             var gameTile = (Grid)sender;
             string gameName = null;
             double actualWidth = 0;
+            double actualHeight = 0;
 
             //All objects in gametile Tile
             foreach (object child in gameTile.Children)
@@ -536,6 +537,7 @@ namespace Spectabis_WPF.Views
                     //Get the tag(game name) and size of the boxart
                     gameName = control.Tag.ToString();
                     actualWidth = control.ActualWidth;
+                    actualHeight = control.ActualHeight;
                 }
 
                 //Show the color overlay
@@ -546,7 +548,10 @@ namespace Spectabis_WPF.Views
 
                     //fix the size issue created by margin
                     control.Width = actualWidth;
+                    control.Height = actualHeight;
+                    
                     control.HorizontalAlignment = HorizontalAlignment.Right;
+                    control.VerticalAlignment = VerticalAlignment.Top;
                 }
 
                 //Show the game title
