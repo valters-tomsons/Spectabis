@@ -800,6 +800,11 @@ namespace Spectabis_WPF.Views
             this.Invoke(new Action(() => WindowState = WindowState.Normal));
         }
 
+        public void SetRunningGame(string e)
+        {
+            RunningGame.Text = e;
+        }
+
         //Block Spectabis while PCSX2 is running
         public void BlockInput(bool e)
         {

@@ -127,9 +127,10 @@
         <Grid x:Name="Block" Visibility="Collapsed">
             <Rectangle Focusable="False" Fill="Gray" Margin="0,0,0,0" Opacity="0.95" />
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Foreground="White" FontFamily="Roboto Light" FontSize="72" Text="PCSX2 is Running"/>
-                <TextBlock Foreground="White" HorizontalAlignment="Center" FontFamily="Roboto Light" FontSize="20" Text="Please exit PCSX2 emulator to use Spectabis" />
-                <Button Width="100" Height="35" Margin="0,15" Content="Force Stop" FontFamily="Roboto Light" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Click="ForceStop_Click"/>
+                <TextBlock Foreground="White" HorizontalAlignment="Center" FontFamily="Roboto Light" FontSize="20" Text="You're playing" />
+                <TextBlock Foreground="White" x:Name="RunningGame" Focusable="False" HorizontalAlignment="Center" FontFamily="Roboto Light" TextWrapping="Wrap" FontSize="72" Text="The Game Name"/>
+                
+                <Button Width="100" Height="35" Margin="0,15" Content="Exit" FontFamily="Roboto Light" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Click="ForceStop_Click"/>
             </StackPanel>
         </Grid>
         
