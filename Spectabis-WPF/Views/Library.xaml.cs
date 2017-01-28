@@ -57,7 +57,6 @@ namespace Spectabis_WPF.Views
         //PCSX2 Process
         private Process PCSX = new Process();
 
-
         public Library()
         {
             InitializeComponent();
@@ -431,6 +430,12 @@ namespace Spectabis_WPF.Views
 
                         gamesExist = true;
 
+                        //Set tooltip, if enabled
+                        if(Properties.Settings.Default.tooltips)
+                            {
+                                boxArt.ToolTip = _gameName;
+                            }
+
                         //Define the grid for game tiles
 
                         //If showtitle is selected
@@ -475,7 +480,6 @@ namespace Spectabis_WPF.Views
 
                             boxArt.HorizontalAlignment = HorizontalAlignment.Center;
                             gameTile.Children.Add(boxArt);
-                            
 
                             gamePanel.Children.Add(gameTile);
                         }

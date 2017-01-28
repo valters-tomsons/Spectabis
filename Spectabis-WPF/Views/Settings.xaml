@@ -31,6 +31,7 @@
                         <StackPanel Orientation="Vertical" Margin="10,0,0,0">
                             <CheckBox x:Name="AutoScrapping" Height="25" Content="Automatic boxart scraping" Click="checkbox_Click"/>
                             <CheckBox x:Name="SearchBar" Height="25" Content="Enable Searchbar" Click="checkbox_Click"/>
+                            <CheckBox x:Name="Tooltips" Height="25" Content="Title Tooltips" Click="checkbox_Click" />
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical" x:Name="Database_API_Stackpanel" Margin="12,0">

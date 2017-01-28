@@ -142,5 +142,17 @@ namespace Spectabis_WPF.Properties {
                 this["searchbar"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool tooltips {
+            get {
+                return ((bool)(this["tooltips"]));
+            }
+            set {
+                this["tooltips"] = value;
+            }
+        }
     }
 }
