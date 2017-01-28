@@ -190,10 +190,19 @@ namespace Spectabis_WPF.Views
                         Process PCSX = new Process();
                         PCSX.StartInfo.FileName = emuDir + @"\pcsx2.exe";
                         PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath {quote}{_cfgDir}{quote}";
+
+                        PCSX.EnableRaisingEvents = true;
+                        PCSX.Exited += new EventHandler(PCSX_Exited);
+
                         PCSX.Start();
 
                         //Elevate Process
                         PCSX.PriorityClass = ProcessPriorityClass.AboveNormal;
+
+                        //Minimize Window
+                        this.Invoke(new Action(() => ((MainWindow)Application.Current.MainWindow).MainWindow_Minimize()));
+                        BlockInput(true);
+                        
                     }
                     else
                     {
@@ -207,14 +216,19 @@ namespace Spectabis_WPF.Views
             {
                 OpenContext();
             }
-
-
-
         }
 
-        private void LaunchGame()
+        //Block Spectabis while PCSX2 is running
+        private void BlockInput(bool e)
         {
+            this.Invoke(new Action(() => ((MainWindow)Application.Current.MainWindow).BlockInput(e)));
+        }
 
+        private void PCSX_Exited(object sender, EventArgs e)
+        {
+            //Bring Spectabis to front
+            BlockInput(false);
+            this.Invoke(new Action(() => ((MainWindow)Application.Current.MainWindow).MainWindow_Maximize()));
         }
 
         private void OpenContext()

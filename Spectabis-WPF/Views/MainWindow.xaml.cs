@@ -793,5 +793,30 @@ namespace Spectabis_WPF.Views
                 File.Delete(file);
             }
         }
+
+        //Minimize Spectabis
+        public void MainWindow_Minimize()
+        {
+            this.Invoke(new Action(() => WindowState = WindowState.Minimized));
+        }
+
+        //Bring Spectabis to front
+        public void MainWindow_Maximize()
+        {
+            this.Invoke(new Action(() => WindowState = WindowState.Normal));
+        }
+
+        //Block Spectabis while PCSX2 is running
+        public void BlockInput(bool e)
+        {
+            if(e == true)
+            {
+                Block.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Block.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }
