@@ -8,6 +8,7 @@ using System;
 using System.Net.Cache;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Spectabis_WPF.Views
 {
@@ -78,7 +79,29 @@ namespace Spectabis_WPF.Views
                 FadeGrid();
 
                 Name_Textbox.Text = title;
+
+                ScrapeArt scraper = new ScrapeArt(title);
+                RefreshBox();
             }
+        }
+
+        private void RefreshBox()
+        {
+            System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+
+            artSource.BeginInit();
+
+            //Fixes the caching issues, where cached copy would just hang around and bother me for two days
+            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+            artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+            artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+
+            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+            artSource.UriSource = new Uri(BaseDirectory + @"resources\configs\" + title + @"\art.jpg", UriKind.RelativeOrAbsolute);
+            //Closes the filestream
+            artSource.EndInit();
+
+            BoxArt.Source = artSource;
         }
 
         //Change boxart

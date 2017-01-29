@@ -26,26 +26,26 @@ namespace Spectabis_WPF.Views
     {
 
         //Spectabis Variables
-        public string emuDir = Properties.Settings.Default.emuDir;
-        public string GameConfigs;
-        public string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private string emuDir = Properties.Settings.Default.emuDir;
+        private string GameConfigs;
+        private string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         //Temporary variable for rightclick funcionality
-        public Image clickedBoxArt;
+        private Image clickedBoxArt;
 
         //Async game art scrapping variables
         List<string> taskQueue = new List<string>();
-        public BackgroundWorker QueueThread = new BackgroundWorker();
+        private BackgroundWorker QueueThread = new BackgroundWorker();
 
         //Scrapping Threads
-        public BackgroundWorker artScrapper = new BackgroundWorker();
+        private BackgroundWorker artScrapper = new BackgroundWorker();
         private AutoResetEvent _resetEvent = new AutoResetEvent(false);
 
         //Current xInput controller
-        public Controller xController;
+        private Controller xController;
 
         //Controller input listener thread
-        public BackgroundWorker xListener = new BackgroundWorker();
+        private BackgroundWorker xListener = new BackgroundWorker();
 
         //Events for USB device detection
         private ManagementEventWatcher mwe_deletion;

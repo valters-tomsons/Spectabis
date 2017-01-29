@@ -139,6 +139,7 @@
     <Compile Include="Domain\GetGameName.cs" />
     <Compile Include="Domain\GetRegions.cs" />
     <Compile Include="Domain\GetSerial.cs" />
+    <Compile Include="Domain\ScrapeArt.cs" />
     <Compile Include="Domain\SupportedGames.cs" />
     <Compile Include="Views\AddGame.xaml.cs">
       <DependentUpon>AddGame.xaml</DependentUpon>
