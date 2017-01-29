@@ -51,6 +51,7 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock x:Name="ISOBrowser_Text" FontFamily="Roboto Light" FontSize="42">Navigate to game file!</TextBlock>
             <Button x:Name="ISOBrowser_Button" Margin="0,15" Content="Browse" Click="ISOBrowser_Button_Click" />
+            <ProgressBar Margin="0,5" x:Name="ProgressBar" IsIndeterminate="True" Visibility="Collapsed" Style="{StaticResource MaterialDesignCircularProgressBar}" Value="35" />
         </StackPanel>
     </Grid>
 </Page>

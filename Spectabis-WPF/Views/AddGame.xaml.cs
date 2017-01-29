@@ -9,6 +9,9 @@ using System.Net.Cache;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Threading;
+using System.ComponentModel;
+using MahApps.Metro.Controls;
 
 namespace Spectabis_WPF.Views
 {
@@ -17,10 +20,15 @@ namespace Spectabis_WPF.Views
     /// </summary>
     public partial class AddGame : Page
     {
+
+        private BackgroundWorker scrapingWorker = new BackgroundWorker();
+
         public AddGame()
         {
             InitializeComponent();
             PartTwo_Grid.Opacity = 0;
+
+            scrapingWorker.DoWork += scrapingWorker_DoWork;
         }
 
         private string title;
@@ -72,18 +80,39 @@ namespace Spectabis_WPF.Views
 
                 //Change initial button and text
                 ISOBrowser_Text.Text = $"{title} was added!";
-                ISOBrowser_Button.IsEnabled = false;
-
-                FadeButton();
-                FadeText();
-                FadeGrid();
+                ISOBrowser_Button.Visibility = Visibility.Collapsed;
 
                 Name_Textbox.Text = title;
 
-                ScrapeArt scraper = new ScrapeArt(title);
-                RefreshBox();
+                if(Properties.Settings.Default.autoBoxart == true)
+                {
+
+                    ProgressBar.Visibility = Visibility.Visible;
+                    ISOBrowser_Text.Text = $"Downloading boxart for {title}";
+                    scrapingWorker.RunWorkerAsync();
+                }
+                else
+                {
+                    FadeButton();
+                    FadeText();
+                    FadeGrid();
+                }
             }
         }
+
+
+        private void scrapingWorker_DoWork(object sender, EventArgs e)
+        {
+            ScrapeArt scraper = new ScrapeArt(title);
+
+            this.Invoke(new Action(() => RefreshBox()));
+            this.Invoke(new Action(() => FadeButton()));
+            this.Invoke(new Action(() => FadeText()));
+            this.Invoke(new Action(() => FadeGrid()));
+
+            this.Invoke(new Action(() => ProgressBar.Visibility = Visibility.Collapsed));
+        }
+
 
         private void RefreshBox()
         {
