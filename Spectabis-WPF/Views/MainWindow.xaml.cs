@@ -12,6 +12,7 @@ using System.Windows.Media.Animation;
 using MahApps.Metro.Controls;
 using MaterialDesignThemes.Wpf;
 using Spectabis_WPF.Domain;
+using System.Windows.Threading;
 
 namespace Spectabis_WPF.Views
 {
@@ -22,6 +23,10 @@ namespace Spectabis_WPF.Views
         //Side panel width value
         public static readonly double PanelWidth = 700;
 
+        //Stopwatch to keep track of playtime
+        private Stopwatch SessionPlaytime = new Stopwatch();
+        private DispatcherTimer updatePlaytimeUI = new DispatcherTimer();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,6 +36,8 @@ namespace Spectabis_WPF.Views
 
             //Saves settings between versions
             Properties.Settings.Default.Upgrade();
+
+            updatePlaytimeUI.Tick += updatePlaytimeUI_Tick;
 
             //Create resources folder
             Directory.CreateDirectory(@"/resources/_temp");
@@ -74,6 +81,7 @@ namespace Spectabis_WPF.Views
 					Directory.CreateDirectory(dir);
 				Properties.Resources.spinner.Save(dir + "\\spinner.gif");
 			}
+
             GameSettings.Width = PanelWidth;
         }
 
@@ -649,7 +657,7 @@ namespace Spectabis_WPF.Views
         }
 
         //Public timer, because it needs to stop itself
-        public System.Windows.Threading.DispatcherTimer timeTimer = new System.Windows.Threading.DispatcherTimer();
+        public DispatcherTimer timeTimer = new DispatcherTimer();
 
         //Because labels don't support Click, i'll have to do it on my own
         private void Header_title_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -803,20 +811,58 @@ namespace Spectabis_WPF.Views
         public void SetRunningGame(string e)
         {
             RunningGame.Text = e;
+            CurrentGame = e;
         }
+
+        public string CurrentGame = null;
 
         //Block Spectabis while PCSX2 is running
         public void BlockInput(bool e)
         {
             if(e == true)
             {
+                //Spectabis input is blocked and game is running
                 Block.Visibility = Visibility.Visible;
+
+                //Start Playtime session tracker
+                SessionPlaytime.Reset();
+                SessionPlaytime.Start();
+
+                //Timer that updates playtime in UI
+                updatePlaytimeUI.Interval = TimeSpan.FromSeconds(58);
+                updatePlaytimeUI.Start();
+
             }
             else
             {
+                //Input is not blocked and game is not running
                 Block.Visibility = Visibility.Collapsed;
+
+                //Stop playtime session tracker
+                if(SessionPlaytime.IsRunning)
+                {
+                    SessionPlaytime.Stop();
+                    Debug.WriteLine("Session Lenght: " + SessionPlaytime.Elapsed.Minutes);
+                }
             }
         }
+
+        //Update session timer in UI
+        private void updatePlaytimeUI_Tick(object sender, EventArgs e)
+        {
+            if(SessionPlaytime.Elapsed.Minutes == 1)
+            {
+                this.Invoke(new Action(() => SessionLenght.Text = $"Current Session: {SessionPlaytime.Elapsed.Minutes} minute"));
+            }
+            else
+            {
+                this.Invoke(new Action(() => SessionLenght.Text = $"Current Session: {SessionPlaytime.Elapsed.Minutes} minutes"));
+            }
+
+            //As this timer updates every minute, playtime in file gets updated also
+            //Playtime.AddPlaytime(CurrentGame, TimeSpan.FromMinutes(1));
+        }
+
 
         //Force Stop PCSX2 button
         private void ForceStop_Click(object sender, RoutedEventArgs e)
