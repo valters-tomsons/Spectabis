@@ -860,7 +860,7 @@ namespace Spectabis_WPF.Views
             }
 
             //As this timer updates every minute, playtime in file gets updated also
-            //Playtime.AddPlaytime(CurrentGame, TimeSpan.FromMinutes(1));
+            Playtime.AddPlaytime(CurrentGame, TimeSpan.FromMinutes(1));
         }
 
 
