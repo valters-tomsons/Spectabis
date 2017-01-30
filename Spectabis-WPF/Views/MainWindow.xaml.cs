@@ -829,7 +829,7 @@ namespace Spectabis_WPF.Views
                 SessionPlaytime.Start();
 
                 //Timer that updates playtime in UI
-                updatePlaytimeUI.Interval = TimeSpan.FromSeconds(58);
+                updatePlaytimeUI.Interval = TimeSpan.FromSeconds(60);
                 updatePlaytimeUI.Start();
 
             }
@@ -843,6 +843,7 @@ namespace Spectabis_WPF.Views
                 {
                     SessionPlaytime.Stop();
                     Debug.WriteLine("Session Lenght: " + SessionPlaytime.Elapsed.Minutes);
+                    Debug.WriteLine($"SessionTimer Working: {SessionPlaytime.IsRunning}");
                 }
             }
         }
@@ -861,6 +862,8 @@ namespace Spectabis_WPF.Views
 
             //As this timer updates every minute, playtime in file gets updated also
             Playtime.AddPlaytime(CurrentGame, TimeSpan.FromMinutes(1));
+
+            Debug.WriteLine($"Updating UI with TimerTimer: {SessionPlaytime.Elapsed} minutes, adding 1 minute to file");
         }
 
 
