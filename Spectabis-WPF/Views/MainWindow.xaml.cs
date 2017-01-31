@@ -83,6 +83,12 @@ namespace Spectabis_WPF.Views
 			}
 
             GameSettings.Width = PanelWidth;
+
+            //Check if it's april fool's day
+            if ((DateTime.Now.Month == 4) && (DateTime.Now.Day == 1) && (Properties.Settings.Default.aprilfooled == false))
+            {
+                AprilFools_Grid.Visibility = Visibility.Visible;
+            }
         }
 
         //Set primary color scheme
@@ -871,6 +877,24 @@ namespace Spectabis_WPF.Views
         private void ForceStop_Click(object sender, RoutedEventArgs e)
         {
             Dispatcher.Invoke(new Action(() => ((Library)mainFrame.Content).ForceStop()));
+        }
+
+        private void AprilFools_Button(object sender, RoutedEventArgs e)
+        {
+            //Fade out
+            DoubleAnimation da = new DoubleAnimation();
+            da.From = 1;
+            da.To = 0;
+            da.Duration = TimeSpan.FromSeconds(1.5);
+            AprilFools_Grid.BeginAnimation(System.Windows.Controls.Grid.OpacityProperty, da);
+
+            AprilFools_Grid.IsHitTestVisible = false;
+
+            Dispatcher.Invoke(new Action(() => ((Library)mainFrame.Content).PushSnackbar("Happy April Fools' Day! Pre-order 'Horse Armor DLC' now! ")));
+
+            //Don't show this message again
+            Properties.Settings.Default.aprilfooled = true;
+            Properties.Settings.Default.Save();
         }
     }
 }

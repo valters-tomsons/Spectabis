@@ -154,5 +154,17 @@ namespace Spectabis_WPF.Properties {
                 this["tooltips"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool aprilfooled {
+            get {
+                return ((bool)(this["aprilfooled"]));
+            }
+            set {
+                this["aprilfooled"] = value;
+            }
+        }
     }
 }

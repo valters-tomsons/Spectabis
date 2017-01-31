@@ -134,6 +134,23 @@
                 <Button Width="100" Height="35" Margin="0,15" Content="Exit" FontFamily="Roboto Light" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Click="ForceStop_Click"/>
             </StackPanel>
         </Grid>
+
+        <Grid x:Name="AprilFools_Grid" Visibility="Collapsed">
+            <Rectangle Focusable="False" Fill="Gray" Margin="0,0,0,0" Opacity="0.95" />
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontFamily="Roboto Light" HorizontalAlignment="Center" FontSize="52" Foreground="White" Text="Your trial has expired"/>
+                <TextBlock Margin="0,10" HorizontalAlignment="Center" FontFamily="Roboto Light" FontSize="24" Foreground="White" Text="Thank you for using Spectabis." />
+                <TextBlock Margin="50,0" FontFamily="Roboto Light" TextWrapping="Wrap" TextAlignment="Center" FontSize="24" Foreground="White" 
+                           Text="In order to keep using Spectabis, you'll need to purchase one of our subscription plans. Until you reactivate your license, the games you've added will stay here." />
+                
+                <StackPanel Orientation="Horizontal" Margin="0,20" HorizontalAlignment="Center">
+                    <Button Width="135" Margin="15,0" Content="1 Month - 15$" Click="AprilFools_Button" />
+                    <Button Width="135"  Margin="15,0" Content="3 Months - 30$" Click="AprilFools_Button" />
+                    <Button Width="135"  Margin="15,0" Content="1 Year - $100" Click="AprilFools_Button" />
+                    <Button Width="135"  Margin="15,0" Content="Lifetime - 420$" Click="AprilFools_Button" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
         
 
     </Grid>
