@@ -17,7 +17,7 @@
       >
     <Grid Margin="0,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <StackPanel>
-            <materialDesign:Card x:Name="Interaction" Margin="10,10,10,0" VerticalAlignment="Top" Height="152" >
+            <materialDesign:Card x:Name="Interaction" Margin="10,10,10,0" VerticalAlignment="Top" Height="170" >
                 <Grid>
                     <Label FontSize="30" FontFamily="Roboto" Content="Spectabis" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45" Width="157"/>
                     <StackPanel Orientation="Horizontal" Margin="10,55,0,0">
@@ -26,6 +26,7 @@
                             <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="checkbox_Click"  HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom"/>
                             <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="checkbox_Click" HorizontalAlignment="Left" Width="139" Height="25" VerticalAlignment="Top"/>
                             <CheckBox x:Name="nightMode" Content="Night Mode" Click="checkbox_Click" HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom"/>
+                            <CheckBox x:Name="checkUpdates" Content="Check for updates" HorizontalAlignment="Left" Width="174" Height="25" Click="checkbox_Click"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical" Margin="10,0,0,0">

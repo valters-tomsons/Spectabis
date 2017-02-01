@@ -26,6 +26,7 @@ namespace Spectabis_WPF.Views
             AutoScrapping.IsChecked = Properties.Settings.Default.autoBoxart;
             SearchBar.IsChecked = Properties.Settings.Default.searchbar;
             Tooltips.IsChecked = Properties.Settings.Default.tooltips;
+            checkUpdates.IsChecked = Properties.Settings.Default.checkupdates;
 
             Console.WriteLine("GiantBomb API Key: " + Properties.Settings.Default.APIKey_GiantBomb);
             Api_Box.Text = Properties.Settings.Default.APIKey_GiantBomb;
@@ -45,6 +46,7 @@ namespace Spectabis_WPF.Views
             Properties.Settings.Default.autoBoxart = Convert.ToBoolean(AutoScrapping.IsChecked);
             Properties.Settings.Default.searchbar = Convert.ToBoolean(SearchBar.IsChecked);
             Properties.Settings.Default.tooltips = Convert.ToBoolean(Tooltips.IsChecked);
+            Properties.Settings.Default.checkupdates = Convert.ToBoolean(checkUpdates.IsChecked);
 
             Properties.Settings.Default.APIKey_GiantBomb = Api_Box.Text;
 

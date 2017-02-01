@@ -34,6 +34,8 @@ namespace Spectabis_WPF.Views
             //Catch commandline arguments
             CatchCommandLineArguments();
 
+            CheckForUpdates();
+
             //Saves settings between versions
             Properties.Settings.Default.Upgrade();
 
@@ -89,6 +91,19 @@ namespace Spectabis_WPF.Views
             {
                 AprilFools_Grid.Visibility = Visibility.Visible;
             }
+        }
+
+        private void CheckForUpdates()
+        {
+            if(Properties.Settings.Default.checkupdates)
+            {
+                if(UpdateCheck.isNewUpdate())
+                {
+                    //Push snackbar
+                    Dispatcher.Invoke(new Action(() => ((Library)mainFrame.Content).PushSnackbar("A new update is available!")));
+                }
+            }
+            
         }
 
         //DLLs for console window

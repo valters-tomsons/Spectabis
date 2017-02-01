@@ -142,6 +142,7 @@
     <Compile Include="Domain\Playtime.cs" />
     <Compile Include="Domain\ScrapeArt.cs" />
     <Compile Include="Domain\SupportedGames.cs" />
+    <Compile Include="Domain\UpdateCheck.cs" />
     <Compile Include="Views\AddGame.xaml.cs">
       <DependentUpon>AddGame.xaml</DependentUpon>
     </Compile>

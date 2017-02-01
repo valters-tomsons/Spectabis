@@ -166,5 +166,17 @@ namespace Spectabis_WPF.Properties {
                 this["aprilfooled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool checkupdates {
+            get {
+                return ((bool)(this["checkupdates"]));
+            }
+            set {
+                this["checkupdates"] = value;
+            }
+        }
     }
 }
