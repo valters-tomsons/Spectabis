@@ -861,6 +861,7 @@ namespace Spectabis_WPF.Views
                 if(SessionPlaytime.IsRunning)
                 {
                     SessionPlaytime.Stop();
+                    updatePlaytimeUI.Stop();
                     Console.WriteLine("Session Lenght: " + SessionPlaytime.Elapsed.Minutes);
                     Console.WriteLine($"SessionTimer Working: {SessionPlaytime.IsRunning}");
                 }
