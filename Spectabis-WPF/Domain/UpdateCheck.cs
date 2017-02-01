@@ -36,7 +36,8 @@ namespace Spectabis_WPF.Domain
             catch
             {
                 Console.WriteLine("Could not fetch version number.");
-                return null;
+                Version none = Version.Parse("0.0.0.0");
+                return none;
             }
             
         }
@@ -44,13 +45,19 @@ namespace Spectabis_WPF.Domain
         //Check, if there is a new update
         public static bool isNewUpdate()
         {
+            Version fetched = FetchLatest();
 
-            if(CurrentVersion == FetchLatest())
+            if(fetched == Version.Parse("0.0.0.0"))
+            {
+                return false;
+            }
+
+            if(CurrentVersion == fetched)
             {
                 Console.WriteLine("Current version is the latest version!");
                 return false;
             }
-            else if(CurrentVersion > FetchLatest())
+            else if(CurrentVersion > fetched)
             {
                 Console.WriteLine("Current version is later than the public release!");
                 return false;
