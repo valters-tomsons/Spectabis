@@ -151,8 +151,8 @@ namespace Spectabis_WPF.Views
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine(Name_Textbox.Text);
-            Debug.WriteLine(BaseDirectory + @"\resources\configs\" + Name_Textbox.Text);
+            Console.WriteLine(Name_Textbox.Text);
+            Console.WriteLine(BaseDirectory + @"\resources\configs\" + Name_Textbox.Text);
             GameProfile.Delete(Name_Textbox.Text);
             ((MainWindow)Application.Current.MainWindow).Open_Library();
 
@@ -212,12 +212,12 @@ namespace Spectabis_WPF.Views
         //Game title textbox
         private void Name_Textbox_LostFocus(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine(title);
+            Console.WriteLine(title);
             if (title != Name_Textbox.Text)
             {
                 title = GameProfile.Rename(title, Name_Textbox.Text);
                 Name_Textbox.Text = title;
-                Debug.WriteLine(title);
+                Console.WriteLine(title);
             }
         }
 

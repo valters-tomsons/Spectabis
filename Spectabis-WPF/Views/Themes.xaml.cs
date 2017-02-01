@@ -24,7 +24,7 @@ namespace Spectabis_WPF.Views
 
             //make a list of all available swatches
             Swatches = new SwatchesProvider().Swatches;
-            Debug.WriteLine("Enumerating swatches...");
+            Console.WriteLine("Enumerating swatches...");
 
             //Load swatches
             LoadSwatches();
@@ -33,7 +33,7 @@ namespace Spectabis_WPF.Views
         //Set Primary color method
         private void SetPrimary(string swatch)
         {
-            Debug.WriteLine("Setting PrimaryColor to " + swatch);
+            Console.WriteLine("Setting PrimaryColor to " + swatch);
             new PaletteHelper().ReplacePrimaryColor(swatch);
         }
 
@@ -145,7 +145,7 @@ namespace Spectabis_WPF.Views
             //Create a card from button's tag
             SetPrimary(SwatchName);
 
-            Debug.WriteLine("Swatch saved - " + Properties.Settings.Default.swatch);
+            Console.WriteLine("Swatch saved - " + Properties.Settings.Default.swatch);
         }
     }
 }

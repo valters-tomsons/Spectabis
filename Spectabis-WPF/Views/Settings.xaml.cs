@@ -27,7 +27,7 @@ namespace Spectabis_WPF.Views
             SearchBar.IsChecked = Properties.Settings.Default.searchbar;
             Tooltips.IsChecked = Properties.Settings.Default.tooltips;
 
-            Debug.WriteLine("GiantBomb API Key: " + Properties.Settings.Default.APIKey_GiantBomb);
+            Console.WriteLine("GiantBomb API Key: " + Properties.Settings.Default.APIKey_GiantBomb);
             Api_Box.Text = Properties.Settings.Default.APIKey_GiantBomb;
 
             emudir_text.Text = Properties.Settings.Default.emuDir;
@@ -59,7 +59,7 @@ namespace Spectabis_WPF.Views
 
             //Save settings
             Properties.Settings.Default.Save();
-            Debug.WriteLine("Settings Saved");
+            Console.WriteLine("Settings Saved");
 
             //Load Nightmode
             new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
@@ -202,7 +202,7 @@ namespace Spectabis_WPF.Views
         //Save API key when textbox loses focus
         private void Api_Box_LostFocus(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine(Api_Box.Text);
+            Console.WriteLine(Api_Box.Text);
             SaveSettings();
         }
 

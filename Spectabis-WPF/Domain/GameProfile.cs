@@ -37,7 +37,7 @@ namespace Spectabis_WPF.Domain
                 string[] inisDir = Directory.GetFiles(emuDir + @"\inis\");
                 foreach (string inifile in inisDir)
                 {
-                    Debug.WriteLine(inifile + " found!");
+                    Console.WriteLine(inifile + " found!");
                     if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
                     {
                         string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));

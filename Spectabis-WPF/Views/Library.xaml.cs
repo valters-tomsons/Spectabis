@@ -52,7 +52,7 @@ namespace Spectabis_WPF.Views
         private ManagementEventWatcher mwe_creation;
 
         //Make alist of all arguments
-        public List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
+        public static List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
 
         //PCSX2 Process
         private Process PCSX = new Process();
@@ -68,7 +68,7 @@ namespace Spectabis_WPF.Views
             var _enableXInput = advancedIni.Read("EnableXinput", "Input");
             if(_enableXInput == "false")
             {
-                Debug.WriteLine("Disabling XInput...");
+                Console.WriteLine("Disabling XInput...");
                 arguments.Add("-ignorexinput");
             }
 
@@ -86,7 +86,7 @@ namespace Spectabis_WPF.Views
 
             if (arguments.Contains("-ignorexinput") == false)
             {
-                Debug.WriteLine("xInput Initialization");
+                Console.WriteLine("xInput Initialization");
 
                 //xInput Initialization
                 getCurrentController();
@@ -130,7 +130,7 @@ namespace Spectabis_WPF.Views
         private void boxArt_Click(object sender, MouseButtonEventArgs e)
         {
             clickedBoxArt = (Image)sender;
-            Debug.WriteLine(Convert.ToString(clickedBoxArt.Tag) + " - clicked");
+            Console.WriteLine(Convert.ToString(clickedBoxArt.Tag) + " - clicked");
 
             //Get isoDir from Spectabis.ini
             //string _cfgDir = BaseDirectory + @"resources\configs\" + clickedBoxArt.Tag;
@@ -183,7 +183,7 @@ namespace Spectabis_WPF.Views
                         if (_fullboot == "1") { _launchargs = _launchargs + "--fullboot "; }
                         if (_nohacks == "1") { _launchargs = _launchargs + "--nohacks "; }
 
-                        Debug.WriteLine($"{_launchargs} {_isoDir} --cfgpath {_cfgDir}");
+                        Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath {_cfgDir}");
 
                         //Paths in PCSX2 command arguments have to be in quotes...
                         const string quote = "\"";
@@ -210,7 +210,7 @@ namespace Spectabis_WPF.Views
                     }
                     else
                     {
-                        Debug.WriteLine(_isoDir + " does not exist!");
+                        Console.WriteLine(_isoDir + " does not exist!");
                     }
                 }
             }
@@ -232,7 +232,7 @@ namespace Spectabis_WPF.Views
             }
             catch(Exception ex)
             {
-                Debug.WriteLine(ex);
+                Console.WriteLine(ex);
             }
         }
 
@@ -365,7 +365,7 @@ namespace Spectabis_WPF.Views
                         //Sets _gameName to name of the folder
                         string _gameName = game.Remove(0, game.LastIndexOf(Path.DirectorySeparatorChar) + 1);
 
-                        Debug.WriteLine("adding to gamePanel - " + _gameName);
+                        Console.WriteLine("adding to gamePanel - " + _gameName);
 
                         //Creates an image object
                         Image boxArt = new Image();
@@ -670,7 +670,7 @@ namespace Spectabis_WPF.Views
                 string[] inisDir = Directory.GetFiles(emuDir + @"\inis\");
                 foreach (string inifile in inisDir)
                 {
-                    Debug.WriteLine(inifile + " found!");
+                    Console.WriteLine(inifile + " found!");
                     if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
                     {
                         string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
@@ -721,7 +721,7 @@ namespace Spectabis_WPF.Views
                 //Add game title to automatic scrapping tasklist
                 if (Properties.Settings.Default.autoBoxart == true)
                 {
-                    Debug.WriteLine("Adding " + _title + " to taskQueue!");
+                    Console.WriteLine("Adding " + _title + " to taskQueue!");
                     taskQueue.Add(_title);
                 }
             }
@@ -760,7 +760,7 @@ namespace Spectabis_WPF.Views
                 Properties.Settings.Default.Save();
                 reloadGames();
 
-                Debug.WriteLine(DirectoryDialog.SelectedPath  + " set as directory!");
+                Console.WriteLine(DirectoryDialog.SelectedPath  + " set as directory!");
             }
             else
             {
@@ -777,11 +777,11 @@ namespace Spectabis_WPF.Views
             if (taskQueue.Any())
             {
                 //Checks, if QueueThread is already busy
-                Debug.WriteLine("Checking if QueueThread is busy.");
+                Console.WriteLine("Checking if QueueThread is busy.");
                 if (QueueThread.IsBusy == false)
                 {
                     //If not busy, run the QueueThread
-                    Debug.WriteLine("QueueThread is not busy, starting it");
+                    Console.WriteLine("QueueThread is not busy, starting it");
                     QueueThread.RunWorkerAsync();
                     //Thread artScrapper = new Thread(() => doTaskQueue());
                 }
@@ -791,12 +791,12 @@ namespace Spectabis_WPF.Views
         //QueueThread Work //async task list tick function
         private void QueueThread_DoWork(object sender, DoWorkEventArgs e)
         {
-            Debug.WriteLine("QueueThread_DoWork");
+            Console.WriteLine("QueueThread_DoWork");
             //loop all values in taskQueue list
             foreach (var task in taskQueue)
             {
                 string _isoname = task;
-                Debug.WriteLine("QueueThread_DoWork - " + _isoname);
+                Console.WriteLine("QueueThread_DoWork - " + _isoname);
                 //Removes the game from taskQueue list
                 taskQueue.Remove(task);
 
@@ -817,11 +817,11 @@ namespace Spectabis_WPF.Views
             //TheGamesDB API Scrapping
             if (Properties.Settings.Default.artDB == "TheGamesDB")
             {
-                Debug.WriteLine("Using TheGamesDB API");
+                Console.WriteLine("Using TheGamesDB API");
                 //PushSnackbar("Downloading boxart for " + _name);
                 try
                 {
-                    Debug.WriteLine("Starting ArtScrapping for " + _name);
+                    Console.WriteLine("Starting ArtScrapping for " + _name);
 
                     //WebRequest.Create(_databaseurl).GetResponse();
                     string _title;
@@ -853,7 +853,7 @@ namespace Spectabis_WPF.Views
                                 this.Invoke(new Action(() => gamePanel.Children.Clear()));
                                 this.Invoke(new Action(() => reloadGames()));
 
-                                Debug.WriteLine("Downloaded boxart for " + _name);
+                                Console.WriteLine("Downloaded boxart for " + _name);
                             }
                             catch
                             {
@@ -919,10 +919,10 @@ namespace Spectabis_WPF.Views
                             {
                                 string _imgdir = FinalGame.Image.SmallUrl;
 
-                                Debug.WriteLine("Using GiantBomb API");
-                                Debug.WriteLine("ApiKey = " + ApiKey);
-                                Debug.WriteLine("Game ID: " + resultGame.First().Id);
-                                Debug.WriteLine(_imgdir);
+                                Console.WriteLine("Using GiantBomb API");
+                                Console.WriteLine("ApiKey = " + ApiKey);
+                                Console.WriteLine("Game ID: " + resultGame.First().Id);
+                                Console.WriteLine(_imgdir);
 
                                 //Downloads the image
                                 using (WebClient client = new WebClient())
@@ -1038,7 +1038,7 @@ namespace Spectabis_WPF.Views
                 }
 
                 string[] _fileList = Directory.GetFiles(Properties.Settings.Default.gameDirectory);
-                Debug.WriteLine(_fileList.Count() + " files found!");
+                Console.WriteLine(_fileList.Count() + " files found!");
 
                 //Go through each file
                 foreach(var file in _fileList)
@@ -1050,7 +1050,7 @@ namespace Spectabis_WPF.Views
                         List<string> IsoList = LoadedISOs(); 
                         if(IsoList.Contains(file) == false)
                         {
-                            Debug.WriteLine(file + " is not loaded, prompting to add!");
+                            Console.WriteLine(file + " is not loaded, prompting to add!");
 
                             //Checks, if file is in blacklist file
                             if(IsGameBlacklisted(file) == false)
@@ -1084,7 +1084,7 @@ namespace Spectabis_WPF.Views
                         }
                         else
                         {
-                            Debug.WriteLine(file + " is already loaded, skipping.");
+                            Console.WriteLine(file + " is already loaded, skipping.");
                         }
                     }
                 }
@@ -1174,7 +1174,7 @@ namespace Spectabis_WPF.Views
                     setControllerState(1);
 
                     xListener.RunWorkerAsync();
-                    Debug.WriteLine("Starting xListener thread!");
+                    Console.WriteLine("Starting xListener thread!");
                 }
             }
             else
@@ -1241,7 +1241,7 @@ namespace Spectabis_WPF.Views
                 Thread.Sleep(100);
             }
 
-            Debug.WriteLine("Disposing of xListener thread!");
+            Console.WriteLine("Disposing of xListener thread!");
         }
 
         //Search bar key event

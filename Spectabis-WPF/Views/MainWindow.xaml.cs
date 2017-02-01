@@ -45,7 +45,7 @@ namespace Spectabis_WPF.Views
             copyDLL();
 
             //Version
-            Debug.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
+            Console.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
             //Title = "Spectabis " + Assembly.GetExecutingAssembly().GetName().Version;
 
             //Advanced options ini
@@ -91,10 +91,16 @@ namespace Spectabis_WPF.Views
             }
         }
 
+        //DLLs for console window
+        [DllImport("Kernel32")]
+        public static extern void AllocConsole();
+        [DllImport("Kernel32")]
+        private static extern bool FreeConsole();
+
         //Set primary color scheme
         private void SetPrimary(string swatch)
         {
-            Debug.WriteLine("Setting PrimaryColor to " + swatch);
+            Console.WriteLine("Setting PrimaryColor to " + swatch);
             new PaletteHelper().ReplacePrimaryColor(swatch);
         }
 
@@ -107,6 +113,13 @@ namespace Spectabis_WPF.Views
             if (arguments.Contains("-firsttime"))
             {
                 FirstSetupFrame.Visibility = Visibility.Visible;
+            }
+
+            //Open console window
+            if (arguments.Contains("-console"))
+            {
+                AllocConsole();
+                Console.WriteLine("Spectabis " + Assembly.GetExecutingAssembly().GetName().Version);
             }
         }
 
@@ -164,7 +177,7 @@ namespace Spectabis_WPF.Views
             MainWindow_Header.Text = "Library";
             Overlay(false);
 
-            Debug.WriteLine(this.Width + " x " + this.Height);
+            Console.WriteLine(this.Width + " x " + this.Height);
 
         }
 
@@ -340,7 +353,7 @@ namespace Spectabis_WPF.Views
                 //selected file is indeed a url file
                 if(_file.Contains(".url"))
                 {
-                    Debug.WriteLine("File was URL, returning.");
+                    Console.WriteLine("File was URL, returning.");
                     return;
                 }
 
@@ -480,7 +493,7 @@ namespace Spectabis_WPF.Views
         //Copy dll from emulator plugins
         private static void copyDLL()
         {
-            Debug.WriteLine("copyDLL");
+            Console.WriteLine("Copying DLLs");
 
             string emuDir = Properties.Settings.Default.emuDir + @"\plugins\";
             Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\plugins\");
@@ -489,15 +502,15 @@ namespace Spectabis_WPF.Views
             //Read plugin directory value from advanced.ini
             if(File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\advanced.ini"))
             {
-                Debug.WriteLine("advanced.ini found!");
+                Console.WriteLine("advanced.ini found!");
                 var advancedIni = new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"\advanced.ini");
 
                 var pluginDir = advancedIni.Read("pluginDir", "Directories");
-                Debug.WriteLine("pluginDir=" + pluginDir);
+                Console.WriteLine("pluginDir=" + pluginDir);
                 if(Directory.Exists(pluginDir))
                 {
                     emuDir = pluginDir + @"\";
-                    Debug.WriteLine(emuDir);
+                    Console.WriteLine(emuDir);
                 }
             }
 
@@ -571,7 +584,7 @@ namespace Spectabis_WPF.Views
             var GSdx = new IniFile(BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini");
             GSdx.Write("shaderfx_glsl", GSdxfx, "Settings");
             GSdx.Write("shaderfx_conf", GSdxfxini, "Settings");
-            Debug.WriteLine("Shader files written to GSdx.ini");
+            Console.WriteLine("Shader files written to GSdx.ini");
         }
 
         //Imports GPUconfigure from GSdx plugin
@@ -668,7 +681,7 @@ namespace Spectabis_WPF.Views
         //Because labels don't support Click, i'll have to do it on my own
         private void Header_title_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Debug.WriteLine("Clicked on game header!");
+            Console.WriteLine("Clicked on game header!");
 
             int TimeBetweenClicks = System.Windows.Forms.SystemInformation.DoubleClickTime;
 
@@ -694,14 +707,14 @@ namespace Spectabis_WPF.Views
                 timeTimer.Tick += timeTimer_Tick;
                 timeTimer.Start();
 
-                Debug.WriteLine("Started timer - after ms" + TimeBetweenClicks);
+                Console.WriteLine("Started timer - after ms" + TimeBetweenClicks);
             }
         }
 
         //Stop double-click timer on first tick
         private void timeTimer_Tick(object sender, EventArgs e)
         {
-            Debug.WriteLine("Tick!");
+            Console.WriteLine("Tick!");
             timeTimer.Stop();
         }
 
@@ -728,7 +741,7 @@ namespace Spectabis_WPF.Views
             TitleEditBox.Text = TitleEditBox.Text.Replace(@"<", string.Empty);
             TitleEditBox.Text = TitleEditBox.Text.Replace(@">", string.Empty);
 
-            Debug.WriteLine(e.Key.ToString());
+            Console.WriteLine(e.Key.ToString());
 
             //This is the only way to save the name
             if (e.Key == Key.Enter)
@@ -763,7 +776,7 @@ namespace Spectabis_WPF.Views
                     }
                     catch
                     {
-                        Debug.WriteLine("Couldn't rename the folder");
+                        Console.WriteLine("Couldn't rename the folder");
                     }
                 }
             }
@@ -848,8 +861,8 @@ namespace Spectabis_WPF.Views
                 if(SessionPlaytime.IsRunning)
                 {
                     SessionPlaytime.Stop();
-                    Debug.WriteLine("Session Lenght: " + SessionPlaytime.Elapsed.Minutes);
-                    Debug.WriteLine($"SessionTimer Working: {SessionPlaytime.IsRunning}");
+                    Console.WriteLine("Session Lenght: " + SessionPlaytime.Elapsed.Minutes);
+                    Console.WriteLine($"SessionTimer Working: {SessionPlaytime.IsRunning}");
                 }
             }
         }
@@ -869,7 +882,7 @@ namespace Spectabis_WPF.Views
             //As this timer updates every minute, playtime in file gets updated also
             Playtime.AddPlaytime(CurrentGame, TimeSpan.FromMinutes(1));
 
-            Debug.WriteLine($"Updating UI with TimerTimer: {SessionPlaytime.Elapsed} minutes, adding 1 minute to file");
+            Console.WriteLine($"Updating UI with TimerTimer: {SessionPlaytime.Elapsed} minutes, adding 1 minute to file");
         }
 
 

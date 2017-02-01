@@ -61,11 +61,11 @@ namespace Spectabis_WPF.Domain
                             client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + title + ".jpg");
                             File.Copy(BaseDirectory + @"\resources\_temp\" + title + ".jpg", BaseDirectory + @"\resources\configs\" + title + @"\art.jpg", true);
 
-                            Debug.WriteLine("Downloaded boxart for " + title);
+                            Console.WriteLine("Downloaded boxart for " + title);
                         }
                         catch
                         {
-                            Debug.WriteLine("Could not download the boxart");
+                            Console.WriteLine("Could not download the boxart");
                         }
                     }
                     break;
@@ -73,7 +73,7 @@ namespace Spectabis_WPF.Domain
             }
             catch
             {
-                Debug.WriteLine("Failed to connect to TheGamesDB");
+                Console.WriteLine("Failed to connect to TheGamesDB");
             }
         }
 
@@ -95,7 +95,7 @@ namespace Spectabis_WPF.Domain
             }
             catch
             {
-                Debug.WriteLine("Failed to connect to Giantbomb");
+                Console.WriteLine("Failed to connect to Giantbomb");
                 return;
             }
 
@@ -117,10 +117,10 @@ namespace Spectabis_WPF.Domain
                         {
                             string _imgdir = FinalGame.Image.SmallUrl;
 
-                            Debug.WriteLine("Using GiantBomb API");
-                            Debug.WriteLine("ApiKey = " + ApiKey);
-                            Debug.WriteLine("Game ID: " + resultGame.First().Id);
-                            Debug.WriteLine(_imgdir);
+                            Console.WriteLine("Using GiantBomb API");
+                            Console.WriteLine("ApiKey = " + ApiKey);
+                            Console.WriteLine("Game ID: " + resultGame.First().Id);
+                            Console.WriteLine(_imgdir);
 
                             //Downloads the image
                             using (WebClient client = new WebClient())
@@ -136,7 +136,7 @@ namespace Spectabis_WPF.Domain
                                 }
                                 catch
                                 {
-                                    Debug.WriteLine("Failed to connect to Giantbomb");
+                                    Console.WriteLine("Failed to connect to Giantbomb");
                                     return;
                                 }
                             }
@@ -147,7 +147,7 @@ namespace Spectabis_WPF.Domain
             }
             catch
             {
-                Debug.WriteLine("Failed to connect to Giantbomb");
+                Console.WriteLine("Failed to connect to Giantbomb");
             }
         }
     }

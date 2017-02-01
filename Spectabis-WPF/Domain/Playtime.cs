@@ -34,7 +34,7 @@ namespace Spectabis_WPF.Domain
             //Convert minutes to TimeSpan
             time = TimeSpan.FromMinutes(Convert.ToDouble(Readtime));
 
-            Debug.WriteLine($"ReadTime String: {Readtime}, ParsedTime: {time}, ReadExists: {File.Exists(BaseDirectory + @"\resources\configs\" + game + @"\spectabis.ini")}, TimeKey Exists: {spectabis.KeyExists("playtime", "Spectabis")}");
+            Console.WriteLine($"ReadTime String: {Readtime}, ParsedTime: {time}, ReadExists: {File.Exists(BaseDirectory + @"\resources\configs\" + game + @"\spectabis.ini")}, TimeKey Exists: {spectabis.KeyExists("playtime", "Spectabis")}");
 
             return time;
         }
@@ -55,7 +55,7 @@ namespace Spectabis_WPF.Domain
             //Save Timespan in minutes
             spectabis.Write("playtime",$"{time.Minutes.ToString()}","Spectabis");
 
-            Debug.WriteLine($"Readtime: {ReadTime}, NewTime: {time}, WriteExists: {File.Exists(BaseDirectory + @"\resources\configs\" + game + @"\spectabis.ini")}");
+            Console.WriteLine($"Readtime: {ReadTime}, NewTime: {time}, WriteExists: {File.Exists(BaseDirectory + @"\resources\configs\" + game + @"\spectabis.ini")}");
 
             return;
         }
