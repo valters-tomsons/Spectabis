@@ -1164,6 +1164,11 @@ namespace Spectabis_WPF.Views
             //currentXInputDevice.cs
             currentXInputDevice getDevice = new currentXInputDevice();
             xController = getDevice.getActiveController();
+
+            if(File.Exists(BaseDirectory + @"\x360ce.ini"))
+            {
+                Console.WriteLine("X360CE.ini found, be sure to use xinput1_4.dll 32-bit version");
+            }
             
             //Show controller message, only when appropriate
             if(xController != null)
@@ -1173,12 +1178,13 @@ namespace Spectabis_WPF.Views
                     //When new a controller is detected
                     setControllerState(1);
 
-                    xListener.RunWorkerAsync();
                     Console.WriteLine("Starting xListener thread!");
+                    xListener.RunWorkerAsync();
                 }
             }
             else
             {
+                Console.WriteLine("No controllers detected");
                 if(wasConnected == true)
                 {
                     //When controller is unplugged
@@ -1201,10 +1207,6 @@ namespace Spectabis_WPF.Views
             {
                 statusText = "Controller Unplugged";
             }
-            else if(i == 3)
-            {
-                statusText = "DEBUG: A Pressed!";
-            }
 
             //Invoke Dispatcher, in case multiple USB devices are added at the same time
             Dispatcher.BeginInvoke(new Action(() => {
@@ -1224,18 +1226,21 @@ namespace Spectabis_WPF.Views
         //Controller input listener thread
         private void xListener_DoWork(object sender, DoWorkEventArgs e)
         {
+            Console.WriteLine("xListener Started");
+
             currentXInputDevice xDevice = new currentXInputDevice();
             var previousState = xController.GetState();
+
+            Console.WriteLine(xDevice.getActiveController().ToString());
 
             while (xController.IsConnected)
             {
                 var buttons = xController.GetState().Gamepad.Buttons;
 
                 //Check for buttons here!
-
-                if (xDevice.getPressedButton(buttons) == "A")
+                if (xDevice.getPressedButton(buttons) != "None")
                 {
-                    Dispatcher.BeginInvoke(new Action(() => { setControllerState(3); }));
+                    Console.WriteLine(xDevice.getPressedButton(buttons));
                 }
 
                 Thread.Sleep(100);
