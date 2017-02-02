@@ -51,6 +51,8 @@ namespace Spectabis_WPF.Views
         private ManagementEventWatcher mwe_deletion;
         private ManagementEventWatcher mwe_creation;
 
+        private List<string> LoadedISOs = null;
+
         //Make alist of all arguments
         public static List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
 
@@ -124,6 +126,11 @@ namespace Spectabis_WPF.Views
 
             //Load game profiles
             reloadGames();
+
+            //List all loaded games
+            EnumerateISOs();
+
+            ScanGameDirectory();
         }
 
         //MouseDown event on boxArt image
@@ -488,8 +495,6 @@ namespace Spectabis_WPF.Views
                         }
                     }
                 }
-
-                ScanGameDirectory();
 
                 //Show "drag&drop" hint accordingly
                 if (gamesExist == false)
@@ -1003,7 +1008,7 @@ namespace Spectabis_WPF.Views
         }
 
         //Returns a list of all games loaded in spectabis
-        public List<string> LoadedISOs()
+        public void EnumerateISOs()
         {
             List<string> gameList = new List<string>();
 
@@ -1021,11 +1026,10 @@ namespace Spectabis_WPF.Views
                 }
             }
 
-
-            return gameList;
+            LoadedISOs = gameList;
         }
 
-        public void ScanGameDirectory()
+        private void ScanGameDirectory()
         {
             if(Properties.Settings.Default.gameDirectory != "null")
             {
@@ -1047,7 +1051,7 @@ namespace Spectabis_WPF.Views
                     if (SupportedGames.GameFiles.Any(s => file.EndsWith(s)))
                     {
                         //Check if file is already loaded in Spectabis
-                        List<string> IsoList = LoadedISOs(); 
+                        List<string> IsoList = LoadedISOs;
                         if(IsoList.Contains(file) == false)
                         {
                             Console.WriteLine(file + " is not loaded, prompting to add!");
