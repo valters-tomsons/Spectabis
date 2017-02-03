@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net.Cache;
@@ -13,6 +12,7 @@ using MahApps.Metro.Controls;
 using MaterialDesignThemes.Wpf;
 using Spectabis_WPF.Domain;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace Spectabis_WPF.Views
 {
@@ -31,7 +31,9 @@ namespace Spectabis_WPF.Views
         {
             InitializeComponent();
 
-            //Catch commandline arguments
+            //Error catcher
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
+
             CatchCommandLineArguments();
 
             CheckForUpdates();
@@ -48,7 +50,6 @@ namespace Spectabis_WPF.Views
 
             //Version
             Console.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
-            //Title = "Spectabis " + Assembly.GetExecutingAssembly().GetName().Version;
 
             //Advanced options ini
             if (File.Exists(BaseDirectory + @"\advanced.ini"))
@@ -71,9 +72,6 @@ namespace Spectabis_WPF.Views
                 FirstSetupFrame.Visibility = Visibility.Visible;
             }
 
-            //Open game library page
-            mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
-
             SetPrimary(Properties.Settings.Default.swatch);
 
 			//Copy spinner.gif to temporary files
@@ -84,6 +82,9 @@ namespace Spectabis_WPF.Views
 				Properties.Resources.spinner.Save(dir + "\\spinner.gif");
 			}
 
+            //Open game library page
+            mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
+
             GameSettings.Width = PanelWidth;
 
             //Check if it's april fool's day
@@ -91,6 +92,14 @@ namespace Spectabis_WPF.Views
             {
                 AprilFools_Grid.Visibility = Visibility.Visible;
             }
+        }
+
+        //Error catcher
+        static void UnhandledException(object sender, UnhandledExceptionEventArgs args)
+        {
+            Exception e = (Exception)args.ExceptionObject;
+            Console.WriteLine(e.Message);
+            Console.WriteLine("Runtime terminating: {0}", args.IsTerminating);
         }
 
         private void CheckForUpdates()
