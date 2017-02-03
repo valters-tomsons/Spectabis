@@ -266,6 +266,11 @@ namespace Spectabis_WPF.Views
             PCSX2config.Header = "Configure in PCSX2";
             PCSX2config.Click += PCSX2ConfigureGame_Click;
 
+            //Refetch Cover art
+            MenuItem RedownloadArt = new MenuItem();
+            RedownloadArt.Header = "Refetch Boxart";
+            RedownloadArt.Click += RedownloadArt_Click;
+
             //Spectabis Config menu button
             MenuItem SpectabisConfig = new MenuItem();
             SpectabisConfig.Header = "Game Configuration";
@@ -278,12 +283,15 @@ namespace Spectabis_WPF.Views
 
             //Add buttons to context menu
             gameContext.Items.Add(SpectabisConfig);
+            gameContext.Items.Add(RedownloadArt);
             gameContext.Items.Add(PCSX2config);
             gameContext.Items.Add(RemoveGame);
+            
 
             //Open context menu
             gameContext.IsOpen = true;
         }
+
 
         //Context Menu PCSX2 button
         private void PCSX2ConfigureGame_Click(object sender, RoutedEventArgs e)
@@ -295,6 +303,16 @@ namespace Spectabis_WPF.Views
             string _cfgDir = GameConfigs + @"/" + clickedBoxArt.Tag;
             Process.Start(emuDir + @"\pcsx2.exe", " --cfgpath \"" + _cfgDir + "\"");
 
+        }
+
+        //Context Menu Redownload boxart
+        private void RedownloadArt_Click(object sender, RoutedEventArgs e)
+        {
+            //Title of the last clicked game
+            string _title = Convert.ToString(clickedBoxArt.Tag);
+
+            //Add game to art download queue
+            taskQueue.Add(_title);
         }
 
         //Context Menu Settings button
