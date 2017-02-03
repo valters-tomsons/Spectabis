@@ -100,24 +100,12 @@ namespace Spectabis_WPF.Views
         {
             Exception e = (Exception)args.ExceptionObject;
             Console.WriteLine(e.Message);
-            Console.WriteLine("Runtime terminating: {0}", args.IsTerminating);
-
-            try
-            {
-                StreamWriter log = new StreamWriter(BaseDirectory + @"\crashlog.txt");
-                log.WriteLine($"---{DateTime.Now}---");
-                log.WriteLine("");
-                log.WriteLine(e.Message);
-                log.WriteLine(e.InnerException.Message);
-                log.Close();
-            }
-            catch
-            {
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine("");
-                Console.WriteLine("Oh boy, couldn't save the crashlog. Something's seriously wrong.");
-                Thread.Sleep(7000);
-            }
+            StreamWriter log = new StreamWriter(BaseDirectory + @"\crashlog.txt");
+            log.WriteLine($"---{DateTime.Now}---");
+            log.WriteLine("");
+            log.WriteLine(e.Message);
+            log.WriteLine(e.InnerException.Message);
+            log.Close();
         }
 
         private void CheckForUpdates()
