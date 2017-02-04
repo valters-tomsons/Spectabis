@@ -63,6 +63,10 @@ namespace Spectabis_WPF.Views
         {
             InitializeComponent();
 
+            Console.WriteLine("Opening Library...");
+
+            CheckForUpdates();
+
             //Where game profile folders are saved
             GameConfigs = BaseDirectory + @"\resources\configs\";
 
@@ -131,6 +135,28 @@ namespace Spectabis_WPF.Views
             EnumerateISOs();
 
             ScanGameDirectory();
+        }
+
+        private void CheckForUpdates()
+        {
+            Console.WriteLine("Checking for updates...");
+            if (Properties.Settings.Default.checkupdates)
+            {
+                if (UpdateCheck.isNewUpdate())
+                {
+                    try
+                    {
+                        //Push snackbar
+                        this.Invoke(new Action(() => PushSnackbar("A new update is available!")));
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Couldn't push update notification");
+                    }
+
+                }
+            }
+
         }
 
         //MouseDown event on boxArt image
