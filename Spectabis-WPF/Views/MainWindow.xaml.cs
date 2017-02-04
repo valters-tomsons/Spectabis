@@ -123,7 +123,7 @@ namespace Spectabis_WPF.Views
 
         //DLLs for console window
         [DllImport("Kernel32")]
-        public static extern void AllocConsole();
+        private static extern void AllocConsole();
         [DllImport("Kernel32")]
         private static extern bool FreeConsole();
 
@@ -139,17 +139,22 @@ namespace Spectabis_WPF.Views
             //Make alist of all arguments
             List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
 
-            //Force first time setup
-            if (arguments.Contains("-firsttime"))
+            foreach(string arg in arguments)
             {
-                FirstSetupFrame.Visibility = Visibility.Visible;
-            }
+                //Open Console Window
+                if (arg == "-console")
+                {
+                    AllocConsole();
+                    Thread.Sleep(10);
+                    Console.WriteLine("Opening debug console");
+                }
 
-            //Open console window
-            if (arguments.Contains("-console"))
-            {
-                AllocConsole();
-                Console.WriteLine("Spectabis " + Assembly.GetExecutingAssembly().GetName().Version);
+                //Force first time setup
+                if (arg == "-firsttime")
+                {
+                    Console.WriteLine("Forcing first time setup");
+                    FirstSetupFrame.Visibility = Visibility.Visible;
+                }
             }
         }
 
