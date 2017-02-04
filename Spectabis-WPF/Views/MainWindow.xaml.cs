@@ -35,12 +35,12 @@ namespace Spectabis_WPF.Views
             //Error catcher
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
 
+            //Saves settings between versions
+            Properties.Settings.Default.Upgrade();
+
             CatchCommandLineArguments();
 
             CheckForUpdates();
-
-            //Saves settings between versions
-            Properties.Settings.Default.Upgrade();
 
             updatePlaytimeUI.Tick += updatePlaytimeUI_Tick;
 
@@ -138,6 +138,7 @@ namespace Spectabis_WPF.Views
         {
             //Make alist of all arguments
             List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
+            bool findProfile = false;
 
             foreach(string arg in arguments)
             {
@@ -148,12 +149,35 @@ namespace Spectabis_WPF.Views
                     Thread.Sleep(10);
                     Console.WriteLine("Opening debug console");
                 }
-
                 //Force first time setup
-                if (arg == "-firsttime")
+                else if (arg == "-firsttime")
                 {
                     Console.WriteLine("Forcing first time setup");
                     FirstSetupFrame.Visibility = Visibility.Visible;
+                }
+                //Launch a game profile
+                else if(arg == "-profile")
+                {
+                    Console.WriteLine("Looking for a game profile to launch...");
+                    findProfile = true;
+                }
+                //If profile needs to be found, then do that
+                else if(findProfile == true)
+                {
+                    //If there's a game profile with given argument
+                    if (Directory.Exists($"{BaseDirectory}resources\\configs\\{arg}"))
+                    {
+                        //A given game name is valid
+                        Console.WriteLine("Launching " + arg);
+                        Domain.LaunchPCSX2.LaunchGame(arg);
+                        //this.Hide();
+                    }
+                    else
+                    {
+                        //If game profile does not exist, then don't look for another one
+                        Console.WriteLine("Not a valid game profile name!");
+                        findProfile = false;
+                    }
                 }
             }
         }

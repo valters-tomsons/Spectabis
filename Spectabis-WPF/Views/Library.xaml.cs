@@ -26,7 +26,7 @@ namespace Spectabis_WPF.Views
     {
 
         //Spectabis Variables
-        private string emuDir = Properties.Settings.Default.emuDir;
+        public static string emuDir = Properties.Settings.Default.emuDir;
         private string GameConfigs;
         private string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
