@@ -40,8 +40,6 @@ namespace Spectabis_WPF.Views
 
             CatchCommandLineArguments();
 
-            CheckForUpdates();
-
             updatePlaytimeUI.Tick += updatePlaytimeUI_Tick;
 
             //Create resources folder
@@ -85,6 +83,8 @@ namespace Spectabis_WPF.Views
 
             //Open game library page
             mainFrame.Source = new Uri("Library.xaml", UriKind.Relative);
+
+            CheckForUpdates();
 
             GameSettings.Width = PanelWidth;
 
