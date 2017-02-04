@@ -148,6 +148,7 @@ namespace Spectabis_WPF.Views
                     AllocConsole();
                     Thread.Sleep(10);
                     Console.WriteLine("Opening debug console");
+                    Console.WriteLine($"Current Build: {Assembly.GetExecutingAssembly().GetName().Version}");
                 }
                 //Force first time setup
                 else if (arg == "-firsttime")
