@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Spectabis_WPF.Domain
 {
@@ -50,6 +51,8 @@ namespace Spectabis_WPF.Domain
 
                 //Elevate Process
                 PCSX.PriorityClass = ProcessPriorityClass.AboveNormal;
+
+                Application.Current.Shutdown();
             }
             else
             {

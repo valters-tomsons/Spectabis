@@ -32,11 +32,11 @@ namespace Spectabis_WPF.Views
         {
             InitializeComponent();
 
-            //Error catcher
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
-
             //Saves settings between versions
             Properties.Settings.Default.Upgrade();
+
+            //Error catcher
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
 
             CatchCommandLineArguments();
 
@@ -169,8 +169,9 @@ namespace Spectabis_WPF.Views
                     {
                         //A given game name is valid
                         Console.WriteLine("Launching " + arg);
+
+                        //Launch game
                         Domain.LaunchPCSX2.LaunchGame(arg);
-                        //this.Hide();
                     }
                     else
                     {
