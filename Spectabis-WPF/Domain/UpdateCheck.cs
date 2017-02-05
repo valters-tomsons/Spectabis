@@ -29,6 +29,7 @@ namespace Spectabis_WPF.Domain
                         {
                             var _fetched = reader.ReadToEnd();
                             Console.WriteLine($"Fetched Version: {_fetched}");
+                            reader.Close();
                             return Version.Parse(_fetched);
                         }
                     }

@@ -35,9 +35,6 @@ namespace Spectabis_WPF.Views
             //Saves settings between versions
             Properties.Settings.Default.Upgrade();
 
-            //Error catcher
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException);
-
             CatchCommandLineArguments();
 
             updatePlaytimeUI.Tick += updatePlaytimeUI_Tick;
@@ -92,21 +89,6 @@ namespace Spectabis_WPF.Views
                 AprilFools_Grid.Visibility = Visibility.Visible;
             }
         }
-
-        //Error catcher
-        static void UnhandledException(object sender, UnhandledExceptionEventArgs args)
-        {
-            Exception e = (Exception)args.ExceptionObject;
-            Console.WriteLine(e.Message);
-            StreamWriter log = new StreamWriter(BaseDirectory + @"\crashlog.txt");
-            log.WriteLine($"---{DateTime.Now}---");
-            log.WriteLine("");
-            log.WriteLine(e.Message);
-            log.WriteLine(e.InnerException.Message);
-            log.Close();
-        }
-
-       
 
         //DLLs for console window
         [DllImport("Kernel32")]
