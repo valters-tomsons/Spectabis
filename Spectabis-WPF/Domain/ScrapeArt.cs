@@ -39,6 +39,7 @@ namespace Spectabis_WPF.Domain
                 string _title;
                 string _imgdir;
 
+                //Search all games with given title and filter only PS2 titles
                 foreach (GameSearchResult game in GamesDB.GetGames(title, "Sony Playstation 2"))
                 {
 
@@ -50,7 +51,7 @@ namespace Spectabis_WPF.Domain
                     _title = _title.Replace(@":", string.Empty);
 
 
-                    //Sets image to variable
+                    //Creates a link for image url
                     _imgdir = "http://thegamesdb.net/banners/" + newGame.Images.BoxartFront.Path;
 
                     //Downloads the image
@@ -76,7 +77,7 @@ namespace Spectabis_WPF.Domain
 
             var PlatformFilter = new Dictionary<string, object>() { { "platform", "PlayStation 2" } };
 
-            //Search for game in DB, get its id, then get the image url
+            //Search the DB for a game ID
             try
             {
                 resultGame = giantBomb.SearchForGames(title).ToList();

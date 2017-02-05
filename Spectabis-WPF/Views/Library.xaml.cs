@@ -72,7 +72,7 @@ namespace Spectabis_WPF.Views
 
             var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
             var _enableXInput = advancedIni.Read("EnableXinput", "Input");
-            if(_enableXInput == "false")
+            if (_enableXInput == "false")
             {
                 Console.WriteLine("Disabling XInput...");
                 arguments.Add("-ignorexinput");
@@ -120,7 +120,7 @@ namespace Spectabis_WPF.Views
             }
 
             //Hide searchbar
-            if(Properties.Settings.Default.searchbar == false)
+            if (Properties.Settings.Default.searchbar == false)
             {
                 SearchPanel.Visibility = Visibility.Collapsed;
             }
@@ -263,7 +263,7 @@ namespace Spectabis_WPF.Views
                 PCSX.Kill();
                 BlockInput(false);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
@@ -312,7 +312,7 @@ namespace Spectabis_WPF.Views
             gameContext.Items.Add(RedownloadArt);
             gameContext.Items.Add(PCSX2config);
             gameContext.Items.Add(RemoveGame);
-            
+
 
             //Open context menu
             gameContext.IsOpen = true;
@@ -371,13 +371,13 @@ namespace Spectabis_WPF.Views
                 try
                 {
                     Directory.Delete(GameConfigs + @"/" + clickedBoxArt.Tag, true);
-                    
+
                 }
                 catch
                 {
                     PushSnackbar("Failed to delete game files!");
                 }
-               
+
             }
 
             //Reload game list
@@ -395,7 +395,7 @@ namespace Spectabis_WPF.Views
             bool gamesExist = false;
 
             //If command line argument "-ignoreporfiles", then do nothing
-            if(arguments.Contains("-ignoreprofiles"))
+            if (arguments.Contains("-ignoreprofiles"))
             {
                 return;
             }
@@ -409,135 +409,135 @@ namespace Spectabis_WPF.Views
                 foreach (string game in _gamesdir)
                 {
                     //Loads only games that contain query string
-                    if(game.ToLower().Contains(query.ToLower()))
+                    if (game.ToLower().Contains(query.ToLower()))
 
-                    if (File.Exists(game + @"\Spectabis.ini"))
-                    {
-                        //Sets _gameName to name of the folder
-                        string _gameName = game.Remove(0, game.LastIndexOf(Path.DirectorySeparatorChar) + 1);
-
-                        Console.WriteLine("adding to gamePanel - " + _gameName);
-
-                        //Creates an image object
-                        Image boxArt = new Image();
-
-                        //Creates a bitmap stream
-                        System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
-                        //Opens the filestream
-                        artSource.BeginInit();
-
-                        //Fixes the caching issues, where cached copy would just hang around and bother me for two days
-                        artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
-                        artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
-                        artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
-
-                        artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                        artSource.UriSource = new Uri(game + @"\art.jpg", UriKind.RelativeOrAbsolute);
-                        //Closes the filestream
-                        artSource.EndInit();
-
-                        //sets boxArt source to created bitmap
-                        boxArt.Source = artSource;
-
-                        boxArt.Height = 200;
-                        boxArt.Width = 150;
-
-                        //Creates a gap between tiles
-                        //There is an issue, when scaling another object when referencing this object's size, the gap is added to the size
-                        //To counter this, use ActualSize
-                        boxArt.Margin = new Thickness(10,0,0,10);
-
-                        boxArt.Stretch = Stretch.Fill;
-                        boxArt.MouseDown += boxArt_Click;
-                        boxArt.Tag = _gameName;
-                        boxArt.Focusable = true;
-
-                        //Set BitmapScalingMode from advanced.ini if set
-                        //Forgive me
-                        if (File.Exists(BaseDirectory + @"\advanced.ini"))
+                        if (File.Exists(game + @"\Spectabis.ini"))
                         {
-                            var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
+                            //Sets _gameName to name of the folder
+                            string _gameName = game.Remove(0, game.LastIndexOf(Path.DirectorySeparatorChar) + 1);
 
-                            var _BitmapScalingMode = advancedIni.Read("BitmapScalingMode", "Renderer");
+                            Console.WriteLine("adding to gamePanel - " + _gameName);
 
-                            if (_BitmapScalingMode == "BitmapScalingMode.HighQuality")
-                            {
-                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.HighQuality);
-                            }
-                            else if (_BitmapScalingMode == "BitmapScalingMode.LowQuality")
-                            {
-                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.LowQuality);
-                            }
-                            else if (_BitmapScalingMode == "BitmapScalingMode.Linear")
-                            {
-                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.Linear);
-                            }
-                            else if (_BitmapScalingMode == "BitmapScalingMode.NearestNeighbor")
-                            {
-                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.NearestNeighbor);
-                            }
-                            else if (_BitmapScalingMode == "BitmapScalingMode.Fant")
-                            {
-                                RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.Fant);
-                            }
-                        }
+                            //Creates an image object
+                            Image boxArt = new Image();
 
-                        gamesExist = true;
+                            //Creates a bitmap stream
+                            System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+                            //Opens the filestream
+                            artSource.BeginInit();
 
-                        //Set tooltip, if enabled
-                        if(Properties.Settings.Default.tooltips)
+                            //Fixes the caching issues, where cached copy would just hang around and bother me for two days
+                            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+                            artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+                            artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+
+                            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                            artSource.UriSource = new Uri(game + @"\art.jpg", UriKind.RelativeOrAbsolute);
+                            //Closes the filestream
+                            artSource.EndInit();
+
+                            //sets boxArt source to created bitmap
+                            boxArt.Source = artSource;
+
+                            boxArt.Height = 200;
+                            boxArt.Width = 150;
+
+                            //Creates a gap between tiles
+                            //There is an issue, when scaling another object when referencing this object's size, the gap is added to the size
+                            //To counter this, use ActualSize
+                            boxArt.Margin = new Thickness(10, 0, 0, 10);
+
+                            boxArt.Stretch = Stretch.Fill;
+                            boxArt.MouseDown += boxArt_Click;
+                            boxArt.Tag = _gameName;
+                            boxArt.Focusable = true;
+
+                            //Set BitmapScalingMode from advanced.ini if set
+                            //Forgive me
+                            if (File.Exists(BaseDirectory + @"\advanced.ini"))
+                            {
+                                var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
+
+                                var _BitmapScalingMode = advancedIni.Read("BitmapScalingMode", "Renderer");
+
+                                if (_BitmapScalingMode == "BitmapScalingMode.HighQuality")
+                                {
+                                    RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.HighQuality);
+                                }
+                                else if (_BitmapScalingMode == "BitmapScalingMode.LowQuality")
+                                {
+                                    RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.LowQuality);
+                                }
+                                else if (_BitmapScalingMode == "BitmapScalingMode.Linear")
+                                {
+                                    RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.Linear);
+                                }
+                                else if (_BitmapScalingMode == "BitmapScalingMode.NearestNeighbor")
+                                {
+                                    RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.NearestNeighbor);
+                                }
+                                else if (_BitmapScalingMode == "BitmapScalingMode.Fant")
+                                {
+                                    RenderOptions.SetBitmapScalingMode(boxArt, BitmapScalingMode.Fant);
+                                }
+                            }
+
+                            gamesExist = true;
+
+                            //Set tooltip, if enabled
+                            if (Properties.Settings.Default.tooltips)
                             {
                                 boxArt.ToolTip = _gameName;
                             }
 
-                        //Define the grid for game tiles
+                            //Define the grid for game tiles
 
-                        //If showtitle is selected
-                        if (Properties.Settings.Default.showTitle == true)
-                        {
-                            Grid gameTile = new Grid();
-                            gameTile.MouseEnter += new MouseEventHandler(gameTile_MouseEnter);
-                            gameTile.MouseLeave += new MouseEventHandler(gameTile_MouseLeave);
+                            //If showtitle is selected
+                            if (Properties.Settings.Default.showTitle == true)
+                            {
+                                Grid gameTile = new Grid();
+                                gameTile.MouseEnter += new MouseEventHandler(gameTile_MouseEnter);
+                                gameTile.MouseLeave += new MouseEventHandler(gameTile_MouseLeave);
 
-                            //Center boxart image
-                            boxArt.HorizontalAlignment = HorizontalAlignment.Center;
-                            gameTile.Children.Add(boxArt);
+                                //Center boxart image
+                                boxArt.HorizontalAlignment = HorizontalAlignment.Center;
+                                gameTile.Children.Add(boxArt);
 
-                            //Create the colored rectangle
-                            System.Windows.Shapes.Rectangle overlay = new System.Windows.Shapes.Rectangle();
-                            overlay.Fill = CurrentPrimary();
-                            overlay.Opacity = 0.8;
-                            overlay.Visibility = Visibility.Collapsed;
-                            overlay.IsHitTestVisible = false;
-                            gameTile.Children.Add(overlay);
+                                //Create the colored rectangle
+                                System.Windows.Shapes.Rectangle overlay = new System.Windows.Shapes.Rectangle();
+                                overlay.Fill = CurrentPrimary();
+                                overlay.Opacity = 0.8;
+                                overlay.Visibility = Visibility.Collapsed;
+                                overlay.IsHitTestVisible = false;
+                                gameTile.Children.Add(overlay);
 
-                            //Create a textblock for game title
-                            TextBlock gameTitle = new TextBlock();
-                            gameTitle.HorizontalAlignment = HorizontalAlignment.Center;
-                            gameTitle.VerticalAlignment = VerticalAlignment.Bottom;
-                            gameTitle.Width = 150;
-                            gameTitle.FontSize = 16;
-                            gameTitle.Foreground = new SolidColorBrush(Colors.White);
-                            gameTitle.Margin = new Thickness(0,0,0,30);
-                            gameTitle.TextAlignment = TextAlignment.Center;
-                            gameTitle.TextWrapping = TextWrapping.Wrap;
-                            gameTitle.Visibility = Visibility.Visible;
-                            gameTitle.FontFamily = new FontFamily("Roboto Light");
-                            gameTile.Children.Add(gameTitle);
+                                //Create a textblock for game title
+                                TextBlock gameTitle = new TextBlock();
+                                gameTitle.HorizontalAlignment = HorizontalAlignment.Center;
+                                gameTitle.VerticalAlignment = VerticalAlignment.Bottom;
+                                gameTitle.Width = 150;
+                                gameTitle.FontSize = 16;
+                                gameTitle.Foreground = new SolidColorBrush(Colors.White);
+                                gameTitle.Margin = new Thickness(0, 0, 0, 30);
+                                gameTitle.TextAlignment = TextAlignment.Center;
+                                gameTitle.TextWrapping = TextWrapping.Wrap;
+                                gameTitle.Visibility = Visibility.Visible;
+                                gameTitle.FontFamily = new FontFamily("Roboto Light");
+                                gameTile.Children.Add(gameTitle);
 
-                            gamePanel.Children.Add(gameTile);
+                                gamePanel.Children.Add(gameTile);
+                            }
+                            else
+                            {
+                                //Adds the object to gamePanel
+                                Grid gameTile = new Grid();
+
+                                boxArt.HorizontalAlignment = HorizontalAlignment.Center;
+                                gameTile.Children.Add(boxArt);
+
+                                gamePanel.Children.Add(gameTile);
+                            }
                         }
-                        else
-                        {
-                            //Adds the object to gamePanel
-                            Grid gameTile = new Grid();
-
-                            boxArt.HorizontalAlignment = HorizontalAlignment.Center;
-                            gameTile.Children.Add(boxArt);
-
-                            gamePanel.Children.Add(gameTile);
-                        }
-                    }
                 }
 
                 //Show "drag&drop" hint accordingly
@@ -579,7 +579,7 @@ namespace Spectabis_WPF.Views
             foreach (object child in gameTile.Children)
             {
                 //Get the image tag and game name
-                if(child.GetType().ToString() == "System.Windows.Controls.Image")
+                if (child.GetType().ToString() == "System.Windows.Controls.Image")
                 {
                     var control = (Image)child;
 
@@ -598,7 +598,7 @@ namespace Spectabis_WPF.Views
                     //fix the size issue created by margin
                     control.Width = actualWidth;
                     control.Height = actualHeight;
-                    
+
                     control.HorizontalAlignment = HorizontalAlignment.Right;
                     control.VerticalAlignment = VerticalAlignment.Top;
                 }
@@ -700,9 +700,9 @@ namespace Spectabis_WPF.Views
             _title = _title.Replace(@">", string.Empty);
 
             //Checks, if the game profile already exists
-            if(Directory.Exists(BaseDirectory + @"\resources\configs\" + _title))
+            if (Directory.Exists(BaseDirectory + @"\resources\configs\" + _title))
             {
-                if(File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\Spectabis.ini"))
+                if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\Spectabis.ini"))
                 {
                     PushSnackbar("Game Profile already exists!");
                     return;
@@ -803,13 +803,13 @@ namespace Spectabis_WPF.Views
 
             var DialogResult = DirectoryDialog.ShowDialog();
 
-            if(DialogResult.Value == true)
+            if (DialogResult.Value == true)
             {
                 Properties.Settings.Default.gameDirectory = DirectoryDialog.SelectedPath;
                 Properties.Settings.Default.Save();
                 reloadGames();
 
-                Console.WriteLine(DirectoryDialog.SelectedPath  + " set as directory!");
+                Console.WriteLine(DirectoryDialog.SelectedPath + " set as directory!");
             }
             else
             {
@@ -964,7 +964,7 @@ namespace Spectabis_WPF.Views
                         //If game platform list contains "PlayStation 2", then start scrapping
                         foreach (var gamePlatform in platforms)
                         {
-                            if(gamePlatform.Name == "PlayStation 2")
+                            if (gamePlatform.Name == "PlayStation 2")
                             {
                                 string _imgdir = FinalGame.Image.SmallUrl;
 
@@ -1025,14 +1025,14 @@ namespace Spectabis_WPF.Views
             //All objects in gamePanel
             foreach (Grid gameTile in gamePanel.Children)
             {
-                foreach(var obj in gameTile.Children)
+                foreach (var obj in gameTile.Children)
                 {
                     //Find the Image boxart
-                    if(obj.GetType().ToString() == "System.Windows.Controls.Image")
+                    if (obj.GetType().ToString() == "System.Windows.Controls.Image")
                     {
                         Image boxArt = (Image)obj;
                         //If gamebox is the same as requested, change it
-                        if(boxArt.Tag.ToString() == _tagName)
+                        if (boxArt.Tag.ToString() == _tagName)
                         {
                             //set source to loading image
                             System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
@@ -1060,9 +1060,9 @@ namespace Spectabis_WPF.Views
             string[] _gamesdir = Directory.GetDirectories(GameConfigs);
 
             //Scan each game for Spectabis.ini
-            foreach(var game in _gamesdir)
+            foreach (var game in _gamesdir)
             {
-                if(File.Exists(game + @"\spectabis.ini"))
+                if (File.Exists(game + @"\spectabis.ini"))
                 {
                     IniFile SpectabisIni = new IniFile(game + @"\spectabis.ini");
                     var isoDir = SpectabisIni.Read("isoDirectory", "Spectabis");
@@ -1075,10 +1075,10 @@ namespace Spectabis_WPF.Views
 
         private void ScanGameDirectory()
         {
-            if(Properties.Settings.Default.gameDirectory != "null")
+            if (Properties.Settings.Default.gameDirectory != "null")
             {
                 //If game directory doesn't exist, stop and remove it from variable
-                if(Directory.Exists(Properties.Settings.Default.gameDirectory) == false)
+                if (Directory.Exists(Properties.Settings.Default.gameDirectory) == false)
                 {
                     PushSnackbar("Game Directory doesn't exist anymore!");
                     Properties.Settings.Default.gameDirectory = "null";
@@ -1089,19 +1089,19 @@ namespace Spectabis_WPF.Views
                 Console.WriteLine(_fileList.Count() + " files found!");
 
                 //Go through each file
-                foreach(var file in _fileList)
+                foreach (var file in _fileList)
                 {
                     //Check, if file type is in supported file types
                     if (SupportedGames.GameFiles.Any(s => file.EndsWith(s)))
                     {
                         //Check if file is already loaded in Spectabis
                         List<string> IsoList = LoadedISOs;
-                        if(IsoList.Contains(file) == false)
+                        if (IsoList.Contains(file) == false)
                         {
                             Console.WriteLine(file + " is not loaded, prompting to add!");
 
                             //Checks, if file is in blacklist file
-                            if(IsGameBlacklisted(file) == false)
+                            if (IsGameBlacklisted(file) == false)
                             {
                                 //Show a Yes/No message box
                                 //If "Yes" then add the game, if not, add it to blacklist
@@ -1143,7 +1143,7 @@ namespace Spectabis_WPF.Views
         {
             //Create a folder and blacklist.text if it doesn't exist
             Directory.CreateDirectory(BaseDirectory + @"\resources\logs\");
-            if(File.Exists(BaseDirectory + @"\resources\logs\blacklist.txt") == false)
+            if (File.Exists(BaseDirectory + @"\resources\logs\blacklist.txt") == false)
             {
                 var newFile = File.Create(BaseDirectory + @"\resources\logs\blacklist.txt");
                 newFile.Close();
@@ -1151,7 +1151,7 @@ namespace Spectabis_WPF.Views
 
 
             //Add a line to blacklist
-            StreamWriter blacklistFile = new StreamWriter(BaseDirectory + @"\resources\logs\blacklist.txt", append:true);
+            StreamWriter blacklistFile = new StreamWriter(BaseDirectory + @"\resources\logs\blacklist.txt", append: true);
             blacklistFile.WriteLine(_file);
             blacklistFile.Close();
         }
@@ -1167,7 +1167,7 @@ namespace Spectabis_WPF.Views
             }
 
             StreamReader blacklistFile = new StreamReader(BaseDirectory + @"\resources\logs\blacklist.txt");
-            if(blacklistFile.ReadToEnd().Contains(_file))
+            if (blacklistFile.ReadToEnd().Contains(_file))
             {
                 blacklistFile.Close();
                 return true;
@@ -1182,7 +1182,7 @@ namespace Spectabis_WPF.Views
         //Controls "Plus" Button popup button visiblity
         void PopButtonHitTest(bool e)
         {
-            if(e == true)
+            if (e == true)
             {
                 PopupStackPanel.Visibility = Visibility.Visible;
             }
@@ -1192,7 +1192,7 @@ namespace Spectabis_WPF.Views
             }
         }
 
-       
+
         //Detect when USB devices change
         private void USBEventArrived(object sender, EventArrivedEventArgs e)
         {
@@ -1204,7 +1204,7 @@ namespace Spectabis_WPF.Views
         {
             //Checks, if controller is connected before detecting a new controller
             bool wasConnected = false;
-            if(xController != null)
+            if (xController != null)
             {
                 wasConnected = true;
             }
@@ -1213,15 +1213,15 @@ namespace Spectabis_WPF.Views
             currentXInputDevice getDevice = new currentXInputDevice();
             xController = getDevice.getActiveController();
 
-            if(File.Exists(BaseDirectory + @"\x360ce.ini"))
+            if (File.Exists(BaseDirectory + @"\x360ce.ini"))
             {
                 Console.WriteLine("X360CE.ini found, be sure to use xinput1_4.dll 32-bit version");
             }
-            
+
             //Show controller message, only when appropriate
-            if(xController != null)
+            if (xController != null)
             {
-                if(wasConnected == false)
+                if (wasConnected == false)
                 {
                     //When new a controller is detected
                     setControllerState(1);
@@ -1233,7 +1233,7 @@ namespace Spectabis_WPF.Views
             else
             {
                 Console.WriteLine("No controllers detected");
-                if(wasConnected == true)
+                if (wasConnected == true)
                 {
                     //When controller is unplugged
                     setControllerState(2);
@@ -1247,17 +1247,18 @@ namespace Spectabis_WPF.Views
         {
             string statusText = null;
 
-            if(i == 1)
+            if (i == 1)
             {
                 statusText = "Controller Detected";
             }
-            else if(i == 2)
+            else if (i == 2)
             {
                 statusText = "Controller Unplugged";
             }
 
             //Invoke Dispatcher, in case multiple USB devices are added at the same time
-            Dispatcher.BeginInvoke(new Action(() => {
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
                 //Set text from status
                 ControllerStatus.Content = statusText;
 
@@ -1300,7 +1301,7 @@ namespace Spectabis_WPF.Views
         //Search bar key event
         private void SearchBar_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Escape)
+            if (e.Key == Key.Escape)
             {
                 //Cancel search and reload full library
                 reloadGames();
@@ -1308,7 +1309,7 @@ namespace Spectabis_WPF.Views
                 MoveFocus(e);
                 e.Handled = true;
             }
-            else if(e.Key == Key.Enter)
+            else if (e.Key == Key.Enter)
             {
                 //Search and load only games with query
                 reloadGames(SearchBar.Text);
@@ -1320,7 +1321,7 @@ namespace Spectabis_WPF.Views
         //SearchBar "click"
         private void SearchBar_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(SearchBar.Text.Length != 0)
+            if (SearchBar.Text.Length != 0)
             {
                 reloadGames();
                 SearchBar.Text = null;
