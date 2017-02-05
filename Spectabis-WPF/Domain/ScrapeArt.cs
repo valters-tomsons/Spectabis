@@ -13,7 +13,7 @@ namespace Spectabis_WPF.Domain
 {
     class ScrapeArt
     {
-        private string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         private string title = null;
         
 
@@ -54,20 +54,8 @@ namespace Spectabis_WPF.Domain
                     _imgdir = "http://thegamesdb.net/banners/" + newGame.Images.BoxartFront.Path;
 
                     //Downloads the image
-                    using (WebClient client = new WebClient())
-                    {
-                        try
-                        {
-                            client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + title + ".jpg");
-                            File.Copy(BaseDirectory + @"\resources\_temp\" + title + ".jpg", BaseDirectory + @"\resources\configs\" + title + @"\art.jpg", true);
+                    DownloadArt(title, _imgdir);
 
-                            Console.WriteLine("Downloaded boxart for " + title);
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Could not download the boxart");
-                        }
-                    }
                     break;
                 }
             }
@@ -122,24 +110,8 @@ namespace Spectabis_WPF.Domain
                             Console.WriteLine("Game ID: " + resultGame.First().Id);
                             Console.WriteLine(_imgdir);
 
-                            //Downloads the image
-                            using (WebClient client = new WebClient())
-                            {
-                                //GiantBomb throws 403 if user-agent is less than 5 characters
-                                client.Headers.Add("user-agent", "PCSX2 Spectabis frontend");
-
-                                try
-                                {
-                                    client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + title + ".jpg");
-                                    File.Copy(BaseDirectory + @"\resources\_temp\" + title + ".jpg", BaseDirectory + @"\resources\configs\" + title + @"\art.jpg", true);
-                                    return;
-                                }
-                                catch
-                                {
-                                    Console.WriteLine("Failed to connect to Giantbomb");
-                                    return;
-                                }
-                            }
+                            DownloadArt(title, _imgdir);
+                            return;
                         }
                     }
                 }
@@ -148,6 +120,28 @@ namespace Spectabis_WPF.Domain
             catch
             {
                 Console.WriteLine("Failed to connect to Giantbomb");
+            }
+        }
+
+        //Download art to game profile from an image link
+        private static void DownloadArt(string title, string _imgdir)
+        {
+            using (WebClient client = new WebClient())
+            {
+                client.Headers.Add("user-agent", "PCSX2 Spectabis frontend");
+
+                try
+                {
+                    //Download image to temp folder and copy to profile folder
+                    client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + title + ".jpg");
+                    File.Copy(BaseDirectory + @"\resources\_temp\" + title + ".jpg", BaseDirectory + @"\resources\configs\" + title + @"\art.jpg", true);
+                    return;
+                }
+                catch
+                {
+                    Console.WriteLine("Failed to download boxart.");
+                    return;
+                }
             }
         }
     }
