@@ -178,5 +178,17 @@ namespace Spectabis_WPF.Properties {
                 this["checkupdates"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool titleAsFile {
+            get {
+                return ((bool)(this["titleAsFile"]));
+            }
+            set {
+                this["titleAsFile"] = value;
+            }
+        }
     }
 }

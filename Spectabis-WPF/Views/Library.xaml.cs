@@ -671,7 +671,15 @@ namespace Spectabis_WPF.Views
                     {
                         string SerialNumber = GetSerial.GetSerialNumber(file);
                         string GameName = GetGameName.GetName(SerialNumber);
-                        AddGame(null, file, GameName);
+
+                        if(Properties.Settings.Default.titleAsFile)
+                        {
+                            AddGame(null, file, Path.GetFileNameWithoutExtension(file));
+                        }
+                        else
+                        {
+                            AddGame(null, file, GameName);
+                        }
                     }
                     else
                     {
@@ -1114,7 +1122,15 @@ namespace Spectabis_WPF.Views
                                         //If file supports scrapping, then do that
                                         string serial = GetSerial.GetSerialNumber(file);
                                         string title = GetGameName.GetName(serial);
-                                        AddGame(null, file, title);
+
+                                        if(Properties.Settings.Default.titleAsFile)
+                                        {
+                                            AddGame(null, file, Path.GetFileNameWithoutExtension(file));
+                                        }
+                                        else
+                                        {
+                                            AddGame(null, file, title);
+                                        }
                                     }
                                     else
                                     {

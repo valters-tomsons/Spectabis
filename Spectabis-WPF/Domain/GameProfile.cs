@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Diagnostics;
 
 namespace Spectabis_WPF.Domain
 {
@@ -78,7 +77,7 @@ namespace Spectabis_WPF.Domain
             {
                 File.Copy(_img, BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg", true);
             }
-
+            
             return _title;
             
         }

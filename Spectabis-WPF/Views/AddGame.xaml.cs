@@ -67,7 +67,16 @@ namespace Spectabis_WPF.Views
             if (ISODialog.ShowDialog().Value == true)
             {
                 var serial = GetSerial.GetSerialNumber(ISODialog.FileName);
-                title = GetGameName.GetName(serial);
+
+                if(Properties.Settings.Default.titleAsFile)
+                {
+                    title = Path.GetFileNameWithoutExtension(ISODialog.FileName);
+                }
+                else
+                {
+                    title = GetGameName.GetName(serial);
+                }
+                
                 var file = ISODialog.FileName;
 
                 //If title was not extracted, set it from file
