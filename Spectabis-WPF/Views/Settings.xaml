@@ -23,22 +23,24 @@
                     <StackPanel Orientation="Horizontal" Margin="10,55,0,0">
 
                         <StackPanel Orientation="Vertical">
-                            <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="checkbox_Click"  HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom"/>
-                            <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="checkbox_Click" HorizontalAlignment="Left" Width="139" Height="25" VerticalAlignment="Top"/>
-                            <CheckBox x:Name="nightMode" Content="Night Mode" Click="checkbox_Click" HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom"/>
-                            <CheckBox x:Name="checkUpdates" Content="Check for updates" HorizontalAlignment="Left" Width="174" Height="25" Click="checkbox_Click"/>
+                            <CheckBox x:Name="doubleclick" Content="Double-Click to Launch" Click="checkbox_Click"  HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom" ToolTip="Double click to launch games"/>
+                            <CheckBox x:Name="showTitles" Content="Show Game Titles" Click="checkbox_Click" HorizontalAlignment="Left" Width="139" Height="25" VerticalAlignment="Top" ToolTip="Show game title when hovering over game tiles"/>
+                            <CheckBox x:Name="nightMode" Content="Night Mode" Click="checkbox_Click" HorizontalAlignment="Left" Width="174" Height="25" VerticalAlignment="Bottom" ToolTip="Darker theme, easier on eyes"/>
+                            <CheckBox x:Name="checkUpdates" Content="Check for updates" HorizontalAlignment="Left" Width="174" Height="25" Click="checkbox_Click" ToolTip="Display a notification when new Spectabis version is available"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical" Margin="10,0,0,0">
-                            <CheckBox x:Name="AutoScrapping" Height="25" Content="Automatic boxart scraping" Click="checkbox_Click"/>
-                            <CheckBox x:Name="SearchBar" Height="25" Content="Enable Searchbar" Click="checkbox_Click"/>
-                            <CheckBox x:Name="Tooltips" Height="25" Content="Title Tooltips" Click="checkbox_Click" />
+                            <CheckBox x:Name="AutoScrapping" Height="25" Content="Automatic boxart scraping" Click="checkbox_Click" ToolTip="Automatically download game cover art images"/>
+                            <CheckBox x:Name="SearchBar" Height="25" Content="Enable Searchbar" Click="checkbox_Click" ToolTip="Enables searchbar in Library. Press ENTER to search and ESC to cancel search"/>
+                            <CheckBox x:Name="TitleAsFile" Height="25" Content="Disable game title detection" ToolTip="Newly created game profiles will be named same as the game file (without extension)"/>
+
+                            <CheckBox x:Name="Tooltips" Height="25" Content="Title Tooltips" Click="checkbox_Click" Visibility="Collapsed" />
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical" x:Name="Database_API_Stackpanel" Margin="12,0">
-                            <Label Content="Game database API:"/>
-                            <RadioButton Content="TheGamesDB" HorizontalAlignment="Left" x:Name="thegamesdb_radio" Click="artDB_click" />
-                            <RadioButton Content="GiantBomb" HorizontalAlignment="Left" x:Name="giantbomb_radio" Click="artDB_click"/>
+                            <Label Content="Game database API:" ToolTip="Used for automatic cover art images"/>
+                            <RadioButton Content="TheGamesDB" HorizontalAlignment="Left" x:Name="thegamesdb_radio" Click="artDB_click" ToolTip="Slower, but accessible"/>
+                            <RadioButton Content="GiantBomb" HorizontalAlignment="Left" x:Name="giantbomb_radio" Click="artDB_click" ToolTip="Faster and more accurate, needs registration"/>
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical" x:Name="APISettings_Panel">
