@@ -134,7 +134,7 @@ namespace Spectabis_WPF.Views
             //List all loaded games
             EnumerateISOs();
 
-            ScanGameDirectory();
+            ScanGameDirectory(); 
         }
 
         private void CheckForUpdates()
@@ -644,10 +644,95 @@ namespace Spectabis_WPF.Views
         //Push snackbar function
         public void PushSnackbar(string message)
         {
-            var messageQueue = Snackbar.MessageQueue;
+            var messageQueue = SnackBar.MessageQueue;
 
             //the message queue can be called from any thread
             Task.Factory.StartNew(() => messageQueue.Enqueue(message));
+        }
+
+        //Push when a new game in directory is detected
+        private void PushDirectoryDialog(string game)
+        {
+            string serial = GetSerial.GetSerialNumber(game);
+
+            TextBlock text = new TextBlock();
+            text.FontFamily = new FontFamily("Roboto Light");
+            text.Text = $"Would you like to add \"{GetGameName.GetName(serial)}\" ?";
+            text.TextWrapping = TextWrapping.Wrap;
+            text.VerticalAlignment = VerticalAlignment.Center;
+            text.Margin = new Thickness(0, 0, 10, 0);
+
+            Button YesButton = new Button();
+            YesButton.Content = "Yes";
+            YesButton.Margin = new Thickness(0, 0, 10, 0);
+            YesButton.Click += DirectoryDialog_Click;
+
+            Button NoButton = new Button();
+            NoButton.Content = "No";
+            NoButton.Click += DirectoryDialog_Click;
+
+            //Set file path as tag, so it can be accessed by Dialog_Click
+            YesButton.Tag = game;
+            NoButton.Tag = game;
+
+            StackPanel panel = new StackPanel();
+            panel.Orientation = Orientation.Horizontal;
+            panel.Children.Add(text);
+            panel.Children.Add(YesButton);
+            panel.Children.Add(NoButton);
+
+            var messageQueue = SnackBar.MessageQueue;
+            Task.Factory.StartNew(() => messageQueue.Enqueue(panel));
+        }
+
+        //Directory Snackbar notification Yes/No buttons
+        private void DirectoryDialog_Click(object sender, EventArgs e)
+        {
+            //Get the game file from button tag
+            Button button = (Button)sender;
+            string game = button.Tag.ToString();
+
+            //Hide Snackbar
+            SnackBar.IsActive = false;
+
+            //Yes Button
+            if (button.Content.ToString() == "Yes")
+            {
+                Console.WriteLine("Adding " + game);
+
+                //If file supports extraction of serial number, then do just that
+                if (SupportedGames.ScrappingFiles.Any(s => game.EndsWith(s)))
+                {
+                    //If file supports scrapping, then do that
+                    string serial = GetSerial.GetSerialNumber(game);
+                    string title = GetGameName.GetName(serial);
+
+                    if (Properties.Settings.Default.titleAsFile)
+                    {
+                        AddGame(null, game, Path.GetFileNameWithoutExtension(game));
+                    }
+                    else
+                    {
+                        AddGame(null, game, title);
+                    }
+                }
+                else
+                {
+                    //Add game and use file name as game name
+                    string title = Path.GetFileNameWithoutExtension(game);
+                    AddGame(null, game, title);
+                }
+            }
+
+            //No Button
+            else if (button.Content.ToString() == "No")
+            {
+                Console.WriteLine("Blacklisting " + game);
+
+                //Add game to blacklist file
+                AddToBlacklist(game);
+            }
+            
         }
 
         //Dragging file effect
@@ -827,7 +912,7 @@ namespace Spectabis_WPF.Views
             }
         }
 
-        //timer for async task list
+        //timer for async boxart task list
         private void taskList_Tick(object sender, EventArgs e)
         {
             //Checks if taskQueue isn't empty
@@ -1113,37 +1198,7 @@ namespace Spectabis_WPF.Views
                             {
                                 //Show a Yes/No message box
                                 //If "Yes" then add the game, if not, add it to blacklist
-                                MessageBoxResult result = MessageBox.Show("Do you want to add " + Path.GetFileNameWithoutExtension(file) + " ?", "New game found!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                                if (result == MessageBoxResult.Yes)
-                                {
-                                    //If file supports extraction of serial number, then do just that
-                                    if (SupportedGames.ScrappingFiles.Any(s => file.EndsWith(s)))
-                                    {
-                                        //If file supports scrapping, then do that
-                                        string serial = GetSerial.GetSerialNumber(file);
-                                        string title = GetGameName.GetName(serial);
-
-                                        if(Properties.Settings.Default.titleAsFile)
-                                        {
-                                            AddGame(null, file, Path.GetFileNameWithoutExtension(file));
-                                        }
-                                        else
-                                        {
-                                            AddGame(null, file, title);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //Add game and use file name as game name
-                                        string title = Path.GetFileNameWithoutExtension(file);
-                                        AddGame(null, file, title);
-                                    }
-                                }
-                                else
-                                {
-                                    //Add game to blacklist file
-                                    AddToBlacklist(file);
-                                }
+                                this.Invoke(new Action(() => PushDirectoryDialog(file)));
                             }
                         }
                         else
@@ -1164,7 +1219,6 @@ namespace Spectabis_WPF.Views
                 var newFile = File.Create(BaseDirectory + @"\resources\logs\blacklist.txt");
                 newFile.Close();
             }
-
 
             //Add a line to blacklist
             StreamWriter blacklistFile = new StreamWriter(BaseDirectory + @"\resources\logs\blacklist.txt", append: true);

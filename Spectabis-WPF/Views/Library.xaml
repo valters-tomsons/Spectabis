@@ -43,7 +43,7 @@
             <materialDesign:PackIcon Width="25" Height="25" Kind="magnify" VerticalAlignment="Center"/>
             <TextBox VerticalAlignment="Center" x:Name="SearchBar" materialDesign:HintAssist.Hint="Search library" Width="200" KeyDown="SearchBar_KeyDown" GotFocus="SearchBar_GotFocus" />
         </StackPanel>
-        
+
 
         <materialDesign:PopupBox PopupMode="MouseOver" Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}" Margin="0,0,50,100" Width="56" Height="56" HorizontalAlignment="Right" VerticalAlignment="Bottom" Focusable="False">
             <StackPanel Orientation="Vertical" Focusable="False" Visibility="Collapsed" x:Name="PopupStackPanel">
@@ -57,7 +57,7 @@
             </StackPanel>
         </materialDesign:PopupBox>
 
-        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar"/>
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="SnackBar"/>
         
         
     </Grid>
