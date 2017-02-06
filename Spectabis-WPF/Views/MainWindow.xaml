@@ -23,7 +23,8 @@
         ShowIconOnTitleBar="False"
         Title="Spectabis" 
         Closing="MainWindow_Closing"
-         Visibility="Visible" Icon="/Resources/SPECTABIS_icon.ico">
+        Visibility="Visible" 
+        Icon="/Spectabis;component/Resources/spectabis_multisizeicon.ico">
 
     <Window.Resources>
         <Style TargetType="CheckBox" x:Key="LargerCheckbox" BasedOn="{StaticResource MaterialDesignCheckBox}">
