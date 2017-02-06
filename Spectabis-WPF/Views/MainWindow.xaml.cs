@@ -42,8 +42,6 @@ namespace Spectabis_WPF.Views
             //Create resources folder
             Directory.CreateDirectory(@"/resources/_temp");
 
-            copyDLL();
-
             //Version
             Console.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
 
@@ -518,47 +516,6 @@ namespace Spectabis_WPF.Views
 
             //Open up PCSX2 wiki
             Process.Start(@"http://wiki.pcsx2.net/index.php?search=" + _query);
-        }
-
-        //Copy dll from emulator plugins
-        private static void copyDLL()
-        {
-            Console.WriteLine("Copying DLLs");
-
-            string emuDir = Properties.Settings.Default.emuDir + @"\plugins\";
-            Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\plugins\");
-            //Checks and copies needed plugin files from emulator directory, if they exist
-
-            //Read plugin directory value from advanced.ini
-            if(File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\advanced.ini"))
-            {
-                Console.WriteLine("advanced.ini found!");
-                var advancedIni = new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"\advanced.ini");
-
-                var pluginDir = advancedIni.Read("pluginDir", "Directories");
-                Console.WriteLine("pluginDir=" + pluginDir);
-                if(Directory.Exists(pluginDir))
-                {
-                    emuDir = pluginDir + @"\";
-                    Console.WriteLine(emuDir);
-                }
-            }
-
-
-            if (File.Exists(emuDir + "LilyPad.dll"))
-            {
-                File.Copy(emuDir + "LilyPad.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\LilyPad.dll", true);
-            }
-
-            if (File.Exists(emuDir + "GSdx32-SSE2.dll"))
-            {
-                File.Copy(emuDir + "GSdx32-SSE2.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\GSdx32-SSE2.dll", true);
-            }
-
-            if (File.Exists(emuDir + "Spu2-X.dll"))
-            {
-                File.Copy(emuDir + "Spu2-X.dll", AppDomain.CurrentDomain.BaseDirectory + @"\plugins\Spu2-X.dll", true);
-            }
         }
 
         //shader config button
