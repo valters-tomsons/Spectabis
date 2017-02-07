@@ -190,5 +190,17 @@ namespace Spectabis_WPF.Properties {
                 this["titleAsFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool globalController {
+            get {
+                return ((bool)(this["globalController"]));
+            }
+            set {
+                this["globalController"] = value;
+            }
+        }
     }
 }

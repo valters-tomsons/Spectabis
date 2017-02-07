@@ -51,6 +51,10 @@
                     <materialDesign:PackIcon Kind="Folder" Height="20" Width="20" Focusable="False"/>
                 </Button>
 
+                <Button x:Name="GlobalController_Button" ToolTip="Enable Global Controller Settings" MouseRightButtonDown="GlobalController_RightClick" Click="GlobalController_Click" Focusable="False">
+                    <materialDesign:PackIcon x:Name="GlobalController_Icon" Kind="XboxControllerOff" Height="20" Width="20" Focusable="False"/>
+                </Button>
+
                 <Button ToolTip="Add Game" Click="PlusButton_Click" Focusable="False">
                     <materialDesign:PackIcon Kind="Playstation" Height="20" Width="20" Focusable="False"/>
                 </Button>

@@ -9,6 +9,17 @@ namespace Spectabis_WPF.Domain
         private static string emuDir = Properties.Settings.Default.emuDir;
         private static int index = 0;
 
+        //Creates a folder and a blank file for Global Controller settings
+        public static void CreateGlobalController()
+        {
+            if (File.Exists(BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini") == false)
+            {
+                Directory.CreateDirectory(BaseDirectory + @"resources\configs\#global_controller\");
+                File.Create(BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini");
+                Console.WriteLine("Created global controller profile file");
+            }
+        }
+
         //Creates a game profile and returns the created title, because of indexation
         public static string Create(string _img, string _isoDir, string _title)
         {

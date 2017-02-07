@@ -134,7 +134,10 @@ namespace Spectabis_WPF.Views
             //List all loaded games
             EnumerateISOs();
 
-            ScanGameDirectory(); 
+            ScanGameDirectory();
+
+            //Set appropriate menu icon for global controller settings
+            setGlobalControllerIcon(Properties.Settings.Default.globalController);
         }
 
         private void CheckForUpdates()
@@ -877,8 +880,6 @@ namespace Spectabis_WPF.Views
 
         }
 
-
-
         //Plus Button
         private void PlusButton_Click(object sender, RoutedEventArgs e)
         {
@@ -910,6 +911,64 @@ namespace Spectabis_WPF.Views
                 Properties.Settings.Default.Save();
                 PushSnackbar("Game directory folder has been removed!");
             }
+        }
+
+        //"Global Controller" button left click
+        private void GlobalController_Click(object sender, RoutedEventArgs e)
+        {
+            //Icon is off, click to turn on
+            if(GlobalController_Icon.Kind == PackIconKind.XboxControllerOff)
+            {
+                Console.WriteLine("Turning on Global Controller settings");
+                GameProfile.CreateGlobalController();
+                setGlobalControllerIcon(true);
+                Properties.Settings.Default.globalController = true;
+            }
+            else if (GlobalController_Icon.Kind == PackIconKind.XboxController)
+            {
+                Console.WriteLine("Turning off Global Controller settings");
+                setGlobalControllerIcon(false);
+                Properties.Settings.Default.globalController = false;
+            }
+
+            Properties.Settings.Default.Save();
+            Console.WriteLine("Settings saved!");
+        }
+
+        //Set Controller settings option icon
+        private void setGlobalControllerIcon(bool e)
+        {
+            if(e == true)
+            {
+                GlobalController_Icon.Kind = PackIconKind.XboxController;
+                GlobalController_Button.ToolTip = "Disable Global Controller Settings";
+            }
+            else
+            {
+                GlobalController_Icon.Kind = PackIconKind.XboxControllerOff;
+                GlobalController_Button.ToolTip = "Enable Global Controller Settings";
+            }
+        }
+
+        //"Global Controller" button right click
+        private void GlobalController_RightClick(object sender, RoutedEventArgs e)
+        {
+            string globalProfile = BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini";
+            string inisTemp = BaseDirectory + @"inis\LilyPad.ini";
+
+            GameProfile.CreateGlobalController();
+
+            Directory.CreateDirectory(BaseDirectory + "inis");
+            File.Copy(globalProfile, inisTemp, true);
+
+            //Calls the DLL configuration function which is already imported in MainWindow
+            MainWindow.PADconfigure();
+
+            //Calls the configration close function which is already imported in MainWindow
+            MainWindow.PADclose();
+
+            File.Copy(inisTemp, globalProfile, true);
+            Directory.Delete(BaseDirectory + @"inis\", true);
         }
 
         //timer for async boxart task list
