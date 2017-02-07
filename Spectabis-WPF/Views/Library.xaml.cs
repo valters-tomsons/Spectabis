@@ -19,6 +19,7 @@ using SharpDX.XInput;
 using System.Windows.Media.Animation;
 using System.Management;
 using Spectabis_WPF.Domain;
+using System.Runtime.InteropServices;
 
 namespace Spectabis_WPF.Views
 {
@@ -204,8 +205,6 @@ namespace Spectabis_WPF.Views
                 {
                     if (File.Exists(_isoDir))
                     {
-                        //If game file exists, launch
-
                         //Launch arguments
                         var _nogui = _gameIni.Read("nogui", "Spectabis");
                         var _fullscreen = _gameIni.Read("fullscreen", "Spectabis");
@@ -220,6 +219,10 @@ namespace Spectabis_WPF.Views
                         if (_nohacks == "1") { _launchargs = _launchargs + "--nohacks "; }
 
                         Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath {_cfgDir}");
+
+                        //Copy global controller settings
+                        Console.WriteLine($"CopyGlobalProfile({clickedBoxArt.Tag.ToString()})");
+                        GameProfile.CopyGlobalProfile(clickedBoxArt.Tag.ToString());
 
                         //Paths in PCSX2 command arguments have to be in quotes...
                         const string quote = "\"";
@@ -950,25 +953,42 @@ namespace Spectabis_WPF.Views
             }
         }
 
+        [DllImport(@"\plugins\LilyPad.dll")]
+        static private extern void PADconfigure();
+
+        //Configuration must be closed so .dll is not in use
+        [DllImport(@"\plugins\LilyPad.dll")]
+        static private extern void PADclose();
+
         //"Global Controller" button right click
         private void GlobalController_RightClick(object sender, RoutedEventArgs e)
         {
-            string globalProfile = BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini";
-            string inisTemp = BaseDirectory + @"inis\LilyPad.ini";
+            if(Properties.Settings.Default.globalController)
+            {
+                string globalProfile = BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini";
+                string inisTemp = BaseDirectory + @"inis\LilyPad.ini";
 
-            GameProfile.CreateGlobalController();
+                Console.WriteLine("Opening Global Controller settings");
+                Console.WriteLine("globalProfile = " + globalProfile);
+                Console.WriteLine("inisTemp = " + inisTemp);
 
-            Directory.CreateDirectory(BaseDirectory + "inis");
-            File.Copy(globalProfile, inisTemp, true);
+                GameProfile.CreateGlobalController();
 
-            //Calls the DLL configuration function which is already imported in MainWindow
-            MainWindow.PADconfigure();
+                Directory.CreateDirectory(BaseDirectory + "inis");
+                File.Copy(globalProfile, inisTemp, true);
 
-            //Calls the configration close function which is already imported in MainWindow
-            MainWindow.PADclose();
+                //Calls the DLL configuration function which is already imported in MainWindow
+                PADconfigure();
 
-            File.Copy(inisTemp, globalProfile, true);
-            Directory.Delete(BaseDirectory + @"inis\", true);
+                //Calls the configration close function which is already imported in MainWindow
+                PADclose();
+
+                File.Copy(inisTemp, globalProfile, true);
+                File.Delete(inisTemp);
+                Directory.Delete(BaseDirectory + @"inis\", true);
+
+                Console.WriteLine("Global settings saved to: " + globalProfile);
+            }
         }
 
         //timer for async boxart task list

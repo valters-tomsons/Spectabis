@@ -8,15 +8,30 @@ namespace Spectabis_WPF.Domain
         private static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         private static string emuDir = Properties.Settings.Default.emuDir;
         private static int index = 0;
+        private static string GlobalController = BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini";
 
         //Creates a folder and a blank file for Global Controller settings
         public static void CreateGlobalController()
         {
-            if (File.Exists(BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini") == false)
+            if (File.Exists(GlobalController) == false)
             {
                 Directory.CreateDirectory(BaseDirectory + @"resources\configs\#global_controller\");
-                File.Create(BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini");
+                File.Create(GlobalController);
                 Console.WriteLine("Created global controller profile file");
+            }
+        }
+
+        //Copy global controller profile to a game profile
+        public static void CopyGlobalProfile(string game)
+        {
+            if(Properties.Settings.Default.globalController == true)
+            {
+                Console.WriteLine("Global settings copied to " + game);
+                File.Copy(GlobalController, BaseDirectory + @"\resources\configs\" + game + @"\LilyPad.ini", true);
+            }
+            else
+            {
+                Console.WriteLine("Global settings are not copied to " + game);
             }
         }
 

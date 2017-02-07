@@ -578,11 +578,11 @@ namespace Spectabis_WPF.Views
         //All GSdx plugins have same settings, by the looks of it
         //It has no inputs, but writes/reads the ini files where .exe is located at folder /inis/
         [DllImport(@"\plugins\GSdx32-SSE2.dll")]
-        static public extern void GSconfigure();
+        static private extern void GSconfigure();
 
         //Configuration must be closed so .dll is not in use
         [DllImport(@"\plugins\GSdx32-SSE2.dll")]
-        static public extern void GSclose();
+        static private extern void GSclose();
 
         //Video Settings button
         private void VideoSettings_click(object sender, RoutedEventArgs e)
@@ -607,10 +607,10 @@ namespace Spectabis_WPF.Views
 
 
         [DllImport(@"\plugins\Spu2-X.dll")]
-        static public extern void SPU2configure();
+        static private extern void SPU2configure();
 
         [DllImport(@"\plugins\Spu2-X.dll")]
-        static public extern void SPU2close();
+        static private extern void SPU2close();
 
         //Audio Settings button
         private void AudioSettings_click(object sender, RoutedEventArgs e)
@@ -633,23 +633,25 @@ namespace Spectabis_WPF.Views
 
 
         [DllImport(@"\plugins\LilyPad.dll")]
-        static public extern void PADconfigure();
+        static private extern void PADconfigure();
 
         //Configuration must be closed so .dll is not in use
         [DllImport(@"\plugins\LilyPad.dll")]
-        static public extern void PADclose();
+        static private extern void PADclose();
 
         private void InputSettings_click(object sender, RoutedEventArgs e)
         {
             string currentGame = Header_title.Text;
 
             //Copy the existing .ini file for editing if it exists
-            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini"))
+            if (File.Exists(BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini"))
             {
                 //Creates inis folder and copies it from game profile folder
                 Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"inis");
-                File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", AppDomain.CurrentDomain.BaseDirectory + @"inis\LilyPad.ini", true);
+                File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", BaseDirectory + @"inis\LilyPad.ini", true);
             }
+
+            Console.WriteLine("Loading " + BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini");
 
             //Calls the DLL configuration function
             PADconfigure();
@@ -658,8 +660,10 @@ namespace Spectabis_WPF.Views
             PADclose();
 
             //Copies the modified file into the game profile & deletes the created folder
-            File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"inis\LilyPad.ini", AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", true);
-            Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"inis", true);
+            File.Copy(BaseDirectory + @"inis\LilyPad.ini", BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", true);
+            Directory.Delete(BaseDirectory + @"inis", true);
+
+            Console.WriteLine("Saving to " + BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini");
         }
 
         //Public timer, because it needs to stop itself
