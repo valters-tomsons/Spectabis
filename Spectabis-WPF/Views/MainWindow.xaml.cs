@@ -596,6 +596,11 @@ namespace Spectabis_WPF.Views
                 Directory.CreateDirectory(BaseDirectory + @"inis");
                 File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", BaseDirectory + @"inis\GSdx.ini", true);
             }
+            else
+            {
+                Directory.CreateDirectory(BaseDirectory + @"inis");
+                File.Create(BaseDirectory + @"inis\GSdx.ini");
+            }
 
             //GPUConfigure(); - Only software mode was available
             GSconfigure();
@@ -623,6 +628,11 @@ namespace Spectabis_WPF.Views
                 Directory.CreateDirectory(BaseDirectory + @"inis");
                 File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", BaseDirectory + @"inis\SPU2-X.ini", true);
             }
+            else
+            {
+                Directory.CreateDirectory(BaseDirectory + @"inis");
+                File.Create(BaseDirectory + @"inis\SPU2-X.ini");
+            }
 
             SPU2configure();
             SPU2close();
@@ -649,6 +659,11 @@ namespace Spectabis_WPF.Views
                 //Creates inis folder and copies it from game profile folder
                 Directory.CreateDirectory(BaseDirectory + @"inis");
                 File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", BaseDirectory + @"inis\LilyPad.ini", true);
+            }
+            else
+            {
+                Directory.CreateDirectory(BaseDirectory + @"inis");
+                File.Create(BaseDirectory + @"inis\LilyPad.ini");
             }
 
             Console.WriteLine("Loading " + BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini");
