@@ -29,7 +29,7 @@ namespace Spectabis_WPF.Views
         //Spectabis Variables
         public static string emuDir = Properties.Settings.Default.emuDir;
         private string GameConfigs;
-        private string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private string BaseDirectory = BaseDirectory;
 
         //Temporary variable for rightclick funcionality
         private Image clickedBoxArt;
@@ -837,7 +837,7 @@ namespace Spectabis_WPF.Views
                     {
                         if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
                         {
-                            string _destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
+                            string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
                             File.Copy(inifile, _destinationPath);
                         }
                     }

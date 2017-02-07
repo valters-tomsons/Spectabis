@@ -5,7 +5,7 @@ namespace Spectabis_WPF.Domain
 {
     class GameProfile
     {
-        private static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static string BaseDirectory = BaseDirectory;
         private static string emuDir = Properties.Settings.Default.emuDir;
         private static int index = 0;
         private static string GlobalController = BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini";
@@ -77,7 +77,7 @@ namespace Spectabis_WPF.Domain
                 {
                     if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
                     {
-                        string _destinationPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
+                        string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
                         File.Copy(inifile, _destinationPath);
                     }
                 }

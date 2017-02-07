@@ -19,7 +19,7 @@ namespace Spectabis_WPF.Views
 {
     public partial class MainWindow : MetroWindow
     {
-        public static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        public static string BaseDirectory = BaseDirectory;
 
         //Side panel width value
         public static readonly double PanelWidth = 700;
@@ -413,10 +413,10 @@ namespace Spectabis_WPF.Views
         private void SaveGameSettings(string _name)
         {
             //Create instances for every ini file to save
-            var gameIni = new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _name + @"\spectabis.ini");
-            var uiIni = new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _name + @"\PCSX2_ui.ini");
-            var vmIni = new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _name + @"\PCSX2_vm.ini");
-            var gsdxIni = new IniFile(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + _name + @"\GSdx.ini");
+            var gameIni = new IniFile(BaseDirectory + @"\resources\configs\" + _name + @"\spectabis.ini");
+            var uiIni = new IniFile(BaseDirectory + @"\resources\configs\" + _name + @"\PCSX2_ui.ini");
+            var vmIni = new IniFile(BaseDirectory + @"\resources\configs\" + _name + @"\PCSX2_vm.ini");
+            var gsdxIni = new IniFile(BaseDirectory + @"\resources\configs\" + _name + @"\GSdx.ini");
 
             //Emulation Settings - written to spectabis ini
             if (nogui.IsChecked == true)
@@ -590,19 +590,19 @@ namespace Spectabis_WPF.Views
             //Set currentgame from header title text
             string currentGame = Header_title.Text;
 
-            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini"))
+            if (File.Exists(BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini"))
             {
                 //Creates inis folder and copies it from game profile folder
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"inis");
-                File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", AppDomain.CurrentDomain.BaseDirectory + @"inis\GSdx.ini", true);
+                Directory.CreateDirectory(BaseDirectory + @"inis");
+                File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", BaseDirectory + @"inis\GSdx.ini", true);
             }
 
             //GPUConfigure(); - Only software mode was available
             GSconfigure();
             GSclose();
 
-            File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"inis\GSdx.ini", AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", true);
-            Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"inis", true);
+            File.Copy(BaseDirectory + @"inis\GSdx.ini", BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", true);
+            Directory.Delete(BaseDirectory + @"inis", true);
         }
 
 
@@ -617,18 +617,18 @@ namespace Spectabis_WPF.Views
         {
             string currentGame = Header_title.Text;
 
-            if (File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini"))
+            if (File.Exists(BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini"))
             {
                 //Creates inis folder and copies it from game profile folder
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"inis");
-                File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", AppDomain.CurrentDomain.BaseDirectory + @"inis\SPU2-X.ini", true);
+                Directory.CreateDirectory(BaseDirectory + @"inis");
+                File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", BaseDirectory + @"inis\SPU2-X.ini", true);
             }
 
             SPU2configure();
             SPU2close();
 
-            File.Copy(AppDomain.CurrentDomain.BaseDirectory + @"inis\SPU2-X.ini", AppDomain.CurrentDomain.BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", true);
-            Directory.Delete(AppDomain.CurrentDomain.BaseDirectory + @"inis", true);
+            File.Copy(BaseDirectory + @"inis\SPU2-X.ini", BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", true);
+            Directory.Delete(BaseDirectory + @"inis", true);
         }
 
 
@@ -647,7 +647,7 @@ namespace Spectabis_WPF.Views
             if (File.Exists(BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini"))
             {
                 //Creates inis folder and copies it from game profile folder
-                Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"inis");
+                Directory.CreateDirectory(BaseDirectory + @"inis");
                 File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", BaseDirectory + @"inis\LilyPad.ini", true);
             }
 
