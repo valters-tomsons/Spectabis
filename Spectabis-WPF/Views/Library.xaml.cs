@@ -29,7 +29,7 @@ namespace Spectabis_WPF.Views
         //Spectabis Variables
         public static string emuDir = Properties.Settings.Default.emuDir;
         private string GameConfigs;
-        private string BaseDirectory = BaseDirectory;
+        private string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         //Temporary variable for rightclick funcionality
         private Image clickedBoxArt;

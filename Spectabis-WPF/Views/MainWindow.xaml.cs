@@ -19,7 +19,7 @@ namespace Spectabis_WPF.Views
 {
     public partial class MainWindow : MetroWindow
     {
-        public static string BaseDirectory = BaseDirectory;
+        public static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         //Side panel width value
         public static readonly double PanelWidth = 700;
