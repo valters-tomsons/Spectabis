@@ -944,12 +944,12 @@ namespace Spectabis_WPF.Views
             if(e == true)
             {
                 GlobalController_Icon.Kind = PackIconKind.XboxController;
-                GlobalController_Button.ToolTip = "Disable Global Controller Settings";
+                GlobalController_Button.ToolTip = "Disable Global Controller Profile" + System.Environment.NewLine + "Right click to configure";
             }
             else
             {
                 GlobalController_Icon.Kind = PackIconKind.XboxControllerOff;
-                GlobalController_Button.ToolTip = "Enable Global Controller Settings";
+                GlobalController_Button.ToolTip = "Enable Global Controller Profile";
             }
         }
 
