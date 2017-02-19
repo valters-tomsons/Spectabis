@@ -828,6 +828,8 @@ namespace Spectabis_WPF.Views
             }
             else
             {
+                Console.WriteLine($"{emuDir}\\inis\\ not found!");
+                Console.WriteLine("Trying " + Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis");
 
                 //looks for pcsx2 inis in documents folder
                 if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"))
@@ -846,6 +848,7 @@ namespace Spectabis_WPF.Views
                 //if no inis are found, warning is shown
                 else
                 {
+                    Console.WriteLine("Cannot find default PCSX2 configuration");
                     PushSnackbar("Cannot find default PCSX2 configuration");
                 }
 
