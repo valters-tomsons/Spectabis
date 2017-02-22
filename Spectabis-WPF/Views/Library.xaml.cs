@@ -789,14 +789,15 @@ namespace Spectabis_WPF.Views
         //Add game method //_img = null if no game image
         public void AddGame(string _img, string _isoDir, string _title)
         {
-            //sanitize game's title for folder creation
-            _title = _title.Replace(@"/", string.Empty);
-            _title = _title.Replace(@"\", string.Empty);
-            _title = _title.Replace(@":", string.Empty);
-            _title = _title.Replace(@"|", string.Empty);
-            _title = _title.Replace(@"*", string.Empty);
-            _title = _title.Replace(@"<", string.Empty);
-            _title = _title.Replace(@">", string.Empty);
+            Console.WriteLine($"Title: {_title}");
+            foreach (Char ch in _title)
+            {
+                if(IllegalCharacters.IllegalDirectory.Contains(ch))
+                {
+                    _title = _title.Replace(ch.ToString(), String.Empty);
+                }
+            }
+            Console.WriteLine($"Sanitized: {_title}");
 
             //Checks, if the game profile already exists
             if (Directory.Exists(BaseDirectory + @"\resources\configs\" + _title))
@@ -1057,10 +1058,16 @@ namespace Spectabis_WPF.Views
                         //Gets game's database ID
                         Game newGame = GamesDB.GetGame(game.ID);
 
-                        _title = _name.Replace(@"/", string.Empty);
-                        _title = _title.Replace(@"\", string.Empty);
-                        _title = _title.Replace(@":", string.Empty);
+                        _title = _name;
 
+                        Console.WriteLine("Sanitizing Game Title");
+                        foreach (Char ch in _title)
+                        {
+                            if (IllegalCharacters.IllegalDirectory.Contains(ch))
+                            {
+                                _title.Remove(ch);
+                            }
+                        }
 
                         //Sets image to variable
                         _imgdir = "http://thegamesdb.net/banners/" + newGame.Images.BoxartFront.Path;
@@ -1189,7 +1196,6 @@ namespace Spectabis_WPF.Views
             }
 
         }
-
 
         //"loading boxart" overlay for games which are currently downloading boxart
         public void SetLoadingStateForImage(string _tagName)

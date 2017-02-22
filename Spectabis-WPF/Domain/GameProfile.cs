@@ -39,16 +39,17 @@ namespace Spectabis_WPF.Domain
         public static string Create(string _img, string _isoDir, string _title)
         {
             //sanitize game's title for folder creation
-            _title = _title.Replace(@"/", string.Empty);
-            _title = _title.Replace(@"\", string.Empty);
-            _title = _title.Replace(@":", string.Empty);
-            _title = _title.Replace(@"|", string.Empty);
-            _title = _title.Replace(@"*", string.Empty);
-            _title = _title.Replace(@"<", string.Empty);
-            _title = _title.Replace(@">", string.Empty);
+            Console.WriteLine("Sanitizing Game Title");
+            foreach (Char ch in _title)
+            {
+                if (IllegalCharacters.IllegalDirectory.Contains(ch))
+                {
+                    _title.Remove(ch);
+                }
+            }
 
             //Create a folder for profile and add an index, if needed
-            if(getIndex(BaseDirectory + @"\resources\configs\" + _title) != 0)
+            if (getIndex(BaseDirectory + @"\resources\configs\" + _title) != 0)
             {
                 _title = _title + " (" + index + ")";
             }
