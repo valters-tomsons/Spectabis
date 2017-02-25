@@ -10,7 +10,7 @@ namespace Spectabis_WPF.Domain
     {
         //Illegal chars for Windows
         public static List<char> IllegalDirectory = new List<char>() {
-            '/', '\\', ':', '|', '*', '<', '>', '?', '"'
+            '/', '\\', ':', '|', '*', '<', '>', '?', '"', '\t', '\n', '\r'
         };
     }
 }
