@@ -324,7 +324,6 @@ namespace Spectabis_WPF.Views
             gameContext.IsOpen = true;
         }
 
-
         //Context Menu PCSX2 button
         private void PCSX2ConfigureGame_Click(object sender, RoutedEventArgs e)
         {
@@ -390,10 +389,93 @@ namespace Spectabis_WPF.Views
             reloadGames();
         }
 
+        //boxArt Image for game tiles
+        private Image CreateBoxArtResource(string game)
+        {
+            //Creates an image object
+            Image boxArt = new Image();
+
+            //Creates a bitmap stream
+            System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+
+            //Opens the filestream
+            artSource.BeginInit();
+
+            //Fixes the caching issues, where cached copy would just hang around and bother me for two days
+            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+            artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+            artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+
+            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+            artSource.UriSource = new Uri(game + @"\art.jpg", UriKind.RelativeOrAbsolute);
+
+            //Closes the filestream
+            artSource.EndInit();
+
+            //sets boxArt source to created bitmap
+            boxArt.Source = artSource;
+
+            boxArt.Height = 200;
+            boxArt.Width = 150;
+
+            //Creates a gap between tiles
+            //There is an issue, when scaling another object when referencing this object's size, the gap is added to the size
+            //To counter this, use ActualSize
+            boxArt.Margin = new Thickness(10, 0, 0, 10);
+
+            boxArt.Stretch = Stretch.Fill;
+            boxArt.MouseDown += boxArt_Click;
+            boxArt.Focusable = true;
+
+            return boxArt;
+        }
+
+        //gameTile grid object
+        private Grid CreateGameTileGridResource()
+        {
+            Grid gameTile = new Grid();
+
+            gameTile.MouseEnter += new MouseEventHandler(gameTile_MouseEnter);
+            gameTile.MouseLeave += new MouseEventHandler(gameTile_MouseLeave);
+
+            return gameTile;
+        }
+
+        //gameTile overlay for hover
+        private System.Windows.Shapes.Rectangle CreateTitleOverlayResource()
+        {
+            System.Windows.Shapes.Rectangle overlay = new System.Windows.Shapes.Rectangle();
+
+            overlay.Fill = CurrentPrimary();
+            overlay.Opacity = 0.8;
+            overlay.Visibility = Visibility.Collapsed;
+            overlay.IsHitTestVisible = false;
+
+            return overlay;
+        }
+
+        //game title in game tiles
+        private TextBlock CreateTextBlockResource()
+        {
+            TextBlock gameTitle = new TextBlock();
+
+            gameTitle.HorizontalAlignment = HorizontalAlignment.Center;
+            gameTitle.VerticalAlignment = VerticalAlignment.Bottom;
+            gameTitle.Width = 150;
+            gameTitle.FontSize = 16;
+            gameTitle.Foreground = new SolidColorBrush(Colors.White);
+            gameTitle.Margin = new Thickness(0, 0, 0, 30);
+            gameTitle.TextAlignment = TextAlignment.Center;
+            gameTitle.TextWrapping = TextWrapping.Wrap;
+            gameTitle.Visibility = Visibility.Visible;
+            gameTitle.FontFamily = new FontFamily("Roboto Light");
+
+            return gameTitle;
+        }
+
         //Rescans the game config directory and adds them to gamePanel
         public void reloadGames(string query = "")
         {
-
             //Removes all games from list
             gamePanel.Children.Clear();
 
@@ -425,38 +507,8 @@ namespace Spectabis_WPF.Views
                             Console.WriteLine("adding to gamePanel - " + _gameName);
 
                             //Creates an image object
-                            Image boxArt = new Image();
-
-                            //Creates a bitmap stream
-                            System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
-                            //Opens the filestream
-                            artSource.BeginInit();
-
-                            //Fixes the caching issues, where cached copy would just hang around and bother me for two days
-                            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
-                            artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
-                            artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
-
-                            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                            artSource.UriSource = new Uri(game + @"\art.jpg", UriKind.RelativeOrAbsolute);
-                            //Closes the filestream
-                            artSource.EndInit();
-
-                            //sets boxArt source to created bitmap
-                            boxArt.Source = artSource;
-
-                            boxArt.Height = 200;
-                            boxArt.Width = 150;
-
-                            //Creates a gap between tiles
-                            //There is an issue, when scaling another object when referencing this object's size, the gap is added to the size
-                            //To counter this, use ActualSize
-                            boxArt.Margin = new Thickness(10, 0, 0, 10);
-
-                            boxArt.Stretch = Stretch.Fill;
-                            boxArt.MouseDown += boxArt_Click;
+                            Image boxArt = CreateBoxArtResource(game);
                             boxArt.Tag = _gameName;
-                            boxArt.Focusable = true;
 
                             //Set BitmapScalingMode from advanced.ini if set
                             //Forgive me
@@ -501,36 +553,21 @@ namespace Spectabis_WPF.Views
                             //If showtitle is selected
                             if (Properties.Settings.Default.showTitle == true)
                             {
-                                Grid gameTile = new Grid();
-                                gameTile.MouseEnter += new MouseEventHandler(gameTile_MouseEnter);
-                                gameTile.MouseLeave += new MouseEventHandler(gameTile_MouseLeave);
+                                Grid gameTile = CreateGameTileGridResource();
 
                                 //Center boxart image
                                 boxArt.HorizontalAlignment = HorizontalAlignment.Center;
                                 gameTile.Children.Add(boxArt);
 
                                 //Create the colored rectangle
-                                System.Windows.Shapes.Rectangle overlay = new System.Windows.Shapes.Rectangle();
-                                overlay.Fill = CurrentPrimary();
-                                overlay.Opacity = 0.8;
-                                overlay.Visibility = Visibility.Collapsed;
-                                overlay.IsHitTestVisible = false;
+                                System.Windows.Shapes.Rectangle overlay = CreateTitleOverlayResource();
                                 gameTile.Children.Add(overlay);
 
                                 //Create a textblock for game title
-                                TextBlock gameTitle = new TextBlock();
-                                gameTitle.HorizontalAlignment = HorizontalAlignment.Center;
-                                gameTitle.VerticalAlignment = VerticalAlignment.Bottom;
-                                gameTitle.Width = 150;
-                                gameTitle.FontSize = 16;
-                                gameTitle.Foreground = new SolidColorBrush(Colors.White);
-                                gameTitle.Margin = new Thickness(0, 0, 0, 30);
-                                gameTitle.TextAlignment = TextAlignment.Center;
-                                gameTitle.TextWrapping = TextWrapping.Wrap;
-                                gameTitle.Visibility = Visibility.Visible;
-                                gameTitle.FontFamily = new FontFamily("Roboto Light");
+                                TextBlock gameTitle = CreateTextBlockResource();
                                 gameTile.Children.Add(gameTitle);
 
+                                //Add created tile to game panel
                                 gamePanel.Children.Add(gameTile);
                             }
                             else
@@ -541,6 +578,7 @@ namespace Spectabis_WPF.Views
                                 boxArt.HorizontalAlignment = HorizontalAlignment.Center;
                                 gameTile.Children.Add(boxArt);
 
+                                //Add created tile to game panel
                                 gamePanel.Children.Add(gameTile);
                             }
                         }
@@ -559,8 +597,82 @@ namespace Spectabis_WPF.Views
             }
 
             Directory.CreateDirectory(GameConfigs);
+        }
 
+        //Discover a game 
+        public void refreshTile(string game)
+        {
+            foreach(Grid gameTile in gamePanel.Children)
+            {
+                foreach(object obj in gameTile.Children)
+                {
+                    if(obj.ToString() == "System.Windows.Controls.Image")
+                    {
+                        Image boxArt = (Image)obj;
 
+                        if(boxArt.Tag.ToString() == game)
+                        {
+                            //Creates a bitmap stream
+                            System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+
+                            //Opens the filestream
+                            artSource.BeginInit();
+
+                            //Fixes the caching issues, where cached copy would just hang around and bother me for two days
+                            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+                            artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+                            artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+
+                            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                            artSource.UriSource = new Uri(@"resources\configs\" + game + @"\art.jpg", UriKind.RelativeOrAbsolute);
+
+                            //Closes the filestream
+                            artSource.EndInit();
+
+                            WpfAnimatedGif.ImageBehavior.SetAnimatedSource(boxArt, artSource);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        //Create a new game tile in gamePanel
+        public void CreateTile(string game)
+        {
+            Image boxArt = CreateBoxArtResource($"resources\\configs\\{game}");
+            boxArt.Tag = game;
+
+            if (Properties.Settings.Default.showTitle == true)
+            {
+                Grid gameTile = CreateGameTileGridResource();
+
+                //Center boxart image
+                boxArt.HorizontalAlignment = HorizontalAlignment.Center;
+                gameTile.Children.Add(boxArt);
+
+                //Create the colored rectangle
+                System.Windows.Shapes.Rectangle overlay = CreateTitleOverlayResource();
+                gameTile.Children.Add(overlay);
+
+                //Create a textblock for game title
+                TextBlock gameTitle = CreateTextBlockResource();
+                gameTile.Children.Add(gameTitle);
+
+                //Add created tile to game panel
+                gamePanel.Children.Add(gameTile);
+            }
+            else
+            {
+                //Adds the object to gamePanel
+                Grid gameTile = new Grid();
+
+                boxArt.HorizontalAlignment = HorizontalAlignment.Center;
+                gameTile.Children.Add(boxArt);
+
+                //Add created tile to game panel
+                gamePanel.Children.Add(gameTile);
+            }
 
         }
 
@@ -865,26 +977,31 @@ namespace Spectabis_WPF.Views
 
             //Copy tempart from resources and filestream it to game profile
             Properties.Resources.tempArt.Save(BaseDirectory + @"\resources\_temp\art.jpg");
-            File.Copy(BaseDirectory + @"\resources\_temp\art.jpg", BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg", true);
 
-            //If game boxart location is null, then try scrapping
-            if (_img == null)
+            try
             {
-                //Add game title to automatic scrapping tasklist
-                if (Properties.Settings.Default.autoBoxart == true)
-                {
-                    Console.WriteLine("Adding " + _title + " to taskQueue!");
-                    taskQueue.Add(_title);
-                }
+                File.Copy(BaseDirectory + @"\resources\_temp\art.jpg", BaseDirectory + @"\resources\configs\" + _title + @"\art.jpg", true);
             }
+            catch
+            {
+                Console.WriteLine("Failed to copy temporal art file...");
+            }
+            finally
+            {
+                //If game boxart location is null, then try scrapping
+                if (_img == null)
+                {
+                    //Add game title to automatic scrapping tasklist
+                    if (Properties.Settings.Default.autoBoxart == true)
+                    {
+                        Console.WriteLine("Adding " + _title + " to taskQueue!");
+                        taskQueue.Add(_title);
+                    }
+                }
 
-
-            //Removes all games from list
-            gamePanel.Children.Clear();
-
-            //Reloads games
-            reloadGames();
-
+                //Add game to gamePanel
+                CreateTile(_title);
+            }
         }
 
         //Plus Button
@@ -1080,9 +1197,8 @@ namespace Spectabis_WPF.Views
                                 client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
                                 File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
 
-                                //Reload game library
-                                this.Invoke(new Action(() => gamePanel.Children.Clear()));
-                                this.Invoke(new Action(() => reloadGames()));
+                                // Refresh game tile boxart
+                                this.Invoke(new Action(() => refreshTile(_name)));
 
                                 Console.WriteLine("Downloaded boxart for " + _name);
                             }
@@ -1126,9 +1242,8 @@ namespace Spectabis_WPF.Views
                 {
                     this.Invoke(new Action(() => PushSnackbar("Failed to connect to GiantBomb. Is the API key valid?")));
 
-                    //Reload game library
-                    this.Invoke(new Action(() => gamePanel.Children.Clear()));
-                    this.Invoke(new Action(() => reloadGames()));
+                    // Refresh game tile boxart
+                    this.Invoke(new Action(() => refreshTile(_name)));
                     return;
                 }
 
@@ -1166,18 +1281,17 @@ namespace Spectabis_WPF.Views
                                         client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
                                         File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
 
-                                        //Reload game library
-                                        this.Invoke(new Action(() => gamePanel.Children.Clear()));
-                                        this.Invoke(new Action(() => reloadGames()));
+                                        //Refresh game tile boxart
+                                        this.Invoke(new Action(() => refreshTile(_name)));
+
                                         return;
                                     }
                                     catch
                                     {
                                         this.Invoke(new Action(() => PushSnackbar("Failed to download the image, check your internet connection.")));
 
-                                        //Reload game library
-                                        this.Invoke(new Action(() => gamePanel.Children.Clear()));
-                                        this.Invoke(new Action(() => reloadGames()));
+                                        //Refresh game tile boxart
+                                        this.Invoke(new Action(() => refreshTile(_name)));
                                         return;
                                     }
                                 }
@@ -1189,9 +1303,9 @@ namespace Spectabis_WPF.Views
                 catch
                 {
                     this.Invoke(new Action(() => PushSnackbar("Couldn't get the game, sorry")));
-                    //Reload game library
-                    this.Invoke(new Action(() => gamePanel.Children.Clear()));
-                    this.Invoke(new Action(() => reloadGames()));
+
+                    //Refresh game tile boxart
+                    this.Invoke(new Action(() => refreshTile(_name)));
                 }
             }
 
@@ -1349,7 +1463,6 @@ namespace Spectabis_WPF.Views
                 PopupStackPanel.Visibility = Visibility.Collapsed;
             }
         }
-
 
         //Detect when USB devices change
         private void USBEventArrived(object sender, EventArrivedEventArgs e)
