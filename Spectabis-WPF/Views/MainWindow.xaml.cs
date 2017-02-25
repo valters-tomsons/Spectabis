@@ -20,7 +20,7 @@ namespace Spectabis_WPF.Views
     public partial class MainWindow : MetroWindow
     {
         public static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
+    
         //Side panel width value
         public static readonly double PanelWidth = 700;
 
@@ -399,8 +399,7 @@ namespace Spectabis_WPF.Views
                 artSource.EndInit();
                 GameSettings_Header.Source = artSource;
 
-                //Reload game library
-                reloadLibrary();
+                refreshTile(_game);
 
             }
         }
@@ -408,6 +407,11 @@ namespace Spectabis_WPF.Views
         public void reloadLibrary()
         {
             mainFrame.NavigationService.Refresh();
+        }
+
+        public void refreshTile(string game)
+        {
+            this.Invoke(new Action(() => ((Library)mainFrame.Content).refreshTile(game)));
         }
 
         private void SaveGameSettings(string _name)
