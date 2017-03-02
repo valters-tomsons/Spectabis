@@ -40,13 +40,7 @@ namespace Spectabis_WPF.Domain
         {
             //sanitize game's title for folder creation
             Console.WriteLine("Sanitizing Game Title");
-            foreach (Char ch in _title)
-            {
-                if (IllegalCharacters.IllegalDirectory.Contains(ch))
-                {
-                    _title.Remove(ch);
-                }
-            }
+            _title = _title.ToSanitizedString();
 
             //Create a folder for profile and add an index, if needed
             if (getIndex(BaseDirectory + @"\resources\configs\" + _title) != 0)

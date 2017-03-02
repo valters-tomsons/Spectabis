@@ -107,7 +107,7 @@ namespace Spectabis_WPF.Domain
                             string _imgdir = FinalGame.Image.SmallUrl;
 
                             Console.WriteLine("Using GiantBomb API");
-                            Console.WriteLine("ApiKey = " + ApiKey);
+                            //Console.WriteLine("ApiKey = " + ApiKey);
                             Console.WriteLine("Game ID: " + resultGame.First().Id);
                             Console.WriteLine(_imgdir);
 

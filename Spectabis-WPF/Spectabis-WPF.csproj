@@ -109,6 +109,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
@@ -140,10 +141,10 @@
     <Compile Include="Domain\GetGameName.cs" />
     <Compile Include="Domain\GetRegions.cs" />
     <Compile Include="Domain\GetSerial.cs" />
-    <Compile Include="Domain\IllegalCharacters.cs" />
     <Compile Include="Domain\LaunchPCSX2.cs" />
     <Compile Include="Domain\Playtime.cs" />
     <Compile Include="Domain\ScrapeArt.cs" />
+    <Compile Include="Domain\StringExtensions.cs" />
     <Compile Include="Domain\SupportedGames.cs" />
     <Compile Include="Domain\UpdateCheck.cs" />
     <Compile Include="Views\AddGame.xaml.cs">
@@ -154,6 +155,9 @@
     </Compile>
     <Compile Include="Views\FirstTimeSetup.xaml.cs">
       <DependentUpon>FirstTimeSetup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GameDiscovery.xaml.cs">
+      <DependentUpon>GameDiscovery.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -170,6 +174,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FirstTimeSetup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GameDiscovery.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -52,7 +52,7 @@ namespace Spectabis_WPF.Views
         private ManagementEventWatcher mwe_deletion;
         private ManagementEventWatcher mwe_creation;
 
-        private List<string> LoadedISOs = null;
+        private List<string> LoadedISOs = new List<string>();
 
         //Make alist of all arguments
         public static List<string> arguments = new List<string>(Environment.GetCommandLineArgs());
@@ -504,8 +504,6 @@ namespace Spectabis_WPF.Views
                             //Sets _gameName to name of the folder
                             string _gameName = game.Remove(0, game.LastIndexOf(Path.DirectorySeparatorChar) + 1);
 
-                            Console.WriteLine("adding to gamePanel - " + _gameName);
-
                             //Creates an image object
                             Image boxArt = CreateBoxArtResource(game);
                             boxArt.Tag = _gameName;
@@ -850,7 +848,52 @@ namespace Spectabis_WPF.Views
                 //Add game to blacklist file
                 AddToBlacklist(game);
             }
-            
+
+        }
+
+        public List<string> NewGamesInDirectory;
+
+        //Push a snackbar when there's a huge number of new games in a directory
+        private void PushMultipleDirectoryDialog(int count, List<string> list)
+        {
+            NewGamesInDirectory = list;
+
+            TextBlock text = new TextBlock();
+            text.FontFamily = new FontFamily("Roboto Light");
+            text.Text = $"There are {count} new games in your directory";
+            text.TextWrapping = TextWrapping.Wrap;
+            text.VerticalAlignment = VerticalAlignment.Center;
+            text.Margin = new Thickness(0, 0, 10, 0);
+
+            Button OpenAll = new Button();
+            OpenAll.Content = "Show";
+            OpenAll.Click += MultipleDirectory_Click;
+            OpenAll.Margin = new Thickness(0, 0, 10, 0);
+
+            Button Dismiss = new Button();
+            Dismiss.Content = "Dismiss";
+            Dismiss.Click += MultipleDirectory_Click;
+
+            StackPanel panel = new StackPanel();
+            panel.Orientation = Orientation.Horizontal;
+            panel.Children.Add(text);
+            panel.Children.Add(OpenAll);
+            panel.Children.Add(Dismiss);
+
+            var messageQueue = SnackBar.MessageQueue;
+            Task.Factory.StartNew(() => messageQueue.Enqueue(panel));
+        }
+
+        private void MultipleDirectory_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            SnackBar.IsActive = false;
+
+            if (button.Content.ToString() == "Show")
+            {
+                //Navigate to Game Discovery page
+                ((MainWindow)Application.Current.MainWindow).Open_GameDiscovery();
+            }
         }
 
         //Dragging file effect
@@ -902,13 +945,7 @@ namespace Spectabis_WPF.Views
         public void AddGame(string _img, string _isoDir, string _title)
         {
             Console.WriteLine($"Title: {_title}");
-            foreach (Char ch in _title)
-            {
-                if(IllegalCharacters.IllegalDirectory.Contains(ch))
-                {
-                    _title = _title.Replace(ch.ToString(), String.Empty);
-                }
-            }
+            _title = _title.ToSanitizedString();
             Console.WriteLine($"Sanitized: {_title}");
 
             //Checks, if the game profile already exists
@@ -1178,13 +1215,7 @@ namespace Spectabis_WPF.Views
                         _title = _name;
 
                         Console.WriteLine("Sanitizing Game Title");
-                        foreach (Char ch in _title)
-                        {
-                            if (IllegalCharacters.IllegalDirectory.Contains(ch))
-                            {
-                                _title.Remove(ch);
-                            }
-                        }
+                        _title = _title.ToSanitizedString();
 
                         //Sets image to variable
                         _imgdir = "http://thegamesdb.net/banners/" + newGame.Images.BoxartFront.Path;
@@ -1380,32 +1411,47 @@ namespace Spectabis_WPF.Views
                     Properties.Settings.Default.Save();
                 }
 
-                string[] _fileList = Directory.GetFiles(Properties.Settings.Default.gameDirectory);
+                //List of all files that don't contain already loaded files
+                List<string> _fileList = new List<string>(Directory.GetFiles(Properties.Settings.Default.gameDirectory));
                 Console.WriteLine(_fileList.Count() + " files found!");
 
-                //Go through each file
-                foreach (var file in _fileList)
-                {
-                    //Check, if file type is in supported file types
-                    if (SupportedGames.GameFiles.Any(s => file.EndsWith(s)))
-                    {
-                        //Check if file is already loaded in Spectabis
-                        List<string> IsoList = LoadedISOs;
-                        if (IsoList.Contains(file) == false)
-                        {
-                            Console.WriteLine(file + " is not loaded, prompting to add!");
+                int _count = _fileList.Except(LoadedISOs).ToList().Count;
+                
+                Console.WriteLine($"{_count} new files found!");
 
-                            //Checks, if file is in blacklist file
-                            if (IsGameBlacklisted(file) == false)
-                            {
-                                //Show a Yes/No message box
-                                //If "Yes" then add the game, if not, add it to blacklist
-                                this.Invoke(new Action(() => PushDirectoryDialog(file)));
-                            }
-                        }
-                        else
+                //Count after which games will be moved to "Game Discovery" page
+                int TooManyFiles = 3;
+
+                if (_count > TooManyFiles)
+                {
+                    PushMultipleDirectoryDialog(_count, _fileList.Except(LoadedISOs).ToList());
+                }
+                else
+                {
+                    //Go through each file
+                    foreach (var file in _fileList)
+                    {
+                        //Check, if file type is in supported file types
+                        if (SupportedGames.GameFiles.Any(s => file.EndsWith(s)))
                         {
-                            Console.WriteLine(file + " is already loaded, skipping.");
+                            //Check if file is already loaded in Spectabis
+                            List<string> IsoList = LoadedISOs;
+                            if (IsoList.Contains(file) == false)
+                            {
+                                Console.WriteLine(file + " is not loaded, prompting to add!");
+
+                                //Checks, if file is in blacklist file
+                                if (IsGameBlacklisted(file) == false)
+                                {
+                                    //Show a Yes/No message box
+                                    //If "Yes" then add the game, if not, add it to blacklist
+                                    this.Invoke(new Action(() => PushDirectoryDialog(file)));
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine(file + " is already loaded, skipping.");
+                            }
                         }
                     }
                 }

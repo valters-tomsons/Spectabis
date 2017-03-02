@@ -236,6 +236,16 @@ namespace Spectabis_WPF.Views
             MainWindow_Header.Text = "Library";
         }
 
+        public List<string> NewGamesInDirectory;
+
+        public void Open_GameDiscovery()
+        {
+            NewGamesInDirectory = ((Library)mainFrame.Content).NewGamesInDirectory;
+
+            mainFrame.Source = new Uri("GameDiscovery.xaml", UriKind.Relative);
+            MainWindow_Header.Text = "Game Discovery";
+        }
+
         //Open settings sidewindow
         //Bool true, to show - false to hide
         public void Open_Settings(bool e, [Optional] string _name)
