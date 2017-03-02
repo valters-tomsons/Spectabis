@@ -29,7 +29,7 @@ namespace Spectabis_WPF.Views
             checkUpdates.IsChecked = Properties.Settings.Default.checkupdates;
             TitleAsFile.IsChecked = Properties.Settings.Default.titleAsFile;
 
-            Console.WriteLine("GiantBomb API Key: " + Properties.Settings.Default.APIKey_GiantBomb);
+            //Console.WriteLine("GiantBomb API Key: " + Properties.Settings.Default.APIKey_GiantBomb);
             Api_Box.Text = Properties.Settings.Default.APIKey_GiantBomb;
 
             emudir_text.Text = Properties.Settings.Default.emuDir;
