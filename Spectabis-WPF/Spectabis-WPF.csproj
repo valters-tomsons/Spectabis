@@ -276,9 +276,6 @@
     <Resource Include="Resources\error_art.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="roadmap.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="7z-x64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
