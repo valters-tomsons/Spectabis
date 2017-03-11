@@ -1072,6 +1072,10 @@ namespace Spectabis_WPF.Views
                 Properties.Settings.Default.Save();
                 PushSnackbar("Game directory folder has been removed!");
             }
+
+            ClearBlacklist();
+
+
         }
 
         //"Global Controller" button left click
@@ -1495,6 +1499,17 @@ namespace Spectabis_WPF.Views
                 blacklistFile.Close();
                 return false;
             }
+        }
+
+
+        //Delete blacklist file and create a blank file
+        private void ClearBlacklist()
+        {
+            if(File.Exists(BaseDirectory + @"\resources\logs\blacklist.txt"))
+            {
+                File.Delete(BaseDirectory + @"\resources\logs\blacklist.txt");
+            }
+            File.Create(BaseDirectory + @"\resources\logs\blacklist.txt");
         }
 
         //Controls "Plus" Button popup button visiblity
