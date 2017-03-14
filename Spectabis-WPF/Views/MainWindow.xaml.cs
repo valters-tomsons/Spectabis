@@ -40,7 +40,7 @@ namespace Spectabis_WPF.Views
             updatePlaytimeUI.Tick += updatePlaytimeUI_Tick;
 
             //Create resources folder
-            Directory.CreateDirectory(@"/resources/_temp");
+            Directory.CreateDirectory($"{BaseDirectory}//resources//_temp");
 
             //Version
             Console.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
