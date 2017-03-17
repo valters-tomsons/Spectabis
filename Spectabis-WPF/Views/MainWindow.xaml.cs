@@ -793,6 +793,8 @@ namespace Spectabis_WPF.Views
 
                         //Reload game library
                         reloadLibrary();
+
+                        Console.WriteLine($"Renamed profile '{_oldName}' to '{_newName}'");
                     }
                     catch
                     {
@@ -809,6 +811,11 @@ namespace Spectabis_WPF.Views
                 //Show real label
                 Header_title.Visibility = Visibility.Visible;
             }
+        }
+
+        private void renamedTile(string _old, string _new)
+        {
+            this.Invoke(new Action(() => ((Library)mainFrame.Content).renameTile(_old, _new)));
         }
 
         private void Menu_Themes_Click(object sender, RoutedEventArgs e)

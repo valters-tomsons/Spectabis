@@ -635,6 +635,26 @@ namespace Spectabis_WPF.Views
             }
         }
 
+        public void renameTile(string _old, string _new)
+        {
+            foreach (Grid gameTile in gamePanel.Children)
+            {
+                foreach (object obj in gameTile.Children)
+                {
+                    if (obj.ToString() == "System.Windows.Controls.Image")
+                    {
+                        Image boxArt = (Image)obj;
+
+                        if (boxArt.Tag.ToString() == _old)
+                        {
+                            boxArt.Tag = _new;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         //Create a new game tile in gamePanel
         public void CreateTile(string game)
         {
