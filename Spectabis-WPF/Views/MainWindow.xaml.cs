@@ -789,16 +789,17 @@ namespace Spectabis_WPF.Views
                     try
                     {
                         //Move old folder to new folder
-                        Directory.Move(BaseDirectory + @"\resources\configs\" + _oldName, BaseDirectory + @"\resources\configs\" + _newName);
-
-                        //Reload game library
-                        reloadLibrary();
+                        GameProfile.Rename(_oldName, _newName);
+                        
+                        //Rename game tile
+                        renameTile(_oldName, _newName);
 
                         Console.WriteLine($"Renamed profile '{_oldName}' to '{_newName}'");
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         Console.WriteLine("Couldn't rename the folder");
+                        Console.WriteLine(ex);
                     }
                 }
             }
@@ -813,7 +814,7 @@ namespace Spectabis_WPF.Views
             }
         }
 
-        private void renamedTile(string _old, string _new)
+        private void renameTile(string _old, string _new)
         {
             this.Invoke(new Action(() => ((Library)mainFrame.Content).renameTile(_old, _new)));
         }

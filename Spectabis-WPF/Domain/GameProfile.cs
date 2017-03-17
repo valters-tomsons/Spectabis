@@ -119,14 +119,15 @@ namespace Spectabis_WPF.Domain
 
             if (isFolder(input))
             {
-                if (getIndex(BaseDirectory + @"\resources\configs\" + _out) != 0)
+                if (getIndex(output) != 0)
                 {
-                    output = BaseDirectory + @"\resources\configs\" + _out + " (" + index + ")";
+                    output = output + " (" + index + ")";
                     Directory.Move(input, output);
                     return _out + " (" + index + ")";
                 }
 
                 Directory.Move(input, output);
+                
                 return _out;
             }
 
