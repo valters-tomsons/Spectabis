@@ -1529,7 +1529,8 @@ namespace Spectabis_WPF.Views
             {
                 File.Delete(BaseDirectory + @"\resources\logs\blacklist.txt");
             }
-            File.Create(BaseDirectory + @"\resources\logs\blacklist.txt");
+            Directory.CreateDirectory($"{BaseDirectory}\\resources\\logs\\");
+            File.Create($"{BaseDirectory}\\resources\\logs\\blacklist.txt");
         }
 
         //Controls "Plus" Button popup button visiblity
