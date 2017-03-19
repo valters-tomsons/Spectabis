@@ -32,15 +32,15 @@ namespace Spectabis_WPF.Views
         {
             InitializeComponent();
 
+            //Create resources folder
+            Directory.CreateDirectory($"{BaseDirectory}//resources//_temp");
+
             //Saves settings between versions
             Properties.Settings.Default.Upgrade();
 
             CatchCommandLineArguments();
 
             updatePlaytimeUI.Tick += updatePlaytimeUI_Tick;
-
-            //Create resources folder
-            Directory.CreateDirectory($"{BaseDirectory}//resources//_temp");
 
             //Version
             Console.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);

@@ -9,7 +9,7 @@ namespace Spectabis_WPF
     {
 	    public App(){
 			//Copy spinner.gif to temporary files
-			Spectabis_WPF.Properties.Resources.spinner.Save(BaseDirectory + @"resources\_temp\spinner.gif");
+			//Spectabis_WPF.Properties.Resources.spinner.Save(BaseDirectory + @"resources\_temp\spinner.gif");
 
             return;
         }

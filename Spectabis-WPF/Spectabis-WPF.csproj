@@ -262,8 +262,8 @@
     <Resource Include="Resources\spectabis_multisizeicon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\spinner.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <Resource Include="Resources\_temp\spinner.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
