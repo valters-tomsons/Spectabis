@@ -252,7 +252,6 @@ namespace Spectabis_WPF.Views
         {
             if(e == true)
             {
-
                 string _cfgDir = BaseDirectory + @"\resources\configs\" + _name;
 
                 //Reads the values from Spectabis ini
@@ -314,6 +313,15 @@ namespace Spectabis_WPF.Views
                 //Set zoom level to textbox
                 zoom.Text = _zoom;
 
+                //Disable Input settings button if "Global Controller Profile" is enabled
+                if(Properties.Settings.Default.globalController)
+                {
+                    InputSettings_Button.IsEnabled = false;
+                }
+                else
+                {
+                    InputSettings_Button.IsEnabled = true;
+                }
 
                 //Show the panel and overlay
                 Overlay(true);
@@ -326,7 +334,6 @@ namespace Spectabis_WPF.Views
             }
             else
             {
-
                 //Hide panel
                 Overlay(false);
                 SlideOutPanelAnimation();

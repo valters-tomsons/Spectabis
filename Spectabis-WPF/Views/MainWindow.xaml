@@ -116,7 +116,7 @@
                         <StackPanel Orientation="Vertical" Margin="-5,0" VerticalAlignment="Center">
                             <Button Click="VideoSettings_click" Focusable="False" ToolTip="Configure GSDX">Video Settings</Button>
                             <Button Click="AudioSettings_click" Focusable="False" ToolTip="Configure SPUX-2" Margin="0,10">Audio Settings</Button>
-                            <Button Click="InputSettings_click" Focusable="False" ToolTip="Configure Lillypad">Input Settings</Button>
+                            <Button Click="InputSettings_click" x:Name="InputSettings_Button" Focusable="False" ToolTip="Configure Lillypad">Input Settings</Button>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
