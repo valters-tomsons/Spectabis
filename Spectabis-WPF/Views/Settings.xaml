@@ -33,7 +33,7 @@
                             <CheckBox x:Name="AutoScrapping" Height="25" Content="Automatic boxart scraping" Click="checkbox_Click" ToolTip="Automatically download game cover art images"/>
                             <CheckBox x:Name="SearchBar" Height="25" Content="Enable Searchbar" Click="checkbox_Click" ToolTip="Enables searchbar in Library. Press ENTER to search and ESC to cancel search"/>
                             <CheckBox x:Name="TitleAsFile" Click="checkbox_Click" Height="25" Content="Disable game title detection" ToolTip="Newly created game profiles will be named same as the game file (without extension).&#10;Please note, this will also effect automatic boxart scraping.&#10;Useful for Launchbox."/>
-
+                            <CheckBox x:Name="Playtime" Click="checkbox_Click" Height="25" Content="Display Playtime" ToolTip="Display playtime when hovering games"/>
                             <CheckBox x:Name="Tooltips" Height="25" Content="Title Tooltips" Click="checkbox_Click" Visibility="Collapsed" />
                         </StackPanel>
 

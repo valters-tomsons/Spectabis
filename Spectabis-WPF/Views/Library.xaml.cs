@@ -459,6 +459,7 @@ namespace Spectabis_WPF.Views
         {
             TextBlock gameTitle = new TextBlock();
 
+            gameTitle.Name = "title";
             gameTitle.HorizontalAlignment = HorizontalAlignment.Center;
             gameTitle.VerticalAlignment = VerticalAlignment.Bottom;
             gameTitle.Width = 150;
@@ -471,6 +472,24 @@ namespace Spectabis_WPF.Views
             gameTitle.FontFamily = new FontFamily("Roboto Light");
 
             return gameTitle;
+        }
+
+        private TextBlock CreatePlayTimeResource()
+        {
+            TextBlock block = new TextBlock();
+
+            block.Name = "playtime";
+            block.VerticalAlignment = VerticalAlignment.Top;
+            block.HorizontalAlignment = HorizontalAlignment.Center;
+            block.FontSize = 16;
+            block.Margin = new Thickness(0, 10, 0, 30);
+            block.Foreground = new SolidColorBrush(Colors.White);
+            block.Width = 150;
+            block.TextAlignment = TextAlignment.Center;
+            block.Visibility = Visibility.Visible;
+            block.FontFamily = new FontFamily("Roboto Light");
+
+            return block;
         }
 
         //Rescans the game config directory and adds them to gamePanel
@@ -564,6 +583,10 @@ namespace Spectabis_WPF.Views
                                 //Create a textblock for game title
                                 TextBlock gameTitle = CreateTextBlockResource();
                                 gameTile.Children.Add(gameTitle);
+
+                                //Create playtime text
+                                TextBlock playTime = CreatePlayTimeResource();
+                                gameTile.Children.Add(playTime);
 
                                 //Add created tile to game panel
                                 gamePanel.Children.Add(gameTile);
@@ -677,6 +700,10 @@ namespace Spectabis_WPF.Views
                 TextBlock gameTitle = CreateTextBlockResource();
                 gameTile.Children.Add(gameTitle);
 
+                //Create playtime text
+                TextBlock playTime = CreatePlayTimeResource();
+                gameTile.Children.Add(playTime);
+
                 //Add created tile to game panel
                 gamePanel.Children.Add(gameTile);
             }
@@ -743,12 +770,37 @@ namespace Spectabis_WPF.Views
                 if (child.GetType().ToString() == "System.Windows.Controls.TextBlock")
                 {
                     var control = (TextBlock)child;
+                    if(control.Name == "title")
+                    {
+                        control.Text = gameName;
+                        control.Visibility = Visibility.Visible;
 
-                    control.Text = gameName;
-                    control.Visibility = Visibility.Visible;
+                        //fix the size issue created by margin
+                        control.HorizontalAlignment = HorizontalAlignment.Right;
+                    }
+                }
 
-                    //fix the size issue created by margin
-                    control.HorizontalAlignment = HorizontalAlignment.Right;
+                //Show the game title
+                if (child.GetType().ToString() == "System.Windows.Controls.TextBlock")
+                {
+                    var control = (TextBlock)child;
+
+                    if (control.Name == "playtime")
+                    {
+                        if(Properties.Settings.Default.playtime == true)
+                        {
+                            IniFile spectabis = new IniFile($"{GameConfigs}//{gameName}//spectabis.ini");
+                            string minutes = spectabis.Read("playtime", "Spectabis");
+                            if (minutes != "")
+                            {
+                                control.Text = minutes + " minutes";
+                                control.Visibility = Visibility.Visible;
+
+                                //fix the size issue created by margin
+                                control.HorizontalAlignment = HorizontalAlignment.Right;
+                            }
+                        }
+                    }
                 }
             }
         }
