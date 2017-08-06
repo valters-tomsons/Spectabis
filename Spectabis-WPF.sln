@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectabis-WPF", "Spectabis-WPF\Spectabis-WPF.csproj", "{0547483E-5AA6-4036-B954-6FAF815BD2C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiantBombApi", "GiantBombApi\GiantBombApi.csproj", "{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigPicture", "BigPicture\BigPicture.csproj", "{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,14 @@ Global
 		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CB78FD8-C888-4A8C-B16F-AB762A5D5BAB}.Release|x64.ActiveCfg = Release|Any CPU
+		{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}.Debug|x64.Build.0 = Debug|Any CPU
+		{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}.Release|x64.ActiveCfg = Release|Any CPU
+		{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

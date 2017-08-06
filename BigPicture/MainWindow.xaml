@@ -1,0 +1,31 @@
+﻿<Window x:Class="BigPicture.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BigPicture"
+        mc:Ignorable="d"
+        Title="Spectabis - Big Picture" Width="1280" Height="720" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" KeyDown="Window_KeyDown">
+    <Grid>
+        <!--Background Gradient-->
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush>
+                    <GradientStop Color="#642B73" Offset="1"/>
+                    <GradientStop Color="#3d72b4" Offset="0"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        
+        <!--Actual Area Grid-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="4*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock />
+
+        </Grid>
+    </Grid>
+</Window>
