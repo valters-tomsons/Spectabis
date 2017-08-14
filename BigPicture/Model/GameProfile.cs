@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace BigPicture.Model
 {
+    //Game profile model
     public class GameProfile
     {
         public string Title { get; set; }

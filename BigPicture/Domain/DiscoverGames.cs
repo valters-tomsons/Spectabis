@@ -21,6 +21,7 @@ namespace BigPicture.Domain
             ProfileFolder = $"{basedir}resources\\configs\\";
         }
 
+        //Returns all list of GameProfiles that are found in Spectabis config folder
         public List<GameProfile> AllGames()
         {
             List<GameProfile> allGames = new List<GameProfile>();
@@ -52,6 +53,7 @@ namespace BigPicture.Domain
             
         }
 
+        //Create a Bitmap image for GameProfile
         private BitmapImage NewImage(string imageLink)
         {
             BitmapImage artSource = new BitmapImage();
