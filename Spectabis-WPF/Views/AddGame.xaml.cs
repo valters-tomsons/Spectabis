@@ -66,25 +66,16 @@ namespace Spectabis_WPF.Views
             }
             if (ISODialog.ShowDialog().Value == true)
             {
-                var serial = GetSerial.GetSerialNumber(ISODialog.FileName);
-
                 if(Properties.Settings.Default.titleAsFile)
                 {
                     title = Path.GetFileNameWithoutExtension(ISODialog.FileName);
                 }
                 else
                 {
-                    title = GetGameName.GetName(serial);
+                    title = GetGameName.GetName(ISODialog.FileName);
                 }
-                
+
                 var file = ISODialog.FileName;
-
-                //If title was not extracted, set it from file
-                if(title == "UNKNOWN")
-                {
-                    title = Path.GetFileNameWithoutExtension(file);
-                }
-
                 title = GameProfile.Create(null, file, title);
 
                 //Change initial button and text
