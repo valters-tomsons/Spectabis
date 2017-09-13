@@ -841,11 +841,9 @@ namespace Spectabis_WPF.Views
         //Push when a new game in directory is detected
         private void PushDirectoryDialog(string game)
         {
-            string serial = GetSerial.GetSerialNumber(game);
-
             TextBlock text = new TextBlock();
             text.FontFamily = new FontFamily("Roboto Light");
-            text.Text = $"Would you like to add \"{GetGameName.GetName(serial)}\" ?";
+            text.Text = $"Would you like to add \"{GetGameName.GetName(game)}\" ?";
             text.TextWrapping = TextWrapping.Wrap;
             text.VerticalAlignment = VerticalAlignment.Center;
             text.Margin = new Thickness(0, 0, 10, 0);
@@ -888,27 +886,13 @@ namespace Spectabis_WPF.Views
             {
                 Console.WriteLine("Adding " + game);
 
-                //If file supports extraction of serial number, then do just that
-                if (SupportedGames.ScrappingFiles.Any(s => game.EndsWith(s)))
+                if (Properties.Settings.Default.titleAsFile)
                 {
-                    //If file supports scrapping, then do that
-                    string serial = GetSerial.GetSerialNumber(game);
-                    string title = GetGameName.GetName(serial);
-
-                    if (Properties.Settings.Default.titleAsFile)
-                    {
-                        AddGame(null, game, Path.GetFileNameWithoutExtension(game));
-                    }
-                    else
-                    {
-                        AddGame(null, game, title);
-                    }
+                    AddGame(null, game, Path.GetFileNameWithoutExtension(game));
                 }
                 else
                 {
-                    //Add game and use file name as game name
-                    string title = Path.GetFileNameWithoutExtension(game);
-                    AddGame(null, game, title);
+                    AddGame(null, game, GetGameName.GetName(game));
                 }
             }
 
@@ -987,16 +971,13 @@ namespace Spectabis_WPF.Views
                     //If file supports name scrapping
                     if (SupportedGames.ScrappingFiles.Any(s => file.EndsWith(s)))
                     {
-                        string SerialNumber = GetSerial.GetSerialNumber(file);
-                        string GameName = GetGameName.GetName(SerialNumber);
-
                         if(Properties.Settings.Default.titleAsFile)
                         {
                             AddGame(null, file, Path.GetFileNameWithoutExtension(file));
                         }
                         else
                         {
-                            AddGame(null, file, GameName);
+                            AddGame(null, file, GetGameName.GetName(file));
                         }
                     }
                     else

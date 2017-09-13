@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace Spectabis_WPF.Domain
 {
@@ -8,36 +9,45 @@ namespace Spectabis_WPF.Domain
         private static string emuDir = Properties.Settings.Default.emuDir;
 
         //Returns a game name, using PCSX2 database file
-        public static string GetName(string _gameserial)
+        public static string GetName(string _path)
         {
             string GameIndex = emuDir + @"\GameIndex.dbf";
-            string GameName = "UNKNOWN";
+            var serial = "";
 
-            //Reads the GameIndex file by line
-            using (var reader = new StreamReader(GameIndex))
+            //Get the serial number of the game
+            if (SupportedGames.ScrappingFiles.Any(a => _path.EndsWith(a)))
             {
+                serial = GetSerial.GetSerialNumber(_path);
+            }
 
-                bool serialFound = false;
-                while (!reader.EndOfStream)
+            if (!string.IsNullOrWhiteSpace(serial))
+            {
+                //Reads the GameIndex file by line
+                using (var reader = new StreamReader(GameIndex))
                 {
-                    var line = reader.ReadLine();
+                    bool serialFound = false;
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
 
-                    //Forges a GameIndex.dbf entry
-                    //If forged line appears in GameIndex.dbf stop and read the next line
-                    if (line.Contains("Serial = " + _gameserial))
-                    {
-                        serialFound = true;
-                    }
-                    //The next line which contains name associated with gameserial
-                    else if (serialFound == true)
-                    {
-                        //Cleans the data
-                        GameName = line.Replace("Name   = ", String.Empty);
-                        return GameName;
+                        //Forges a GameIndex.dbf entry
+                        //If forged line appears in GameIndex.dbf stop and read the next line
+                        if (line.Contains("Serial = " + serial))
+                        {
+                            serialFound = true;
+                        }
+                        //The next line which contains name associated with gameserial
+                        else if (serialFound)
+                        {
+                            //Cleans the data
+                            return line.Replace("Name   = ", String.Empty);
+                        }
                     }
                 }
-                return GameName;
             }
+
+            //We didn't find a name for the game, just return the file name
+            return Path.GetFileNameWithoutExtension(_path);
         }
     }
 }

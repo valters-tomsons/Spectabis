@@ -101,10 +101,9 @@ namespace Spectabis_WPF.Views
         {
             foreach(string game in gamesToAdd)
             {
-                var profile = GetSerial.GetSerialNumber(game);
-                profile = GetGameName.GetName(profile);
-                GameProfile.Create(null,game,profile);
+                GameProfile.Create(null, game, GetGameName.GetName(game));
             }
+
             Console.WriteLine("Game profiles created!");
             Back();
         }
