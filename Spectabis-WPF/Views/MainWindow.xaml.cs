@@ -28,7 +28,7 @@ namespace Spectabis_WPF.Views
         private Stopwatch SessionPlaytime = new Stopwatch();
         private DispatcherTimer updatePlaytimeUI = new DispatcherTimer();
 
-        public DiscordRPC DiscordRpc = new DiscordRPC();
+        public DiscordRPC DiscordRpc;
 
         public MainWindow()
         {
@@ -89,6 +89,7 @@ namespace Spectabis_WPF.Views
                 AprilFools_Grid.Visibility = Visibility.Visible;
             }
 
+            DiscordRpc = new DiscordRPC();
             DiscordRpc.UpdatePresence("Menus");
         }
 
