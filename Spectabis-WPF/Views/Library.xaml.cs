@@ -241,10 +241,11 @@ namespace Spectabis_WPF.Views
 
                         //Minimize Window
                         this.Invoke(new Action(() => ((MainWindow)Application.Current.MainWindow).MainWindow_Minimize()));
-                        BlockInput(true);
 
                         //Set running game text
                         this.Invoke(new Action(() => ((MainWindow)Application.Current.MainWindow).SetRunningGame(clickedBoxArt.Tag.ToString())));
+
+                        BlockInput(true);
 
                     }
                     else

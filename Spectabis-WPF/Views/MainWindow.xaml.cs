@@ -28,6 +28,8 @@ namespace Spectabis_WPF.Views
         private Stopwatch SessionPlaytime = new Stopwatch();
         private DispatcherTimer updatePlaytimeUI = new DispatcherTimer();
 
+        public DiscordRPC DiscordRpc = new DiscordRPC();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -86,6 +88,8 @@ namespace Spectabis_WPF.Views
             {
                 AprilFools_Grid.Visibility = Visibility.Visible;
             }
+
+            DiscordRpc.UpdatePresence("Menus");
         }
 
         //DLLs for console window
@@ -874,7 +878,7 @@ namespace Spectabis_WPF.Views
         //Block Spectabis while PCSX2 is running
         public void BlockInput(bool e)
         {
-            if(e == true)
+            if(e)
             {
                 //Spectabis input is blocked and game is running
                 Block.Visibility = Visibility.Visible;
@@ -887,9 +891,14 @@ namespace Spectabis_WPF.Views
                 updatePlaytimeUI.Interval = TimeSpan.FromSeconds(60);
                 updatePlaytimeUI.Start();
 
+                DiscordRpc.UpdatePresence(CurrentGame);
+
             }
             else
             {
+                //Default Rich Presence
+                DiscordRpc.UpdatePresence("Menus");
+
                 //Input is not blocked and game is not running
                 Block.Visibility = Visibility.Collapsed;
 
