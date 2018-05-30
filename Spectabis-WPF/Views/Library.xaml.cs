@@ -410,6 +410,9 @@ namespace Spectabis_WPF.Views
             artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
             artSource.UriSource = new Uri(game + @"\art.jpg", UriKind.RelativeOrAbsolute);
 
+            artSource.DecodePixelHeight = 200;
+            artSource.DecodePixelWidth = 150;
+
             //Closes the filestream
             artSource.EndInit();
 
