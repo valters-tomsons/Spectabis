@@ -176,7 +176,7 @@ namespace Spectabis_WPF.Views
             var _gameIni = new IniFile(_cfgDir + @"\spectabis.ini");
             var _isoDir = _gameIni.Read("isoDirectory", "Spectabis");
 
-            if (File.Exists(emuDir + @"\pcsx2.exe") == false)
+            if (File.Exists(emuDir) == false)
             {
                 PushSnackbar("PCSX2 installation corrupt");
             }
@@ -218,7 +218,7 @@ namespace Spectabis_WPF.Views
                         if (_fullboot == "1") { _launchargs = _launchargs + "--fullboot "; }
                         if (_nohacks == "1") { _launchargs = _launchargs + "--nohacks "; }
 
-                        Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath {_cfgDir}");
+                        Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath={_cfgDir}");
 
                         //Copy global controller settings
                         Console.WriteLine($"CopyGlobalProfile({clickedBoxArt.Tag.ToString()})");
@@ -228,8 +228,8 @@ namespace Spectabis_WPF.Views
                         const string quote = "\"";
 
                         //PCSX2 Process
-                        PCSX.StartInfo.FileName = emuDir + @"\pcsx2.exe";
-                        PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath {quote}{_cfgDir}{quote}";
+                        PCSX.StartInfo.FileName = emuDir;
+                        PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath={quote}{_cfgDir}{quote}";
 
                         PCSX.EnableRaisingEvents = true;
                         PCSX.Exited += new EventHandler(PCSX_Exited);
@@ -333,7 +333,7 @@ namespace Spectabis_WPF.Views
 
             //Start PCSX2 only with --cfgpath
             string _cfgDir = GameConfigs + @"/" + clickedBoxArt.Tag;
-            Process.Start(emuDir + @"\pcsx2.exe", " --cfgpath \"" + _cfgDir + "\"");
+            Process.Start(emuDir, " --cfgpath=\"" + _cfgDir + "\"");
 
         }
 

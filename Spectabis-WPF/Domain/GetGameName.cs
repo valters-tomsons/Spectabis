@@ -6,7 +6,7 @@ namespace Spectabis_WPF.Domain
 {
     class GetGameName
     {
-        private static string emuDir = Properties.Settings.Default.emuDir;
+        private static string emuDir = Path.GetDirectoryName(Properties.Settings.Default.emuDir);
 
         //Returns a game name, using PCSX2 database file
         public static string GetName(string _path)

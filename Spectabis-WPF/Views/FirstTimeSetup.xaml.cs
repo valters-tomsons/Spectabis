@@ -24,7 +24,7 @@ namespace Spectabis_WPF.Views
             if(StepCounter == 0)
             {
                 Ookii.Dialogs.Wpf.VistaOpenFileDialog emuBrowser = new Ookii.Dialogs.Wpf.VistaOpenFileDialog();
-                emuBrowser.Filter = "PCSX2 Executable | PCSX2.exe|Executable|*.exe";
+                emuBrowser.Filter = "PCSX2 Executable | *.exe|Executable|*.exe";
 
                 //Show dialog
                 var browserResult = emuBrowser.ShowDialog();
@@ -32,15 +32,14 @@ namespace Spectabis_WPF.Views
                 {
                     string _result = emuBrowser.FileName;
 
-                    //If filename contains ".exe", just in case
-                    if (_result.Contains(".exe") == false)
+                    if (_result.ToLower().Contains("pcsx2") == false || _result.ToLower().EndsWith(".exe") == false)
                     {
                         MessageBox.Show("Invalid file.");
                         return;
                     }
 
-                    //Save selected path, remove pcsx2.exe from string
-                    Properties.Settings.Default.emuDir = _result.Replace("pcsx2.exe", string.Empty);
+                    //Save selected path, *don't* remove pcsx2.exe from string
+                    Properties.Settings.Default.emuDir = _result;
                     Properties.Settings.Default.Save();
 
                     //Increment Step count

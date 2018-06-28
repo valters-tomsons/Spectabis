@@ -6,7 +6,7 @@ namespace Spectabis_WPF.Domain
     class GameProfile
     {
         private static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        private static string emuDir = Properties.Settings.Default.emuDir;
+        private static string emuDir = Path.GetDirectoryName(Properties.Settings.Default.emuDir);
         private static int index = 0;
         private static string GlobalController = BaseDirectory + @"resources\configs\#global_controller\LilyPad.ini";
 

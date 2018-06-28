@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -584,8 +585,9 @@ namespace Spectabis_WPF.Views
 
             if(File.Exists(GSdxfx) == false)
             {
-                File.Copy(Properties.Settings.Default.emuDir + @"\shaders\GSdx.fx", GSdxfx);
-                File.Copy(Properties.Settings.Default.emuDir + @"\shaders\GSdx_FX_Settings.ini", GSdxfxini);
+                var dir = Path.GetDirectoryName(Properties.Settings.Default.emuDir);
+                File.Copy(dir + @"\shaders\GSdx.fx", GSdxfx);
+                File.Copy(dir + @"\shaders\GSdx_FX_Settings.ini", GSdxfxini);
             }
         }
 
@@ -766,13 +768,12 @@ namespace Spectabis_WPF.Views
         {
             List<string> chars = new List<string>();
             //Remove unsupported characters
-            TitleEditBox.Text = TitleEditBox.Text.Replace(@"/", string.Empty);
-            TitleEditBox.Text = TitleEditBox.Text.Replace(@"\", string.Empty);
-            TitleEditBox.Text = TitleEditBox.Text.Replace(@":", string.Empty);
-            TitleEditBox.Text = TitleEditBox.Text.Replace(@"|", string.Empty);
-            TitleEditBox.Text = TitleEditBox.Text.Replace(@"*", string.Empty);
-            TitleEditBox.Text = TitleEditBox.Text.Replace(@"<", string.Empty);
-            TitleEditBox.Text = TitleEditBox.Text.Replace(@">", string.Empty);
+            {
+                var tempText = TitleEditBox.Text;
+                foreach (var illegal in new[] { "/", "\\", ":", "|", "*", "<", ">" })
+                    tempText = tempText.Replace(illegal, string.Empty);
+                TitleEditBox.Text = tempText;
+            }
 
             Console.WriteLine(e.Key.ToString());
 
