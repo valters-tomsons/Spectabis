@@ -34,7 +34,7 @@ namespace Spectabis_WPF.Domain
             if (_fullboot == "1") { _launchargs = _launchargs + "--fullboot "; }
             if (_nohacks == "1") { _launchargs = _launchargs + "--nohacks "; }
 
-            Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath {gamePath}");
+            Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath={gamePath}");
 
             //Paths in PCSX2 command arguments have to be in quotes...
             const string quote = "\"";
@@ -42,10 +42,10 @@ namespace Spectabis_WPF.Domain
             Process PCSX = new Process();
 
             //PCSX2 Process
-            if(File.Exists(Properties.Settings.Default.emuDir + @"\pcsx2.exe"))
+            if(File.Exists(Properties.Settings.Default.emuDir))
             {
-                PCSX.StartInfo.FileName = Properties.Settings.Default.emuDir + @"\pcsx2.exe";
-                PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath {quote}{gamePath}{quote}";
+                PCSX.StartInfo.FileName = Properties.Settings.Default.emuDir;
+                PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath={quote}{gamePath}{quote}";
 
                 PCSX.Start();
 
@@ -56,7 +56,7 @@ namespace Spectabis_WPF.Domain
             }
             else
             {
-                Console.WriteLine(Properties.Settings.Default.emuDir + @"\pcsx2.exe" + " does not exist!");
+                Console.WriteLine(Properties.Settings.Default.emuDir + " does not exist!");
             }
             
         }

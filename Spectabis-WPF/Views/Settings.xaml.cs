@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -111,7 +112,7 @@ namespace Spectabis_WPF.Views
         {
             if (Directory.Exists(emudir_text.Text))
             {
-                if (File.Exists(emudir_text.Text + @"/pcsx2.exe"))
+                if (File.Exists(emudir_text.Text))
                 {
                     Properties.Settings.Default.emuDir = emudir_text.Text;
                     Properties.Settings.Default.Save();
@@ -226,8 +227,9 @@ namespace Spectabis_WPF.Views
             //If OK was clicked...
             if(BrowserResult == true)
             {
-                if (File.Exists(BrowserDialog.SelectedPath + @"/pcsx2.exe") == false)
-                {
+                var filesInFolder = Directory.GetFiles(BrowserDialog.SelectedPath);
+
+                if (filesInFolder.Any(p=>p.Contains("pcsx2") && p.EndsWith(".exe")) == false){
                     //If directory isn't PCSX2's, fall back to beginning
                     PushSnackbar("Invalid Emulator Directory");
                     goto ShowDialog;
