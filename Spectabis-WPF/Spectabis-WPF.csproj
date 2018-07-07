@@ -155,6 +155,11 @@
     <Compile Include="Domain\Playtime.cs" />
     <Compile Include="Domain\DiscordRPC.cs" />
     <Compile Include="Domain\ScrapeArt.cs" />
+    <Compile Include="Domain\Scraping\GameInfoModel.cs" />
+    <Compile Include="Domain\Scraping\Api\GiantBombApi.cs" />
+    <Compile Include="Domain\Scraping\IScraperApi.cs" />
+    <Compile Include="Domain\Scraping\ScrapeSource.cs" />
+    <Compile Include="Domain\Scraping\Api\TheGamesDbApi.cs" />
     <Compile Include="Domain\StringExtensions.cs" />
     <Compile Include="Domain\SupportedGames.cs" />
     <Compile Include="Domain\UpdateCheck.cs" />

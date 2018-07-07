@@ -12,7 +12,7 @@ namespace Spectabis_WPF.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -92,18 +92,6 @@ namespace Spectabis_WPF.Properties {
             }
             set {
                 this["artDB"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("null")]
-        public string APIKey_GiantBomb {
-            get {
-                return ((string)(this["APIKey_GiantBomb"]));
-            }
-            set {
-                this["APIKey_GiantBomb"] = value;
             }
         }
         
@@ -212,6 +200,42 @@ namespace Spectabis_WPF.Properties {
             }
             set {
                 this["playtime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string APIKey_GiantBomb {
+            get {
+                return ((string)(this["APIKey_GiantBomb"]));
+            }
+            set {
+                this["APIKey_GiantBomb"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string APIKey_MobyGames {
+            get {
+                return ((string)(this["APIKey_MobyGames"]));
+            }
+            set {
+                this["APIKey_MobyGames"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string APIKey_IGDB {
+            get {
+                return ((string)(this["APIKey_IGDB"]));
+            }
+            set {
+                this["APIKey_IGDB"] = value;
             }
         }
     }

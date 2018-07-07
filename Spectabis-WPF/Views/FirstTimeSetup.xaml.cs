@@ -60,7 +60,9 @@ namespace Spectabis_WPF.Views
             }
 
             //Select API step
-            if(StepCounter == 1)
+            //// Cyberfoxhax<08-July-2018>: disable this step entirely 
+            if(false)
+            //if(StepCounter == 1)
             {
                 //If Giantbomb is selected, check if API key is entered
                 if (GB_Radio.IsChecked == true)

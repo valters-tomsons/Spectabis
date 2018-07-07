@@ -38,8 +38,8 @@ namespace Spectabis_WPF.Views
         List<string> taskQueue = new List<string>();
         private BackgroundWorker QueueThread = new BackgroundWorker();
 
-        //Scrapping Threads
-        private BackgroundWorker artScrapper = new BackgroundWorker();
+        //Scraping Threads
+        private BackgroundWorker artScraper = new BackgroundWorker();
         private AutoResetEvent _resetEvent = new AutoResetEvent(false);
 
         //Current xInput controller
@@ -86,7 +86,7 @@ namespace Spectabis_WPF.Views
             taskList.Start();
 
             //QueueThread Initialization
-            artScrapper.WorkerSupportsCancellation = true;
+            artScraper.WorkerSupportsCancellation = true;
             QueueThread.WorkerSupportsCancellation = true;
             QueueThread.WorkerReportsProgress = true;
             QueueThread.DoWork += QueueThread_DoWork;
@@ -1241,7 +1241,7 @@ namespace Spectabis_WPF.Views
                 taskQueue.Remove(task);
 
                 //does artscrapping on another thread with values
-                doArtScrapping(_isoname);
+                doArtScraping(_isoname);
 
                 //stops at first value
                 break;
@@ -1249,158 +1249,21 @@ namespace Spectabis_WPF.Views
         }
 
         //Automatic box art scanner method
-        private void doArtScrapping(string _name)
+        private void doArtScraping(string title)
         {
             //Calls the method, which sets loading boxart
-            this.Invoke(new Action(() => SetLoadingStateForImage(_name)));
+            this.Invoke(new Action(() => SetLoadingStateForImage(title)));
 
             //TheGamesDB API Scrapping
-            if (Properties.Settings.Default.artDB == "TheGamesDB")
-            {
-                Console.WriteLine("Using TheGamesDB API");
-                //PushSnackbar("Downloading boxart for " + _name);
-                try
-                {
-                    Console.WriteLine("Starting ArtScrapping for " + _name);
+            var scraper = new ScrapeArt(title);
+            var result = scraper.Result;
 
-                    //WebRequest.Create(_databaseurl).GetResponse();
-                    string _title;
-                    string _imgdir;
-
-                    foreach (GameSearchResult game in GamesDB.GetGames(_name, "Sony Playstation 2"))
-                    {
-
-                        //Gets game's database ID
-                        Game newGame = GamesDB.GetGame(game.ID);
-
-                        _title = _name;
-
-                        Console.WriteLine("Sanitizing Game Title");
-                        _title = _title.ToSanitizedString();
-
-                        //Sets image to variable
-                        _imgdir = "http://thegamesdb.net/banners/" + newGame.Images.BoxartFront.Path;
-
-                        //Downloads the image
-                        using (WebClient client = new WebClient())
-                        {
-                            try
-                            {
-                                client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
-                                File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
-
-                                // Refresh game tile boxart
-                                this.Invoke(new Action(() => refreshTile(_name)));
-
-                                Console.WriteLine("Downloaded boxart for " + _name);
-                            }
-                            catch
-                            {
-                                this.Invoke(new Action(() => PushSnackbar("Failed to connect to TheGamesDB")));
-                            }
-                        }
-
-                        //Stops at the first game
-                        break;
-
-                    }
-                }
-                catch
-                {
-                    this.Invoke(new Action(() => PushSnackbar("Failed to connect to TheGamesDB")));
-                }
-            }
-
-            //GiantBomb API
-            if (Properties.Settings.Default.artDB == "GiantBomb")
-            {
-                //Variables
-                string ApiKey = Properties.Settings.Default.APIKey_GiantBomb;
-                var giantBomb = new GiantBombApi.GiantBombRestClient(ApiKey);
-
-                //list for game results
-                List<GiantBombApi.Model.Game> resultGame = new List<GiantBombApi.Model.Game>();
-
-                var PlatformFilter = new Dictionary<string, object>() { { "platform", "PlayStation 2" } };
-
-
-                //Search for game in DB, get its id, then get the image url
-                try
-                {
-                    resultGame = giantBomb.SearchForGames(_name).ToList();
-                    Thread.Sleep(1000);
-                }
-                catch
-                {
-                    this.Invoke(new Action(() => PushSnackbar("Failed to connect to GiantBomb. Is the API key valid?")));
-
-                    // Refresh game tile boxart
-                    this.Invoke(new Action(() => refreshTile(_name)));
-                    return;
-                }
-
-                GiantBombApi.Model.Game FinalGame;
-
-                try
-                {
-                    //loops through each game in resultGame list
-                    foreach (GiantBombApi.Model.Game game in resultGame)
-                    {
-                        //Gets game ID and makes a list of platforms it's available for
-                        FinalGame = giantBomb.GetGame(game.Id);
-                        List<GiantBombApi.Model.Platform> platforms = new List<GiantBombApi.Model.Platform>(FinalGame.Platforms);
-
-                        //If game platform list contains "PlayStation 2", then start scrapping
-                        foreach (var gamePlatform in platforms)
-                        {
-                            if (gamePlatform.Name == "PlayStation 2")
-                            {
-                                string _imgdir = FinalGame.Image.SmallUrl;
-
-                                Console.WriteLine("Using GiantBomb API");
-                                //Console.WriteLine("ApiKey = " + ApiKey);
-                                Console.WriteLine("Game ID: " + resultGame.First().Id);
-                                Console.WriteLine(_imgdir);
-
-                                //Downloads the image
-                                using (WebClient client = new WebClient())
-                                {
-                                    //GiantBomb throws 403 if user-agent is less than 5 characters
-                                    client.Headers.Add("user-agent", "PCSX2 Spectabis frontend");
-
-                                    try
-                                    {
-                                        client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + _name + ".jpg");
-                                        File.Copy(BaseDirectory + @"\resources\_temp\" + _name + ".jpg", BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg", true);
-
-                                        //Refresh game tile boxart
-                                        this.Invoke(new Action(() => refreshTile(_name)));
-
-                                        return;
-                                    }
-                                    catch
-                                    {
-                                        this.Invoke(new Action(() => PushSnackbar("Failed to download the image, check your internet connection.")));
-
-                                        //Refresh game tile boxart
-                                        this.Invoke(new Action(() => refreshTile(_name)));
-                                        return;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-                catch
-                {
-                    this.Invoke(new Action(() => PushSnackbar("Couldn't get the game, sorry")));
-
-                    //Refresh game tile boxart
-                    this.Invoke(new Action(() => refreshTile(_name)));
-                }
-            }
-
+            this.Invoke(()=> {
+                if (result == null)
+                    PushSnackbar("Couldn't get the game, sorry");
+                else
+                    refreshTile(result.Title.ToSanitizedString());
+            });
         }
 
         //"loading boxart" overlay for games which are currently downloading boxart
