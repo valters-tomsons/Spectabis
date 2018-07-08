@@ -13,6 +13,9 @@ namespace Spectabis_WPF.Domain {
         private static readonly IScraperApi[] Scrapers = new IScraperApi[] {
             new Scraping.Api.IGDBApi(),
             new Scraping.Api.GiantBombApi(),
+          //new Scraping.Api.TheGamesDbApi(),
+          //new Scraping.Api.MobyGamesApi(),
+          //new Scraping.Api.GoogleDatastore()
         };
 
         public ScrapeArt(string title) {

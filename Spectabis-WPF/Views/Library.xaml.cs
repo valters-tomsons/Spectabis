@@ -623,41 +623,31 @@ namespace Spectabis_WPF.Views
         }
 
         //Discover a game 
-        public void refreshTile(string game)
-        {
-            foreach(Grid gameTile in gamePanel.Children)
-            {
-                foreach(object obj in gameTile.Children)
-                {
-                    if(obj.ToString() == "System.Windows.Controls.Image")
-                    {
-                        Image boxArt = (Image)obj;
+        public void refreshTile(string game){
+            var boxArt = gamePanel.Children
+                .OfType<Grid>()
+                .SelectMany(p => p.Children.OfType<Image>())
+                .FirstOrDefault(p=>(string)p.Tag == game);
 
-                        if(boxArt.Tag.ToString() == game)
-                        {
-                            //Creates a bitmap stream
-                            System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+            if (boxArt == null)
+                return;
 
-                            //Opens the filestream
-                            artSource.BeginInit();
+            //Creates a bitmap stream
+            var artSource = new System.Windows.Media.Imaging.BitmapImage();
 
-                            //Fixes the caching issues, where cached copy would just hang around and bother me for two days
-                            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
-                            artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
-                            artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+            artSource.BeginInit();
 
-                            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                            artSource.UriSource = new Uri(@"resources\configs\" + game + @"\art.jpg", UriKind.RelativeOrAbsolute);
+            //Fixes the caching issues, where cached copy would just hang around and bother me for two days
+            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+            artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+            artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
 
-                            //Closes the filestream
-                            artSource.EndInit();
+            artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+            artSource.UriSource = new Uri(@"resources\configs\" + game + @"\art.jpg", UriKind.RelativeOrAbsolute);
 
-                            WpfAnimatedGif.ImageBehavior.SetAnimatedSource(boxArt, artSource);
-                            break;
-                        }
-                    }
-                }
-            }
+            artSource.EndInit();
+
+            WpfAnimatedGif.ImageBehavior.SetAnimatedSource(boxArt, artSource);
         }
 
         public void renameTile(string _old, string _new)
@@ -1250,17 +1240,16 @@ namespace Spectabis_WPF.Views
         private void doArtScraping(string title)
         {
             //Calls the method, which sets loading boxart
-            this.Invoke(new Action(() => SetLoadingStateForImage(title)));
+            this.Invoke(() => SetLoadingStateForImage(title));
 
-            //TheGamesDB API Scrapping
             var scraper = new ScrapeArt(title);
             var result = scraper.Result;
 
-            this.Invoke(()=> {
+            this.Invoke(() => {
                 if (result == null)
                     PushSnackbar("Couldn't get the game, sorry");
                 else
-                    refreshTile(result.Title.ToSanitizedString());
+                    refreshTile(title);
             });
         }
 

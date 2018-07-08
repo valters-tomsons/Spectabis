@@ -62,7 +62,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                     var fields = "&fields=id,name,cover,url,platforms";
 
                     // https://igdb.github.io/api/references/filters/
-                    var filter = "&filter[platforms][any]=8"; // id 8 == ps2
+                    var filter = "&filter[platforms][in]=8"; // id 8 == ps2
 
                     // https://igdb.github.io/api/references/pagination/
                     var limit  = "&limit=1";
