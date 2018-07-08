@@ -43,19 +43,22 @@ namespace Spectabis_WPF.Views
                     Properties.Settings.Default.Save();
 
                     //Increment Step count
-                    StepCounter = +1;
+                    StepCounter += 1;
 
-                    //Set up next step
-                    BigLogo.Visibility = Visibility.Collapsed;
-                    DownloadLabel.Visibility = Visibility.Collapsed;
 
-                    MainLabel.Content = "Select Boxart searching method";
-                    TGDB_Description.Visibility = Visibility.Visible;
-                    
-                    PrimaryButton.Content = "Continue";
-                    API_RadioPanel.Visibility = Visibility.Visible;
+                    // disabled
+                    if (false) {
+                        //Set up next step
+                        BigLogo.Visibility = Visibility.Collapsed;
+                        DownloadLabel.Visibility = Visibility.Collapsed;
 
-                    return;
+                        MainLabel.Content = "Select Boxart searching method";
+                        TGDB_Description.Visibility = Visibility.Visible;
+
+                        PrimaryButton.Content = "Continue";
+                        API_RadioPanel.Visibility = Visibility.Visible;
+                        return;
+                    }
                 }
             }
 

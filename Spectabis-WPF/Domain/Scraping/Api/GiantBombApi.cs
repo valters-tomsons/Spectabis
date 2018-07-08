@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 namespace Spectabis_WPF.Domain.Scraping.Api {
     public class GiantBombApi : IScraperApi {
 
-        private const string DefaultApiKey = "be7ee5819d83b10c66965a1688b280c2edfc3156";
-        public static string ApiKey { get {
+        private static string DefaultApiKey { get { return ScrapeArt.DecryptApiKey("NmM3YzIwODMwMWI5NjhkZWI1IGVmMzliMThjMTVlMjE2YTg2ZDU4NmU="); } }
+        private static string ApiKey { get {
                 var config = Properties.Settings.Default.APIKey_GiantBomb;
                 if (string.IsNullOrEmpty(config))
                     return DefaultApiKey;
@@ -44,8 +44,6 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                     foreach (var gamePlatform in platforms) {
                         if (gamePlatform.Name == "PlayStation 2") {
                             string imgUrl = finalGame.Image.SmallUrl;
-
-                            ScrapeArt.SaveImageFromUrl(title, imgUrl);
 
                             return new GameInfoModel {
                                 Id = finalGame.Id,

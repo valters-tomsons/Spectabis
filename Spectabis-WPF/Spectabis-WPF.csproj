@@ -129,10 +129,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TheGamesDBAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TheGamesDBAPI.1.0.0\lib\TheGamesDBAPI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -155,6 +151,9 @@
     <Compile Include="Domain\Playtime.cs" />
     <Compile Include="Domain\DiscordRPC.cs" />
     <Compile Include="Domain\ScrapeArt.cs" />
+    <Compile Include="Domain\Scraping\Api\GoogleDatastore.cs" />
+    <Compile Include="Domain\Scraping\Api\IGDB.cs" />
+    <Compile Include="Domain\Scraping\Api\MobyGamesApi.cs" />
     <Compile Include="Domain\Scraping\GameInfoModel.cs" />
     <Compile Include="Domain\Scraping\Api\GiantBombApi.cs" />
     <Compile Include="Domain\Scraping\IScraperApi.cs" />
