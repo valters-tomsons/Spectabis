@@ -652,22 +652,15 @@ namespace Spectabis_WPF.Views
 
         public void renameTile(string _old, string _new)
         {
-            foreach (Grid gameTile in gamePanel.Children)
-            {
-                foreach (object obj in gameTile.Children)
-                {
-                    if (obj.ToString() == "System.Windows.Controls.Image")
-                    {
-                        Image boxArt = (Image)obj;
+            var boxArt = gamePanel.Children
+                .OfType<Grid>()
+                .SelectMany(p => p.Children.OfType<Image>())
+                .FirstOrDefault(p => (string)p.Tag == _old);
 
-                        if (boxArt.Tag.ToString() == _old)
-                        {
-                            boxArt.Tag = _new;
-                            break;
-                        }
-                    }
-                }
-            }
+            if (boxArt == null)
+                throw new Exception();
+            
+            boxArt.Tag = _new;
         }
 
         //Create a new game tile in gamePanel

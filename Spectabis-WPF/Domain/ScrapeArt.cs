@@ -13,15 +13,15 @@ namespace Spectabis_WPF.Domain {
         private static readonly IScraperApi[] Scrapers = new IScraperApi[] {
             new Scraping.Api.IGDBApi(),
             new Scraping.Api.GiantBombApi(),
-          //new Scraping.Api.TheGamesDbApi(),
-          //new Scraping.Api.MobyGamesApi(),
+            new Scraping.Api.MobyGamesApi(),
           //new Scraping.Api.GoogleDatastore()
+          //new Scraping.Api.TheGamesDbApi(),
         };
 
         public ScrapeArt(string title) {
             foreach (var scraper in Scrapers) {
                 Result = scraper.GetDataFromApi(title);
-                if (Result == null)
+                if (Result == null || Result.ThumbnailUrl == null)
                     continue;
                 SaveImageFromUrl(title, Result.ThumbnailUrl);
                 return;
