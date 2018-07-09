@@ -238,5 +238,17 @@ namespace Spectabis_WPF.Properties {
                 this["APIKey_IGDB"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string APIKey_TheGamesDb {
+            get {
+                return ((string)(this["APIKey_TheGamesDb"]));
+            }
+            set {
+                this["APIKey_TheGamesDb"] = value;
+            }
+        }
     }
 }
