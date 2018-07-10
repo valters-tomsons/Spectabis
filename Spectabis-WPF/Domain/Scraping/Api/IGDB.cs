@@ -25,9 +25,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
             var client = new WebClient {
                 BaseAddress = BaseUrl,
             };
-            // https://igdb.github.io/api/examples/
-            client.Headers["user-key"] = ApiKey;
-            client.Headers["Accept"] = "application/json";
+            
             return client;
         }
 
@@ -44,20 +42,12 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
             // https://igdb.github.io/api/references/pagination/
             var limit = "&limit=1";
 
-            IGDB.IGDBGame[] parsed;
-            using (var req = CreateRequest()) {
-                try {
-                    //https://igdb.github.io/api/endpoints/game/
-                    var response = req.DownloadString("games/" + search + fields + filter + limit);
-                    parsed = JsonConvert.DeserializeObject<IGDB.IGDBGame[]>(response);
-
-                }
-                catch {
-                    if(Debugger.IsAttached)
-                        throw;
-                    return null;
-                }
-            }
+            var parsed = ScrapeArt.WebClient<IGDB.IGDBGame[]>(BaseUrl, p=> {
+                // https://igdb.github.io/api/examples/
+                p.Headers["user-key"] = ApiKey;
+                p.Headers["Accept"] = "application/json";
+                return p.DownloadString("games/" + search + fields + filter + limit);
+            });
 
             var first = parsed.FirstOrDefault();
             if (first == null)
@@ -70,7 +60,8 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
             return new GameInfoModel {
                 Id = first.Id,
                 Title = first.Name,
-                InfoSource = ScrapeSource.IGDB,
+                OriginalUrl = first.Url,
+                ScrapeSource = ScrapeSource.IGDB,
                 ThumbnailUrl = thumbnail
             };
         }

@@ -48,7 +48,8 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                             return new GameInfoModel {
                                 Id = finalGame.Id,
                                 Title = finalGame.Name,
-                                InfoSource = ScrapeSource.GiantBomb,
+                                OriginalUrl = finalGame.SiteDetailUrl,
+                                ScrapeSource = ScrapeSource.GiantBomb,
                                 ThumbnailUrl = imgUrl
                             };
                         }

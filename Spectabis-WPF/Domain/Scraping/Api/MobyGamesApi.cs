@@ -27,31 +27,22 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
             var qStrLimit = "&limit=1";
             var qStrPlatform = "&platform=7"; // id 7 is PS2
 
-            MobyGamesJson.Game[] parsed;
-            using (var req = new WebClient { BaseAddress = BaseUrl }) {
-                try {
-                    // http://www.mobygames.com/info/api
-                    var response = req.DownloadString("games" + qStrKey + qStrTitle + qStrLimit + qStrPlatform);
-                    var json = JsonConvert.DeserializeObject<MobyGamesJson.GamesEndpoint>(response);
-                    parsed = json.Games;
-                }
-                catch {
-                    if (Debugger.IsAttached)
-                        throw;
-                    return null;
-                }
+            var parsed = ScrapeArt.WebClient<MobyGamesJson.GamesEndpoint>(BaseUrl,
+                // http://www.mobygames.com/info/api
+                p => p.DownloadString("games" + qStrKey + qStrTitle + qStrLimit + qStrPlatform)
+            );
 
-                var first = parsed.FirstOrDefault();
-                if (first == null)
-                    return null;
+            var first = parsed.Games.FirstOrDefault();
+            if (first == null)
+                return null;
 
-                return new GameInfoModel {
-                    Id = (int)first.GameId,
-                    Title = first.Title,
-                    InfoSource = ScrapeSource.MobyGames,
-                    ThumbnailUrl = first.SampleCover?.Image,
-                };
-            }
+            return new GameInfoModel {
+                Id = (int)first.GameId,
+                Title = first.Title,
+                OriginalUrl = first.MobyUrl,
+                ScrapeSource = ScrapeSource.MobyGames,
+                ThumbnailUrl = first.SampleCover?.Image,
+            };
         }
 
         // https://app.quicktype.io/#l=cs&r=json2csharp

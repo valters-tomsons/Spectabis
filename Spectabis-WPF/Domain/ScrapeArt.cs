@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Linq;
+using System.Diagnostics;
 
 namespace Spectabis_WPF.Domain {
     class ScrapeArt {
@@ -13,9 +14,11 @@ namespace Spectabis_WPF.Domain {
         private static readonly IScraperApi[] Scrapers = new IScraperApi[] {
             new Scraping.Api.IGDBApi(),
             new Scraping.Api.GiantBombApi(),
+            new Scraping.Api.TheGamesDbHtml(),
             new Scraping.Api.MobyGamesApi(),
-          //new Scraping.Api.GoogleDatastore()
-          //new Scraping.Api.TheGamesDbApi(),
+            //new Scraping.Api.TheGamesDbApi(),
+            //new Scraping.Api.GoogleDatastore(),
+
         };
 
         public ScrapeArt(string title) {
@@ -26,6 +29,27 @@ namespace Spectabis_WPF.Domain {
                 SaveImageFromUrl(title, Result.ThumbnailUrl);
                 return;
             }
+        }
+
+        public static string WebClient(string url, Func<WebClient, string> f) {
+            using (var req = new WebClient()) {
+                req.BaseAddress = url;
+                try {
+                    return f(req);
+                }
+                catch {
+                    if (Debugger.IsAttached)
+                        throw;
+                }
+            }
+            return null;
+        }
+
+        public static T WebClient<T>(string url, Func<WebClient, string> f) {
+            var resp = WebClient(url, f);
+            if (resp == null)
+                return default(T);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(resp);
         }
 
         //Download art to game profile from an image link
