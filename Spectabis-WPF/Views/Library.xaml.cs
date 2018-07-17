@@ -632,6 +632,10 @@ namespace Spectabis_WPF.Views
             if (boxArt == null)
                 return;
 
+            if (string.IsNullOrEmpty(game)) {
+                boxArt.Source = null;
+                return;
+            }
             //Creates a bitmap stream
             var artSource = new System.Windows.Media.Imaging.BitmapImage();
 

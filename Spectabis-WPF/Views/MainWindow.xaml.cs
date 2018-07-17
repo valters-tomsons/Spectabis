@@ -336,7 +336,22 @@ namespace Spectabis_WPF.Views
 
                 //Set image and header text for the game
                 Header_title.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_name);
-                GameSettings_Header.Source = new System.Windows.Media.Imaging.BitmapImage(new Uri(BaseDirectory + @"\resources\configs\" + _name + @"\art.jpg"));
+
+                //Creates a bitmap stream
+                var artSource = new System.Windows.Media.Imaging.BitmapImage();
+
+                artSource.BeginInit();
+
+                //Fixes the caching issues, where cached copy would just hang around and bother me for two days
+                artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
+                artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+                artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+
+                artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                artSource.UriSource = new Uri(@"resources\configs\" + _name + @"\art.jpg", UriKind.RelativeOrAbsolute);
+
+                artSource.EndInit();
+                GameSettings_Header.Source = artSource;
             }
             else
             {
@@ -409,21 +424,23 @@ namespace Spectabis_WPF.Views
                 }
 
                 //Replace the boxart image
+                //refreshTile(null);
+                GameSettings_Header.Source = null;
                 File.Copy(_file, BaseDirectory + @"\resources\configs\" + _game + @"\art.jpg", true);
 
                 //Reload the image in header
-                System.Windows.Media.Imaging.BitmapImage artSource = new System.Windows.Media.Imaging.BitmapImage();
+                var artSource = new System.Windows.Media.Imaging.BitmapImage();
                 artSource.BeginInit();
                 artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.None;
                 artSource.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
                 artSource.CreateOptions = System.Windows.Media.Imaging.BitmapCreateOptions.IgnoreImageCache;
+
                 artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
                 artSource.UriSource = new Uri(BaseDirectory + @"\resources\configs\" + _game + @"\art.jpg");
                 artSource.EndInit();
                 GameSettings_Header.Source = artSource;
 
                 refreshTile(_game);
-
             }
         }
 

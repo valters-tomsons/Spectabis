@@ -17,7 +17,6 @@ namespace Spectabis_WPF.Domain {
             new Scraping.Api.TheGamesDbHtml(),
             new Scraping.Api.MobyGamesApi(),
             //new Scraping.Api.TheGamesDbApi(),
-            //new Scraping.Api.GoogleDatastore(),
 
         };
 
