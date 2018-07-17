@@ -160,7 +160,6 @@
     <Compile Include="Domain\Playtime.cs" />
     <Compile Include="Domain\DiscordRPC.cs" />
     <Compile Include="Domain\ScrapeArt.cs" />
-    <Compile Include="Domain\Scraping\Api\GoogleDatastore.cs" />
     <Compile Include="Domain\Scraping\Api\IGDB.cs" />
     <Compile Include="Domain\Scraping\Api\MobyGamesApi.cs" />
     <Compile Include="Domain\Scraping\Api\TheGamesDbHtml.cs" />
