@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Spectabis_WPF.Domain.Scraping.Api {
     public class GiantBombApi : IScraperApi {
 
-        private static string DefaultApiKey { get { return ScrapeArt.DecryptApiKey("NmM3YzIwODMwMWI5NjhkZWI1IGVmMzliMThjMTVlMjE2YTg2ZDU4NmU="); } }
+        private static string DefaultApiKey { get { return ScrapeArt.DecryptApiKey("ZGM1MjAwYjk3N2JjNzdiNGE3YzM3MmYxNDJlYjRhYTI4MDlmNGE4MA=="); } }
         private static string ApiKey { get {
                 var config = Properties.Settings.Default.APIKey_GiantBomb;
                 if (string.IsNullOrEmpty(config))

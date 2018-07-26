@@ -15,8 +15,8 @@ namespace Spectabis_WPF.Domain {
             new Scraping.Api.IGDBApi(),
             new Scraping.Api.GiantBombApi(),
             new Scraping.Api.TheGamesDbApi(),
-            new Scraping.Api.TheGamesDbHtml(),
             new Scraping.Api.MobyGamesApi(),
+            new Scraping.Api.TheGamesDbHtml(),
         };
 
         public ScrapeArt(string title) {
