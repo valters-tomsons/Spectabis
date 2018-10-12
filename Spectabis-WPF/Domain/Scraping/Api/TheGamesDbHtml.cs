@@ -1,11 +1,6 @@
 ﻿using CsQuery;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spectabis_WPF.Domain.Scraping.Api {
     public class TheGamesDbHtml : IScraperApi {
@@ -26,7 +21,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
 
             var sanitizedSearchFilename = SanitizeSeach(filename);
             var resultRoot = html["div#display div > a[href]"];
-            var results = Peb(resultRoot).ToArray();
+            var results = IterateResults(resultRoot).ToArray();
 
             // result is in the wrong order, so i attempt to find the most relevant of the results
             var orderedByRelevance = (
@@ -42,7 +37,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
             return orderedByRelevance.FirstOrDefault();
         }
 
-        public static IEnumerable<GameInfoModel> Peb(CQ elms) {
+        public static IEnumerable<GameInfoModel> IterateResults(CQ elms) {
             foreach (var resultRoot in elms.Select(p=>CQ.Create(p))) {
                 // <a href="./game.php?id=18139">
                 var link = resultRoot.Attr("href");
@@ -51,7 +46,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                 // https://cdn.thegamesdb.net/images/thumb/boxart/front/18139-1.jpg
                 var thumbnailUrl = resultRoot[".card-img-top"].Attr("src");
                 // https://cdn.thegamesdb.net/images/original/boxart/front/18139-1.jpg
-                var originalIrl = thumbnailUrl.Replace("thumb", "original");
+                var originalUrl = thumbnailUrl.Replace("thumb", "original");
 
                 var title = resultRoot[".card-footer.bg-secondary > p:first-of-type"].Text();
 
@@ -59,7 +54,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                     Id = id,
                     Title = title,
                     OriginalUrl = link,
-                    ScrapeSource = ScrapeSource.TheGamesDB,
+                    ScrapeSource = ScrapeSource.TheGamesDBHtml,
                     ThumbnailUrl = thumbnailUrl
                 };
             }

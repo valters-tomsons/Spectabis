@@ -151,6 +151,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Domain\Scraping\ApiItem.cs" />
     <Compile Include="Domain\currentXInputDevice.cs" />
     <Compile Include="Domain\GameProfile.cs" />
     <Compile Include="Domain\GetGameName.cs" />

@@ -62,35 +62,6 @@ namespace Spectabis_WPF.Views
                 }
             }
 
-            //Select API step
-            //// Cyberfoxhax<08-July-2018>: disable this step entirely 
-            if(false)
-            //if(StepCounter == 1)
-            {
-                //If Giantbomb is selected, check if API key is entered
-                if (GB_Radio.IsChecked == true)
-                {
-                    if(ApiBox.Text.Length != 40)
-                    {
-                        MessageBox.Show("API Key not valid lenght");
-                        return;
-                    }
-
-
-                    //Save settings
-                    Properties.Settings.Default.artDB = "GiantBomb";
-                    Properties.Settings.Default.APIKey_GiantBomb = ApiBox.Text;
-                    Properties.Settings.Default.Save();
-
-                }
-                else if (TGDB_Radio.IsChecked == true)
-                {
-                    //Save settings
-                    Properties.Settings.Default.artDB = "TheGamesDB";
-                    Properties.Settings.Default.Save();
-                }
-            }
-
             //Hide this page and go to Spectabis
             ((MainWindow)Application.Current.MainWindow).HideFirsttimeSetup();
         }

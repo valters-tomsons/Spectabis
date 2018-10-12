@@ -1,9 +1,9 @@
 ﻿namespace Spectabis_WPF.Domain.Scraping {
     public enum ScrapeSource {
         TheGamesDB,
-        GiantBomb,
+        TheGamesDBHtml,
+		GiantBomb,
         IGDB,
-        MobyGames,
-        GoogleDatastore
+        MobyGames
     }
 }

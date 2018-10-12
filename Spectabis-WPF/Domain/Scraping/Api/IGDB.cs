@@ -1,12 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spectabis_WPF.Domain.Scraping.Api {
     public class IGDBApi : IScraperApi {
@@ -20,14 +14,6 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
             }
         }
         private const string BaseUrl = "https://api-endpoint.igdb.com/";
-
-        private WebClient CreateRequest() {
-            var client = new WebClient {
-                BaseAddress = BaseUrl,
-            };
-            
-            return client;
-        }
 
         public GameInfoModel GetDataFromApi(string title) {
             // https://igdb.github.io/api/references/filters/#text-search

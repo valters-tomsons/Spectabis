@@ -17,9 +17,6 @@
     <Setting Name="autoBoxart" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="artDB" Type="System.String" Scope="User">
-      <Value Profile="(Default)">TheGamesDB</Value>
-    </Setting>
     <Setting Name="swatch" Type="System.String" Scope="User">
       <Value Profile="(Default)">bluegrey</Value>
     </Setting>
@@ -57,6 +54,12 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="APIKey_TheGamesDb" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="APIAutoSequence" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0,1,2,3,4</Value>
+    </Setting>
+    <Setting Name="APIUserSequence" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

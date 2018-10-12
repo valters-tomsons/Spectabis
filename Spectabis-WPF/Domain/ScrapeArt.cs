@@ -1,32 +1,85 @@
 ﻿using Spectabis_WPF.Domain.Scraping;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Linq;
 using System.Diagnostics;
+using Spectabis_WPF.Properties;
 
 namespace Spectabis_WPF.Domain {
-    class ScrapeArt {
+    public class ScrapeArt {
         private static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         public GameInfoModel Result;
 
-        private static readonly IScraperApi[] Scrapers = new IScraperApi[] {
-            new Scraping.Api.IGDBApi(),
-            new Scraping.Api.GiantBombApi(),
-            new Scraping.Api.TheGamesDbApi(),
-            new Scraping.Api.MobyGamesApi(),
-            new Scraping.Api.TheGamesDbHtml(),
-        };
+        public static Dictionary<int, IScraperApi> Scrapers = new Dictionary<int, IScraperApi>{
+			{ 0, new Scraping.Api.GiantBombApi() },
+            { 1, new Scraping.Api.TheGamesDbApi() },
+            { 2, new Scraping.Api.IGDBApi() },
+            { 3, new Scraping.Api.TheGamesDbHtml() },
+			{ 4, new Scraping.Api.MobyGamesApi() }
+		};
+
+	    private class PerformanceStat {
+		    public int Failures { get; set; }
+		    public List<float> Milliseconds { get; } = new List<float>();
+		    public float AverageMs => Milliseconds.Average();
+	    }
+		private static readonly Dictionary<int, PerformanceStat> ApiPerformanceStats = new Dictionary<int, PerformanceStat>();
 
         public ScrapeArt(string title) {
-            foreach (var scraper in Scrapers) {
-                Result = scraper.GetDataFromApi(title);
-                if (Result == null || Result.ThumbnailUrl == null)
-                    continue;
-                SaveImageFromUrl(title, Result.ThumbnailUrl);
+	        var order = new[] {
+			        Settings.Default.APIUserSequence,
+			        Settings.Default.APIAutoSequence
+		        }
+				.First(p=>string.IsNullOrEmpty(p) == false)
+				.Split(',')
+		        .Select(int.Parse)
+		        .ToArray();
+
+	        Scrapers = Scrapers
+		        .Select((p, i) => i)
+		        .ToDictionary(
+			        p => order[p],
+			        p => Scrapers[order[p]]
+		        );
+
+			var scraperOrder = Scrapers
+				.OrderBy(p => ApiPerformanceStats.ContainsKey(p.Key) ? ApiPerformanceStats[p.Key].Failures : 100)
+				.ThenBy(p => ApiPerformanceStats.ContainsKey(p.Key) ? ApiPerformanceStats[p.Key].AverageMs : 100)
+				.ToArray();
+
+			Settings.Default.APIAutoSequence = string.Join(",", scraperOrder.Select(p=>p.Key));
+	        Settings.Default.Save();
+
+			foreach (var scraper in scraperOrder) {
+				if(ApiPerformanceStats.ContainsKey(scraper.Key) == false)
+					ApiPerformanceStats[scraper.Key] = new PerformanceStat();
+
+				var stopwatch = new Stopwatch();
+				stopwatch.Start();
+                Result = scraper.Value.GetDataFromApi(title);
+                if (Result?.ThumbnailUrl == null) {
+					stopwatch.Stop();
+	                ApiPerformanceStats[scraper.Key].Milliseconds.Add(stopwatch.ElapsedMilliseconds);
+	                ApiPerformanceStats[scraper.Key].Failures++;
+					continue;
+				}
+
+				var downloadSuccess = SaveImageFromUrl(title, Result.ThumbnailUrl);
+	            if (downloadSuccess == false) {
+					stopwatch.Stop();
+					ApiPerformanceStats[scraper.Key].Milliseconds.Add(stopwatch.ElapsedMilliseconds);
+		            ApiPerformanceStats[scraper.Key].Failures++;
+					continue;
+				}
+				stopwatch.Stop();
+				ApiPerformanceStats[scraper.Key].Milliseconds.Add(stopwatch.ElapsedMilliseconds);
                 return;
             }
+
+			Console.WriteLine("All APIs failed");
         }
 
         public static string WebClient(string url, Func<WebClient, string> f) {
@@ -51,8 +104,8 @@ namespace Spectabis_WPF.Domain {
         }
 
         //Download art to game profile from an image link
-        public static void SaveImageFromUrl(string fileName, string imgUrl) {
-            using (WebClient client = new WebClient()) {
+        public static bool SaveImageFromUrl(string fileName, string imgUrl) {
+            using (var client = new WebClient()) {
                 client.Headers.Add("user-agent", "PCSX2 Spectabis frontend");
 
                 try {
@@ -63,9 +116,11 @@ namespace Spectabis_WPF.Domain {
                         BaseDirectory + @"\resources\configs\" + fileName + @"\art.jpg",
                         true
                     );
+	                return true;
                 }
-                catch {
+				catch {
                     Console.WriteLine("Failed to download boxart.");
+	                return false;
                 }
             }
         }
