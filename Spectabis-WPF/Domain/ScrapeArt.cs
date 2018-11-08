@@ -1,149 +1,149 @@
-﻿using System;
+﻿using Spectabis_WPF.Domain.Scraping;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using TheGamesDBAPI;
+using System.Linq;
+using System.Diagnostics;
+using Spectabis_WPF.Properties;
 
-namespace Spectabis_WPF.Domain
-{
-    class ScrapeArt
-    {
-        private static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        private string title = null;
-        
+namespace Spectabis_WPF.Domain {
+    public class ScrapeArt {
+        private static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-        public ScrapeArt(string _name)
-        {
-            title = _name;
+        public GameInfoModel Result;
 
-            if (Properties.Settings.Default.artDB == "TheGamesDB")
-            {
-                TheGamesDB();
-            }
+        public static Dictionary<int, IScraperApi> Scrapers = new Dictionary<int, IScraperApi>{
+			{ 0, new Scraping.Api.GiantBombApi() },
+            { 1, new Scraping.Api.TheGamesDbApi() },
+            { 2, new Scraping.Api.IGDBApi() },
+            { 3, new Scraping.Api.TheGamesDbHtml() },
+			{ 4, new Scraping.Api.MobyGamesApi() }
+		};
 
-            if(Properties.Settings.Default.artDB == "GiantBomb")
-            {
-                GiantBomb();
-            }
-        }
+	    private class PerformanceStat {
+		    public int Failures { get; set; }
+		    public List<float> Milliseconds { get; } = new List<float>();
+		    public float AverageMs => Milliseconds.Average();
+	    }
+		private static readonly Dictionary<int, PerformanceStat> ApiPerformanceStats = new Dictionary<int, PerformanceStat>();
 
-        private void TheGamesDB()
-        {
-            try
-            {
-                string _title;
-                string _imgdir;
+        public ScrapeArt(string title) {
+	        var order = new[] {
+			        Settings.Default.APIUserSequence,
+			        Settings.Default.APIAutoSequence
+		        }
+				.First(p=>string.IsNullOrEmpty(p) == false)
+				.Split(',')
+		        .Select(int.Parse)
+		        .ToArray();
 
-                //Search all games with given title and filter only PS2 titles
-                foreach (GameSearchResult game in GamesDB.GetGames(title, "Sony Playstation 2"))
-                {
+	        Scrapers = Scrapers
+		        .Select((p, i) => i)
+		        .ToDictionary(
+			        p => order[p],
+			        p => Scrapers[order[p]]
+		        );
 
-                    //Gets game's database ID
-                    Game newGame = GamesDB.GetGame(game.ID);
+			var scraperOrder = Scrapers
+				.OrderBy(p => ApiPerformanceStats.ContainsKey(p.Key) ? ApiPerformanceStats[p.Key].Failures : 100)
+				.ThenBy(p => ApiPerformanceStats.ContainsKey(p.Key) ? ApiPerformanceStats[p.Key].AverageMs : 100)
+				.ToArray();
 
-                    _title = title.Replace(@"/", string.Empty);
-                    _title = _title.Replace(@"\", string.Empty);
-                    _title = _title.Replace(@":", string.Empty);
+			Settings.Default.APIAutoSequence = string.Join(",", scraperOrder.Select(p=>p.Key));
+	        Settings.Default.Save();
 
+			foreach (var scraper in scraperOrder) {
+				if(ApiPerformanceStats.ContainsKey(scraper.Key) == false)
+					ApiPerformanceStats[scraper.Key] = new PerformanceStat();
 
-                    //Creates a link for image url
-                    _imgdir = "http://thegamesdb.net/banners/" + newGame.Images.BoxartFront.Path;
+				var stopwatch = new Stopwatch();
+				stopwatch.Start();
+                Result = scraper.Value.GetDataFromApi(title);
+                if (Result?.ThumbnailUrl == null) {
+					stopwatch.Stop();
+	                ApiPerformanceStats[scraper.Key].Milliseconds.Add(stopwatch.ElapsedMilliseconds);
+	                ApiPerformanceStats[scraper.Key].Failures++;
+					continue;
+				}
 
-                    //Downloads the image
-                    DownloadArt(title, _imgdir);
-
-                    break;
-                }
-            }
-            catch
-            {
-                Console.WriteLine("Failed to connect to TheGamesDB");
-            }
-        }
-
-        private void GiantBomb()
-        {
-            //Variables
-            string ApiKey = Properties.Settings.Default.APIKey_GiantBomb;
-            var giantBomb = new GiantBombApi.GiantBombRestClient(ApiKey);
-
-            //list for game results
-            List<GiantBombApi.Model.Game> resultGame = new List<GiantBombApi.Model.Game>();
-
-            var PlatformFilter = new Dictionary<string, object>() { { "platform", "PlayStation 2" } };
-
-            //Search the DB for a game ID
-            try
-            {
-                resultGame = giantBomb.SearchForGames(title).ToList();
-            }
-            catch
-            {
-                Console.WriteLine("Failed to connect to Giantbomb");
+				var downloadSuccess = SaveImageFromUrl(title, Result.ThumbnailUrl);
+	            if (downloadSuccess == false) {
+					stopwatch.Stop();
+					ApiPerformanceStats[scraper.Key].Milliseconds.Add(stopwatch.ElapsedMilliseconds);
+		            ApiPerformanceStats[scraper.Key].Failures++;
+					continue;
+				}
+				stopwatch.Stop();
+				ApiPerformanceStats[scraper.Key].Milliseconds.Add(stopwatch.ElapsedMilliseconds);
                 return;
             }
 
-            GiantBombApi.Model.Game FinalGame;
+			Console.WriteLine("All APIs failed");
+        }
 
-            try
-            {
-                //loops through each game in resultGame list
-                foreach (GiantBombApi.Model.Game game in resultGame)
-                {
-                    //Gets game ID and makes a list of platforms it's available for
-                    FinalGame = giantBomb.GetGame(game.Id);
-                    List<GiantBombApi.Model.Platform> platforms = new List<GiantBombApi.Model.Platform>(FinalGame.Platforms);
-
-                    //If game platform list contains "PlayStation 2", then start scrapping
-                    foreach (var gamePlatform in platforms)
-                    {
-                        if (gamePlatform.Name == "PlayStation 2")
-                        {
-                            string _imgdir = FinalGame.Image.SmallUrl;
-
-                            Console.WriteLine("Using GiantBomb API");
-                            //Console.WriteLine("ApiKey = " + ApiKey);
-                            Console.WriteLine("Game ID: " + resultGame.First().Id);
-                            Console.WriteLine(_imgdir);
-
-                            DownloadArt(title, _imgdir);
-                            return;
-                        }
-                    }
+        public static string WebClient(string url, Func<WebClient, string> f) {
+            using (var req = new WebClient()) {
+                req.BaseAddress = url;
+                try {
+                    return f(req);
                 }
+                catch {
+                    if (Debugger.IsAttached)
+                        throw;
+                }
+            }
+            return null;
+        }
 
-            }
-            catch
-            {
-                Console.WriteLine("Failed to connect to Giantbomb");
-            }
+        public static T WebClient<T>(string url, Func<WebClient, string> f) {
+            var resp = WebClient(url, f);
+            if (resp == null)
+                return default(T);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(resp);
         }
 
         //Download art to game profile from an image link
-        private static void DownloadArt(string title, string _imgdir)
-        {
-            using (WebClient client = new WebClient())
-            {
+        public static bool SaveImageFromUrl(string fileName, string imgUrl) {
+            using (var client = new WebClient()) {
                 client.Headers.Add("user-agent", "PCSX2 Spectabis frontend");
 
-                try
-                {
+                try {
                     //Download image to temp folder and copy to profile folder
-                    client.DownloadFile(_imgdir, BaseDirectory + @"\resources\_temp\" + title + ".jpg");
-                    File.Copy(BaseDirectory + @"\resources\_temp\" + title + ".jpg", BaseDirectory + @"\resources\configs\" + title + @"\art.jpg", true);
-                    return;
+                    client.DownloadFile(imgUrl, BaseDirectory + @"\resources\_temp\" + fileName + ".jpg");
+                    File.Copy(
+                        BaseDirectory + @"\resources\_temp\" + fileName + ".jpg",
+                        BaseDirectory + @"\resources\configs\" + fileName + @"\art.jpg",
+                        true
+                    );
+	                return true;
                 }
-                catch
-                {
+				catch {
                     Console.WriteLine("Failed to download boxart.");
-                    return;
+	                return false;
                 }
             }
+        }
+
+        public static string EncryptApiKey(string plain) {
+            var random = new Random(38946897);
+            var s1 = new string(plain.OrderBy(p=>random.Next()).ToArray());
+            var s2 = System.Text.Encoding.UTF8.GetBytes(s1);
+            var s3 = System.Convert.ToBase64String(s2);
+            return s3;
+        }
+
+        public static string DecryptApiKey(string encrypted) {
+            var random = new Random(38946897);
+            var s3 = System.Convert.FromBase64String(encrypted);
+            var s2 = System.Text.Encoding.UTF8.GetString(s3);
+            var seq = Enumerable.Range(0, s2.Length)
+                .OrderBy(p=>random.Next())
+                .ToArray();
+            var s1 = new char[s2.Length];
+            for (var i = 0; i < s1.Length; i++)
+                s1[seq[i]] = s2[i];
+            return new string(s1);
         }
     }
 }

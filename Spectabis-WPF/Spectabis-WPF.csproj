@@ -80,6 +80,15 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="crypto, Version=1.8.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.0\lib\net45\crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="JWT, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.JWT.1.0.5\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\JWT.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.4.0-ALPHA026\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -129,10 +138,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TheGamesDBAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TheGamesDBAPI.1.0.0\lib\TheGamesDBAPI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -146,6 +151,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Domain\Scraping\ApiItem.cs" />
     <Compile Include="Domain\currentXInputDevice.cs" />
     <Compile Include="Domain\GameProfile.cs" />
     <Compile Include="Domain\GetGameName.cs" />
@@ -155,6 +161,15 @@
     <Compile Include="Domain\Playtime.cs" />
     <Compile Include="Domain\DiscordRPC.cs" />
     <Compile Include="Domain\ScrapeArt.cs" />
+    <Compile Include="Domain\Scraping\Api\IGDB.cs" />
+    <Compile Include="Domain\Scraping\Api\MobyGamesApi.cs" />
+    <Compile Include="Domain\Scraping\Api\TheGamesDbHtml.cs" />
+    <Compile Include="Domain\Scraping\GameInfoModel.cs" />
+    <Compile Include="Domain\Scraping\Api\GiantBombApi.cs" />
+    <Compile Include="Domain\Scraping\IScraperApi.cs" />
+    <Compile Include="Domain\Scraping\LevenshteinDistance.cs" />
+    <Compile Include="Domain\Scraping\ScrapeSource.cs" />
+    <Compile Include="Domain\Scraping\Api\TheGamesDbApi.cs" />
     <Compile Include="Domain\StringExtensions.cs" />
     <Compile Include="Domain\SupportedGames.cs" />
     <Compile Include="Domain\UpdateCheck.cs" />

@@ -12,7 +12,7 @@ namespace Spectabis_WPF.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -80,30 +80,6 @@ namespace Spectabis_WPF.Properties {
             }
             set {
                 this["autoBoxart"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("TheGamesDB")]
-        public string artDB {
-            get {
-                return ((string)(this["artDB"]));
-            }
-            set {
-                this["artDB"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("null")]
-        public string APIKey_GiantBomb {
-            get {
-                return ((string)(this["APIKey_GiantBomb"]));
-            }
-            set {
-                this["APIKey_GiantBomb"] = value;
             }
         }
         
@@ -212,6 +188,78 @@ namespace Spectabis_WPF.Properties {
             }
             set {
                 this["playtime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string APIKey_GiantBomb {
+            get {
+                return ((string)(this["APIKey_GiantBomb"]));
+            }
+            set {
+                this["APIKey_GiantBomb"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string APIKey_MobyGames {
+            get {
+                return ((string)(this["APIKey_MobyGames"]));
+            }
+            set {
+                this["APIKey_MobyGames"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string APIKey_IGDB {
+            get {
+                return ((string)(this["APIKey_IGDB"]));
+            }
+            set {
+                this["APIKey_IGDB"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string APIKey_TheGamesDb {
+            get {
+                return ((string)(this["APIKey_TheGamesDb"]));
+            }
+            set {
+                this["APIKey_TheGamesDb"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0,1,2,3,4")]
+        public string APIAutoSequence {
+            get {
+                return ((string)(this["APIAutoSequence"]));
+            }
+            set {
+                this["APIAutoSequence"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string APIUserSequence {
+            get {
+                return ((string)(this["APIUserSequence"]));
+            }
+            set {
+                this["APIUserSequence"] = value;
             }
         }
     }

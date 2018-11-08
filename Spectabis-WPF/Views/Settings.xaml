@@ -4,17 +4,18 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Spectabis_WPF"
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:scraping="clr-namespace:Spectabis_WPF.Domain.Scraping"
       x:Class="Spectabis_WPF.Views.Settings"
       mc:Ignorable="d" 
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       TextElement.FontWeight="Medium"
       Background="{DynamicResource MaterialDesignPaper}"
       TextElement.FontSize="14"
-      FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
-      d:DesignHeight="500" d:DesignWidth="720"
+      FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" d:DesignWidth="720"
       Title="Settings"
       >
+    <ScrollViewer>
     <Grid Margin="0,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <StackPanel>
             <materialDesign:Card x:Name="Interaction" Margin="10,10,10,0" VerticalAlignment="Top" Height="170" >
@@ -37,22 +38,82 @@
                             <CheckBox x:Name="Tooltips" Height="25" Content="Title Tooltips" Click="checkbox_Click" Visibility="Collapsed" />
                         </StackPanel>
 
-                        <StackPanel Orientation="Vertical" x:Name="Database_API_Stackpanel" Margin="12,0">
-                            <Label Content="Game database API:" ToolTip="Used for automatic cover art images"/>
-                            <RadioButton Content="TheGamesDB" HorizontalAlignment="Left" x:Name="thegamesdb_radio" Click="artDB_click" ToolTip="Slower, but accessible"/>
-                            <RadioButton Content="GiantBomb" HorizontalAlignment="Left" x:Name="giantbomb_radio" Click="artDB_click" ToolTip="Faster and more accurate, needs registration"/>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Vertical" x:Name="APISettings_Panel">
-                            <Label>Giantbomb API Key:</Label>
-                            <TextBox Width="auto" Text="null" x:Name="Api_Box" LostFocus="Api_Box_LostFocus"></TextBox>
-                        </StackPanel>
                     </StackPanel>
 
                 </Grid>
             </materialDesign:Card>
 
-            <materialDesign:Card VerticalAlignment="Stretch" Margin="10,16" Height="299">
+            <materialDesign:Card Margin="10,16,10,0" Padding="0,0,0,10">
+                <StackPanel>
+                    <Grid>
+                        <Label FontSize="30" FontFamily="Roboto" Content="Scraping APIs" Margin="10,10,0,0" Foreground="#DDA8A8A8" Height="45"/>
+                        <Button Click="ResetPrioritiesClick" Content="Reset Priorities" HorizontalAlignment="Right" Margin="0,0,20,0" />
+                    </Grid>
+
+                    <ListView BorderThickness="0" Background="Transparent" BorderBrush="Transparent" x:Name="ApiKeysListView">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="scraping:ApiItem">
+                                <Grid Margin="5,0,0,5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Column="0" Grid.Row="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Button Click="ApiItemUpClick" DataContext="{Binding}" Content="▲" FontSize="10" HorizontalAlignment="Stretch" Padding="0" VerticalAlignment="Stretch" Height="15" Margin="0,0,0,2" />
+                                        <Button Click="ApiItemDownClick" DataContext="{Binding}" Content="▼" FontSize="10" Foreground="White" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="15" Grid.Row="1" />
+                                    </Grid>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="30,0" Text="{Binding ApiName}"></TextBlock>
+                                    <Border Grid.Row="1" Grid.Column="1" BorderThickness="2" BorderBrush="#bbb" CornerRadius="3" Margin="5,0,20,0">
+                                        <TextBox  Text="{Binding ApiKey}" BorderThickness="0" VerticalContentAlignment="Center" Padding="10,0">
+                                            <TextBox.Style>
+                                                <Style TargetType="TextBox">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsFreeApi}" Value="True">
+                                                            <Setter Property="IsEnabled" Value="False"></Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsFreeApi}" Value="False">
+                                                            <Setter Property="IsEnabled" Value="True"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBox.Style>
+                                        </TextBox>
+                                    </Border>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Items>
+                            <scraping:ApiItem ApiName="GiantBomb" ApiKey="d6356ce53a374e55b91d8018f5a59d43" />
+                            <scraping:ApiItem ApiName="TheGamesDB" ApiKey="e79660b6dd1245d4876a2e983ea7f5ab" />
+                            <scraping:ApiItem ApiName="IGDB" ApiKey="2cf5bede3f8c4eca9f55958c73b58eb6" />
+                            <scraping:ApiItem ApiName="Moby Games" ApiKey="8830485ffd8241f1a316db413f1806f4" />
+                            <scraping:ApiItem ApiName="TheGamesDB Html" IsFreeApi="True" />
+                        </ListView.Items>
+                    </ListView>
+                </StackPanel>
+            </materialDesign:Card>
+            
+            <materialDesign:Card Margin="10,16" Padding="0,0,0,10">
                 <Grid>
                     <StackPanel VerticalAlignment="Stretch">
                         <Label FontSize="30" FontFamily="Roboto" Content="Emulator" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="#DDA8A8A8" Height="45"/>
@@ -88,26 +149,7 @@
             </materialDesign:Card>
         </StackPanel>
         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="Snackbar"/>
-        
-        <materialDesign:DialogHost x:Name="GiantBombWarning" Visibility="Collapsed">
-            <materialDesign:DialogHost.DialogContent>
-                <Border BorderThickness="0" BorderBrush="{DynamicResource PrimaryHueMidBrush}" ClipToBounds="True" x:Name="WarningContent">
-                    <materialDesign:Card Height="75">
-                        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                            <Label HorizontalAlignment="Center">GiantBomb API is faster and more reliable. Sadly, you must register and get an API key from GiantBomb. Register now?</Label>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" Click="Giantbomb_Yes" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10,0,10,0" >YES</Button>
-                                <Button Grid.Column="2" Click="Giantbomb_No" Style="{DynamicResource MaterialDesignFlatButton}" Margin="10,0,10,0" >NO</Button>
-                            </Grid>
-                        </StackPanel>
-                    </materialDesign:Card>
-                </Border>
-            </materialDesign:DialogHost.DialogContent>
-        </materialDesign:DialogHost>
+
     </Grid>
+    </ScrollViewer>
 </Page>

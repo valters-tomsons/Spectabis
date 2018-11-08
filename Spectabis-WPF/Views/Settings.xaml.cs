@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq;
-using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using CsQuery.ExtensionMethods;
 using MaterialDesignThemes.Wpf;
+using Spectabis_WPF.Domain;
+using Spectabis_WPF.Domain.Scraping;
+using Button = System.Windows.Controls.Button;
 
 namespace Spectabis_WPF.Views
 {
@@ -31,13 +34,42 @@ namespace Spectabis_WPF.Views
             TitleAsFile.IsChecked = Properties.Settings.Default.titleAsFile;
             Playtime.IsChecked = Properties.Settings.Default.playtime;
 
-            //Console.WriteLine("GiantBomb API Key: " + Properties.Settings.Default.APIKey_GiantBomb);
-            Api_Box.Text = Properties.Settings.Default.APIKey_GiantBomb;
+			PopulateApiList();
 
-            emudir_text.Text = Properties.Settings.Default.emuDir;
-
-            ShowAPISelection();
+			emudir_text.Text = Properties.Settings.Default.emuDir;
         }
+
+	    private void PopulateApiList() {
+		    var getProp = new Func<string, PropertyInfo>(p => typeof(Properties.Settings).GetProperty(p));
+		    var apiList = new[]{
+				    new ApiItem{ ApiName = "Giant Bomb" , PropertyInfo = getProp(nameof(Properties.Settings.APIKey_GiantBomb)) , ScraperApi = ScrapeArt.Scrapers.Values.OfType<Domain.Scraping.Api.GiantBombApi>().First() },
+				    new ApiItem{ ApiName = "TheGamesDB" , PropertyInfo = getProp(nameof(Properties.Settings.APIKey_TheGamesDb)), ScraperApi = ScrapeArt.Scrapers.Values.OfType<Domain.Scraping.Api.TheGamesDbApi>().First() },
+				    new ApiItem{ ApiName = "IGDB"       , PropertyInfo = getProp(nameof(Properties.Settings.APIKey_IGDB))      , ScraperApi = ScrapeArt.Scrapers.Values.OfType<Domain.Scraping.Api.IGDBApi>().First() },
+				    new ApiItem{ ApiName = "Moby Games" , PropertyInfo = getProp(nameof(Properties.Settings.APIKey_MobyGames)) , ScraperApi = ScrapeArt.Scrapers.Values.OfType<Domain.Scraping.Api.MobyGamesApi>().First() },
+				    new ApiItem{ ApiName = "TheGamesDb Open", IsFreeApi = true, ScraperApi = ScrapeArt.Scrapers.Values.OfType<Domain.Scraping.Api.TheGamesDbHtml>().First() }
+			    }
+				.OrderBy(p=>ScrapeArt.Scrapers.First(pp=>pp.Value == p.ScraperApi).Key)
+				.Select((p, i) => {
+				    p.Id = i;
+				    return p;
+			    })
+			    .ToArray();
+
+		    var order = new[] {
+				    Properties.Settings.Default.APIUserSequence,
+				    Properties.Settings.Default.APIAutoSequence
+			    }
+			    .First(p => string.IsNullOrEmpty(p) == false)
+			    .Split(',')
+			    .Select(int.Parse)
+			    .ToArray();
+
+			apiList = apiList.Select((p, i) => apiList[order[i]]).ToArray();
+
+		    ApiKeysListView.ItemsSource = null;
+		    ApiKeysListView.Items.Clear();
+			ApiKeysListView.ItemsSource = apiList.ToArray();
+		}
 
         //Saves Settings
         private void SaveSettings()
@@ -53,58 +85,80 @@ namespace Spectabis_WPF.Views
             Properties.Settings.Default.titleAsFile = Convert.ToBoolean(TitleAsFile.IsChecked);
             Properties.Settings.Default.playtime = Convert.ToBoolean(Playtime.IsChecked);
 
-            Properties.Settings.Default.APIKey_GiantBomb = Api_Box.Text;
-
-            if(thegamesdb_radio.IsChecked == true)
-            {
-                Properties.Settings.Default.artDB = "TheGamesDB";
-            }
-            else if(giantbomb_radio.IsChecked == true)
-            {
-                Properties.Settings.Default.artDB = "GiantBomb";
-            }
-
             //Save settings
             Properties.Settings.Default.Save();
             Console.WriteLine("Settings Saved");
 
             //Load Nightmode
             new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
-
-            ShowAPISelection();
         }
 
-        //Save Settings when checkbox is clicked
-        private void checkbox_Click(object sender, RoutedEventArgs e)
+	    private void ApiItemUpClick(object sender, RoutedEventArgs e) {
+		    var button = sender as Button;
+			if (button == null)
+				return;
+
+		    var item = button.DataContext as ApiItem;
+		    if (item == null)
+			    return;
+
+		    var index = ApiKeysListView.Items.IndexOf(item);
+		    if (index == 0 || index == -1)
+			    return;
+
+		    var items = ApiKeysListView.ItemsSource as ApiItem[];
+		    if (items == null)
+			    return;
+		    ApiKeysListView.ItemsSource = null;
+
+		    items[index] = items[index - 1];
+		    items[index - 1] = item;
+
+			ApiKeysListView.Items.Clear();
+			ApiKeysListView.ItemsSource = items;
+
+		    Properties.Settings.Default.APIUserSequence = string.Join(",",items.Select(p => p.Id));
+		    Properties.Settings.Default.Save();
+		}
+
+	    private void ApiItemDownClick(object sender, RoutedEventArgs e) {
+			var button = sender as Button;
+		    if (button == null)
+			    return;
+
+		    var item = button.DataContext as ApiItem;
+		    if (item == null)
+			    return;
+
+		    var index = ApiKeysListView.Items.IndexOf(item);
+		    if (index == ApiKeysListView.Items.Count - 1 || index == -1)
+			    return;
+
+		    var items = ApiKeysListView.ItemsSource as ApiItem[];
+		    if (items == null)
+			    return;
+		    ApiKeysListView.ItemsSource = null;
+
+			items[index] = items[index + 1];
+		    items[index + 1] = item;
+
+			ApiKeysListView.Items.Clear();
+		    ApiKeysListView.ItemsSource = items;
+
+		    Properties.Settings.Default.APIUserSequence = string.Join(",", items.Select(p => p.Id));
+		    Properties.Settings.Default.Save();
+		}
+
+	    private void ResetPrioritiesClick(object sender, RoutedEventArgs e) {
+		    Properties.Settings.Default.APIUserSequence = null;
+		    Properties.Settings.Default.Save();
+		    PopulateApiList();
+		}
+
+		//Save Settings when checkbox is clicked
+		private void checkbox_Click(object sender, RoutedEventArgs e)
         {
             SaveSettings();
-        }
-
-        //Show giantbomb warning dialog
-        //if bool is true, hide the warning
-        private void ShowGiantBombWarning([Optional]bool hide)
-        {
-            GiantBombWarning.Visibility = Visibility.Visible;
-            WarningContent.Visibility = Visibility.Visible;
-            GiantBombWarning.ShowDialog(WarningContent);
-            if(hide == true)
-            {
-                GiantBombWarning.Visibility = Visibility.Collapsed;
-                WarningContent.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        //giantbomb warning dialog "yes button"
-        private void Giantbomb_Yes(object sender, RoutedEventArgs e)
-        {
-            ShowGiantBombWarning(true);
-            Process.Start("http://www.giantbomb.com/api/");
-        }
-
-        //giantbomb warning dialog "no button"
-        private void Giantbomb_No(object sender, RoutedEventArgs e)
-        {
-            ShowGiantBombWarning(true);
         }
 
         //Save PCSX2 directory button
@@ -137,80 +191,6 @@ namespace Spectabis_WPF.Views
 
             //the message queue can be called from any thread
             Task.Factory.StartNew(() => messageQueue.Enqueue(message));
-        }
-
-        //Shows the gamedb selection panel, if autoscrapping is enabled
-        private void ShowAPISelection()
-        {
-            
-            if (AutoScrapping.IsChecked == true)
-            {
-                Database_API_Stackpanel.IsEnabled = true;
-                Database_API_Stackpanel.Visibility = Visibility.Visible;
-
-                showApiSettings(false);
-
-                //See which database API is selected and set radio button
-                if (Properties.Settings.Default.artDB == "TheGamesDB")
-                {
-                    thegamesdb_radio.IsChecked = true;
-                    showApiSettings(false);
-                }
-                else if (Properties.Settings.Default.artDB == "GiantBomb")
-                {
-                    giantbomb_radio.IsChecked = true;
-                    showApiSettings(true);
-                }
-
-            }
-            else
-            {
-                Database_API_Stackpanel.IsEnabled = false;
-                Database_API_Stackpanel.Visibility = Visibility.Collapsed;
-                showApiSettings(false);
-            }
-        }
-
-        //Click on API radio buttons
-        private void artDB_click(object sender, RoutedEventArgs e)
-        {
-            //Checks, which radiobutton was clicked
-            var clickedRadio = (RadioButton)sender;
-            //If giantbomb_was clicked
-            if(clickedRadio.Name == "giantbomb_radio")
-            {
-                //Proceed only, if GiantBomb wasn't checked before clicking
-                if(Properties.Settings.Default.artDB != "GiantBomb")
-                {
-                    ShowGiantBombWarning();
-                }
-            }
-
-            SaveSettings();
-        }
-
-        //Show API Settings, use bool to show=true or hide=false
-        private void showApiSettings(bool e)
-        {
-            if(e == true)
-            {
-                //Show Api key textbox
-                APISettings_Panel.IsEnabled = true;
-                APISettings_Panel.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                //Show Api key textbox
-                APISettings_Panel.IsEnabled = false;
-                APISettings_Panel.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        //Save API key when textbox loses focus
-        private void Api_Box_LostFocus(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine(Api_Box.Text);
-            SaveSettings();
         }
 
         //PCSX2 directory button 

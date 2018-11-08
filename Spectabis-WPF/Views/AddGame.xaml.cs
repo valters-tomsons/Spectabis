@@ -105,12 +105,13 @@ namespace Spectabis_WPF.Views
         {
             ScrapeArt scraper = new ScrapeArt(title);
 
-            this.Invoke(new Action(() => RefreshBox()));
-            this.Invoke(new Action(() => FadeButton()));
-            this.Invoke(new Action(() => FadeText()));
-            this.Invoke(new Action(() => FadeGrid()));
-
-            this.Invoke(new Action(() => ProgressBar.Visibility = Visibility.Collapsed));
+            this.Invoke(() => {
+                RefreshBox();
+                FadeButton();
+                FadeText();
+                FadeGrid();
+                ProgressBar.Visibility = Visibility.Collapsed;
+            });
         }
 
 

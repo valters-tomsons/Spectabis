@@ -43,46 +43,22 @@ namespace Spectabis_WPF.Views
                     Properties.Settings.Default.Save();
 
                     //Increment Step count
-                    StepCounter = +1;
+                    StepCounter += 1;
 
-                    //Set up next step
-                    BigLogo.Visibility = Visibility.Collapsed;
-                    DownloadLabel.Visibility = Visibility.Collapsed;
 
-                    MainLabel.Content = "Select Boxart searching method";
-                    TGDB_Description.Visibility = Visibility.Visible;
-                    
-                    PrimaryButton.Content = "Continue";
-                    API_RadioPanel.Visibility = Visibility.Visible;
+                    // disabled
+                    if (false) {
+                        //Set up next step
+                        BigLogo.Visibility = Visibility.Collapsed;
+                        DownloadLabel.Visibility = Visibility.Collapsed;
 
-                    return;
-                }
-            }
+                        MainLabel.Content = "Select Boxart searching method";
+                        TGDB_Description.Visibility = Visibility.Visible;
 
-            //Select API step
-            if(StepCounter == 1)
-            {
-                //If Giantbomb is selected, check if API key is entered
-                if (GB_Radio.IsChecked == true)
-                {
-                    if(ApiBox.Text.Length != 40)
-                    {
-                        MessageBox.Show("API Key not valid lenght");
+                        PrimaryButton.Content = "Continue";
+                        API_RadioPanel.Visibility = Visibility.Visible;
                         return;
                     }
-
-
-                    //Save settings
-                    Properties.Settings.Default.artDB = "GiantBomb";
-                    Properties.Settings.Default.APIKey_GiantBomb = ApiBox.Text;
-                    Properties.Settings.Default.Save();
-
-                }
-                else if (TGDB_Radio.IsChecked == true)
-                {
-                    //Save settings
-                    Properties.Settings.Default.artDB = "TheGamesDB";
-                    Properties.Settings.Default.Save();
                 }
             }
 
