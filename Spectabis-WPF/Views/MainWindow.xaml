@@ -152,7 +152,8 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        
+
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="SnackBar"/>
 
     </Grid>
 </Controls:MetroWindow>
