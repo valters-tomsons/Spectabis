@@ -25,7 +25,14 @@ namespace Spectabis_WPF.Views
     {
 
         //Spectabis Variables
-        public static string emuDir { get { return Properties.Settings.Default.emuDir; } }
+        public static string emuDir
+        { get
+            {
+                return Properties.Settings.Default.emuDir.Contains("pcsx2.exe") ?
+                    Properties.Settings.Default.emuDir :
+                    Properties.Settings.Default.emuDir + @"\pcsx2.exe";
+            }
+        }
         private string GameConfigs;
         private string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 

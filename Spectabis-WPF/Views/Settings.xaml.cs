@@ -166,7 +166,7 @@ namespace Spectabis_WPF.Views
         {
             if (Directory.Exists(emudir_text.Text))
             {
-                if (File.Exists(emudir_text.Text))
+                if (File.Exists(emudir_text.Text + @"\pcsx2.exe"))
                 {
                     Properties.Settings.Default.emuDir = emudir_text.Text;
                     Properties.Settings.Default.Save();
