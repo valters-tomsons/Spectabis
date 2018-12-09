@@ -926,7 +926,7 @@ namespace Spectabis_WPF.Views
                 {
                     SessionPlaytime.Stop();
                     updatePlaytimeUI.Stop();
-                    Console.WriteLine("Session Lenght: " + SessionPlaytime.Elapsed.Minutes);
+                    Console.WriteLine("Session Lenght: " + SessionPlaytime.Elapsed.TotalMinutes);
                     Console.WriteLine($"SessionTimer Working: {SessionPlaytime.IsRunning}");
                 }
             }
@@ -935,19 +935,19 @@ namespace Spectabis_WPF.Views
         //Update session timer in UI
         private void updatePlaytimeUI_Tick(object sender, EventArgs e)
         {
-            if(SessionPlaytime.Elapsed.Minutes == 1)
+            if(SessionPlaytime.Elapsed.TotalMinutes == 1)
             {
-                this.Invoke(new Action(() => SessionLenght.Text = $"Current Session: {SessionPlaytime.Elapsed.Minutes} minute"));
+                this.Invoke(new Action(() => SessionLenght.Text = $"Current Session: {SessionPlaytime.Elapsed.TotalMinutes} minute"));
             }
             else
             {
-                this.Invoke(new Action(() => SessionLenght.Text = $"Current Session: {SessionPlaytime.Elapsed.Minutes} minutes"));
+                this.Invoke(new Action(() => SessionLenght.Text = $"Current Session: {SessionPlaytime.Elapsed.TotalMinutes} minutes"));
             }
 
             //As this timer updates every minute, playtime in file gets updated also
             Playtime.AddPlaytime(CurrentGame, TimeSpan.FromMinutes(1));
 
-            Console.WriteLine($"Updating UI with TimerTimer: {SessionPlaytime.Elapsed} minutes, adding 1 minute to file");
+            Console.WriteLine($"Updating UI with TimerTimer: {SessionPlaytime.Elapsed.TotalMinutes} minutes, adding 1 minute to file");
         }
 
 
