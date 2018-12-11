@@ -52,24 +52,30 @@ namespace Spectabis_WPF.Views
             if (File.Exists(BaseDirectory + @"\advanced.ini"))
             {
 
-                //Read values
-                var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
-                int _framerate = Convert.ToInt16(advancedIni.Read("timelineFramerate", "Renderer"));
+				//Read values
+	            var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
+	            var value = advancedIni.Read("timelineFramerate", "Renderer");
+	            if (string.IsNullOrEmpty(value)) {
+		            var _framerate = Convert.ToInt16(value);
 
-                //Timeline Framerate
-                Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = _framerate });
-            }
+		            //Timeline Framerate
+		            Timeline.DesiredFrameRateProperty.OverrideMetadata(
+			            typeof(Timeline),
+			            new FrameworkPropertyMetadata {
+				            DefaultValue = _framerate
+			            }
+		            );
+	            }
+			}
 
             //Sets nightmode from variable
             new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
 
-            //If emuDir is not set, launch first time setup
-            if (Properties.Settings.Default.emuDir == "null")
-            {
-                FirstSetupFrame.Visibility = Visibility.Visible;
-            }
+			//If emuDir is not set, launch first time setup
+	        if (ShouldShowFirstTimeSetup())
+		        FirstSetupFrame.Visibility = Visibility.Visible;
 
-            SetPrimary(Properties.Settings.Default.swatch);
+			SetPrimary(Properties.Settings.Default.swatch);
 
 			//Copy spinner.gif to temporary files
 			{
@@ -94,8 +100,27 @@ namespace Spectabis_WPF.Views
             DiscordRpc.UpdatePresence("Menus");
         }
 
-        //DLLs for console window
-        [DllImport("Kernel32")]
+		private static bool ShouldShowFirstTimeSetup() {
+			var checkDir = Properties.Settings.Default.emuDir;
+
+			if (checkDir == "null")
+				return false;
+
+			if (File.Exists(checkDir) && checkDir.EndsWith(".exe"))
+				return false;
+
+			checkDir = Path.Combine(checkDir, "pcsx2.exe");
+			if (File.Exists(checkDir)) {
+				Properties.Settings.Default.emuDir = checkDir;
+				Properties.Settings.Default.Save();
+				return false;
+			}
+
+			return true;
+		}
+
+		//DLLs for console window
+		[DllImport("Kernel32")]
         private static extern void AllocConsole();
         [DllImport("Kernel32")]
         private static extern bool FreeConsole();
