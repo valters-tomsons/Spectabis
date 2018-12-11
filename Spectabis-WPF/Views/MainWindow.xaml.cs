@@ -56,16 +56,19 @@ namespace Spectabis_WPF.Views
 				//Read values
 	            var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
 	            var value = advancedIni.Read("timelineFramerate", "Renderer");
-	            if (string.IsNullOrEmpty(value)) {
-		            var _framerate = Convert.ToInt16(value);
 
-		            //Timeline Framerate
-		            Timeline.DesiredFrameRateProperty.OverrideMetadata(
-			            typeof(Timeline),
-			            new FrameworkPropertyMetadata {
-				            DefaultValue = _framerate
-			            }
-		            );
+	            if (string.IsNullOrEmpty(value) == false) {
+		            var framerate = Convert.ToInt16(value);
+
+		            if(false) 
+						// should the value actually be a valid "short" value.
+						// the application will crash because "short" wont convert to "Timeline"
+						Timeline.DesiredFrameRateProperty.OverrideMetadata(
+							typeof(Timeline),
+							new FrameworkPropertyMetadata {
+								DefaultValue = framerate
+							}
+						);
 	            }
 			}
 
@@ -104,8 +107,8 @@ namespace Spectabis_WPF.Views
 		private static bool ShouldShowFirstTimeSetup() {
 			var checkDir = Properties.Settings.Default.emuDir;
 
-			if (checkDir == "null")
-				return false;
+			if (checkDir == "null" || string.IsNullOrEmpty(checkDir))
+				return true;
 
 			if (File.Exists(checkDir) && checkDir.EndsWith(".exe"))
 				return false;
