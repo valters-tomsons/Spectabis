@@ -53,7 +53,7 @@ namespace Spectabis_WPF.Domain
             IniFile spectabis = new IniFile(BaseDirectory + @"\resources\configs\" + game + @"\spectabis.ini");
 
             //Save Timespan in minutes
-            spectabis.Write("playtime",$"{time.Minutes.ToString()}","Spectabis");
+            spectabis.Write("playtime",$"{time.TotalMinutes.ToString()}","Spectabis");
 
             Console.WriteLine($"Readtime: {ReadTime}, NewTime: {time}, WriteExists: {File.Exists(BaseDirectory + @"\resources\configs\" + game + @"\spectabis.ini")}");
 
