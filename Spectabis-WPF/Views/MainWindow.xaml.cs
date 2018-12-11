@@ -15,6 +15,7 @@ using Spectabis_WPF.Domain;
 using System.Windows.Threading;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Spectabis_WPF.Views
 {
@@ -661,26 +662,43 @@ namespace Spectabis_WPF.Views
             //Set currentgame from header title text
             string currentGame = Header_title.Text;
 
-            if (File.Exists(BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini"))
+            try
             {
-                //Creates inis folder and copies it from game profile folder
-                Directory.CreateDirectory(BaseDirectory + @"inis");
-                File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", BaseDirectory + @"inis\GSdx.ini", true);
+                if (File.Exists(BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini"))
+                {
+                    //Creates inis folder and copies it from game profile folder
+                    Directory.CreateDirectory(BaseDirectory + @"inis");
+                    File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", BaseDirectory + @"inis\GSdx.ini", true);
+                }
+                else
+                {
+                    Directory.CreateDirectory(BaseDirectory + @"inis");
+                    File.Create(BaseDirectory + @"inis\GSdx.ini");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                Directory.CreateDirectory(BaseDirectory + @"inis");
-                File.Create(BaseDirectory + @"inis\GSdx.ini");
+                var msg = "Unable to configure GSdx config file";
+                Logger.LogException(ex, msg);
+                PushSnackbar(msg);
             }
 
-            //GPUConfigure(); - Only software mode was available
-            GSconfigure();
-            GSclose();
+            try
+            {
+                //GPUConfigure(); - Only software mode was available
+                GSconfigure();
+                GSclose();
 
-            File.Copy(BaseDirectory + @"inis\GSdx.ini", BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", true);
-            Directory.Delete(BaseDirectory + @"inis", true);
+                File.Copy(BaseDirectory + @"inis\GSdx.ini", BaseDirectory + @"\resources\configs\" + currentGame + @"\GSdx.ini", true);
+                Directory.Delete(BaseDirectory + @"inis", true);
+            }
+            catch(Exception ex)
+            {
+                var msg = "Unable to configure GSdx plugin";
+                Logger.LogException(ex, msg);
+                PushSnackbar(msg);
+            }
         }
-
 
         [DllImport(@"\plugins\Spu2-X.dll")]
         static private extern void SPU2configure();
@@ -693,23 +711,43 @@ namespace Spectabis_WPF.Views
         {
             string currentGame = Header_title.Text;
 
-            if (File.Exists(BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini"))
+            try
             {
                 //Creates inis folder and copies it from game profile folder
                 Directory.CreateDirectory(BaseDirectory + @"inis");
-                File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", BaseDirectory + @"inis\SPU2-X.ini", true);
+
+                var SPU2XConfigFile = BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini";
+
+                if (File.Exists(SPU2XConfigFile))
+                {
+                    File.Copy(SPU2XConfigFile, BaseDirectory + @"inis\SPU2-X.ini", true);
+                }
+                else
+                {
+                    File.Create(BaseDirectory + @"inis\SPU2-X.ini");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                Directory.CreateDirectory(BaseDirectory + @"inis");
-                File.Create(BaseDirectory + @"inis\SPU2-X.ini");
+                var msg = "Could not configure SPU2-X config file";
+                Logger.LogException(ex, msg);
+                PushSnackbar(msg);
             }
 
-            SPU2configure();
-            SPU2close();
+            try
+            {
+                SPU2configure();
+                SPU2close();
 
-            File.Copy(BaseDirectory + @"inis\SPU2-X.ini", BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", true);
-            Directory.Delete(BaseDirectory + @"inis", true);
+                File.Copy(BaseDirectory + @"inis\SPU2-X.ini", BaseDirectory + @"\resources\configs\" + currentGame + @"\SPU2-X.ini", true);
+                Directory.Delete(BaseDirectory + @"inis", true);
+            }
+            catch(Exception ex)
+            {
+                var msg = "Could not configure SPU2-X plugin";
+                Logger.LogException(ex, msg);
+                PushSnackbar(msg);
+            }
         }
 
 
@@ -724,30 +762,49 @@ namespace Spectabis_WPF.Views
         {
             string currentGame = Header_title.Text;
 
-            //Copy the existing .ini file for editing if it exists
-            if (File.Exists(BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini"))
+            try
             {
-                //Creates inis folder and copies it from game profile folder
-                Directory.CreateDirectory(BaseDirectory + @"inis");
-                File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", BaseDirectory + @"inis\LilyPad.ini", true);
+                //Copy the existing .ini file for editing if it exists
+                if (File.Exists(BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini"))
+                {
+                    //Creates inis folder and copies it from game profile folder
+                    Directory.CreateDirectory(BaseDirectory + @"inis");
+                    File.Copy(BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", BaseDirectory + @"inis\LilyPad.ini", true);
+                }
+                else
+                {
+                    Directory.CreateDirectory(BaseDirectory + @"inis");
+                    File.Create(BaseDirectory + @"inis\LilyPad.ini");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                Directory.CreateDirectory(BaseDirectory + @"inis");
-                File.Create(BaseDirectory + @"inis\LilyPad.ini");
+                var msg = "Could not configure LilyPad config file";
+                Logger.LogException(ex, msg);
+                PushSnackbar(msg);
             }
-
+            
             Console.WriteLine("Loading " + BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini");
 
-            //Calls the DLL configuration function
-            PADconfigure();
+            try
+            {
+                //Calls the DLL configuration function
+                PADconfigure();
 
-            //Calls the configration close function
-            PADclose();
+                //Calls the configration close function
+                PADclose();
 
-            //Copies the modified file into the game profile & deletes the created folder
-            File.Copy(BaseDirectory + @"inis\LilyPad.ini", BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", true);
-            Directory.Delete(BaseDirectory + @"inis", true);
+                //Copies the modified file into the game profile & deletes the created folder
+                File.Copy(BaseDirectory + @"inis\LilyPad.ini", BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini", true);
+                Directory.Delete(BaseDirectory + @"inis", true);
+            }
+            catch (Exception ex)
+            {
+                var msg = "Could not configure LilyPad plugin";
+                Logger.LogException(ex, msg);
+                PushSnackbar(msg);
+            }
+            
 
             Console.WriteLine("Saving to " + BaseDirectory + @"\resources\configs\" + currentGame + @"\LilyPad.ini");
         }
@@ -998,6 +1055,14 @@ namespace Spectabis_WPF.Views
             //Don't show this message again
             Properties.Settings.Default.aprilfooled = true;
             Properties.Settings.Default.Save();
+        }
+
+        private void PushSnackbar(string msg)
+        {
+            var messageQueue = SnackBar.MessageQueue;
+
+            //the message queue can be called from any thread
+            Task.Factory.StartNew(() => messageQueue.Enqueue(msg));
         }
     }
 }
