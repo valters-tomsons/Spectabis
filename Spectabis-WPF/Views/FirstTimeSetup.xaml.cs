@@ -38,15 +38,21 @@ namespace Spectabis_WPF.Views
                         return;
                     }
 
-                    //Save selected path, *don't* remove pcsx2.exe from string
                     Properties.Settings.Default.emuDir = _result;
                     Properties.Settings.Default.Save();
 
                     //Increment Step count
                     StepCounter += 1;
 
+					/*
+					Last step is for selecting the scraping API
+					Since this process has been automated the entire
+					step has become redundant. Thus has bee disabled
 
-                    // disabled
+					This step remains until all the related UI controls
+					Gets removed, this block serves as a reminder
+					~ CyberFoxHax - 11/12/2018
+					*/
                     if (false) {
                         //Set up next step
                         BigLogo.Visibility = Visibility.Collapsed;

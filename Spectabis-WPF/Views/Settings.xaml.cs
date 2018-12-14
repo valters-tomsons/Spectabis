@@ -162,26 +162,23 @@ namespace Spectabis_WPF.Views
         }
 
         //Save PCSX2 directory button
-        private void Save_Directory(object sender, RoutedEventArgs e)
-        {
-            if (Directory.Exists(emudir_text.Text))
-            {
-                if (File.Exists(emudir_text.Text + @"\pcsx2.exe"))
-                {
-                    Properties.Settings.Default.emuDir = emudir_text.Text;
-                    Properties.Settings.Default.Save();
+        private void Save_Directory(object sender, RoutedEventArgs e) {
+	        var emudir = emudir_text.Text;
 
-                    PushSnackbar("Emulator directory saved");
-                }
-                else
-                {
-                    PushSnackbar("Directory must contain PCSX2.exe");
-                }
-            }
-            else
-            {
-                PushSnackbar("Directory does not exist");
-            }
+			if (File.Exists(emudir) == false) {
+				emudir = Path.Combine(emudir, @"\pcsx2.exe");
+				emudir_text.Text = emudir;
+			}
+
+			if (File.Exists(emudir) == false) {
+				PushSnackbar("Directory must contain PCSX2");
+		        return;
+	        }
+
+		    Properties.Settings.Default.emuDir = emudir;
+		    Properties.Settings.Default.Save();
+
+		    PushSnackbar("Emulator directory saved");
         }
 
         //Push snackbar function
