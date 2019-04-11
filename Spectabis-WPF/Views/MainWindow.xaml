@@ -97,7 +97,6 @@
                             <CheckBox x:Name="fullboot" ToolTip="Show classical PS2 startup" Style="{StaticResource LargerCheckbox}">Display BIOS when booting</CheckBox>
                             <CheckBox x:Name="nohacks" ToolTip="Disable all speedhacks in emulator" Style="{StaticResource LargerCheckbox}">Disable Speedhacks</CheckBox>
                             <CheckBox x:Name="widescreen" ToolTip="Use patches to play games in widescreen resolutions" Style="{StaticResource LargerCheckbox}">Widescreen Patches</CheckBox>
-                            <CheckBox x:Name="hwmipmap" ToolTip="Only in latest PCSX2 Developer Versions" Style="{StaticResource LargerCheckbox}">Enable Hardware Mipmap Hack</CheckBox>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Width="301">
                             <StackPanel Orientation="Horizontal">
