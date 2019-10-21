@@ -14,8 +14,8 @@ Spectabis is a frontend for a PlayStation®2 emulator.
 * Integratable into other frontends with command line interface features
 
 ## Links
-[PCSX2 Emulator](http://pcsx2.net/)
-[Community Thread](http://forums.pcsx2.net/Thread-Spectabis-A-better-PCSX2-frontend-launcher)
+* [PCSX2 Emulator](http://pcsx2.net/)
+* [Community Thread](http://forums.pcsx2.net/Thread-Spectabis-A-better-PCSX2-frontend-launcher)
 
 ## Contributions
 ### New Features
