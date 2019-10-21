@@ -10,3 +10,5 @@ PCSX2 Site: http://pcsx2.net/
 Forum Thread: http://forums.pcsx2.net/Thread-Spectabis-A-better-PCSX2-frontend-launcher
 
 This is a "successor" to [first Spectabis](https://github.com/Spectabis/PCSX2-Spectabis) which I wrote without any programming experience and using ancient WinForms. While this new version still doesn't resemble anything close to clean and pretty code, it has many more features and is more easier to work with.
+
+If you wish to contiribute to the project, please check keep an eye out for next [the next version of Spectabis](https://github.com/faithlv/spectabis-next).
