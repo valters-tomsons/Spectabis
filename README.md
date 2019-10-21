@@ -21,5 +21,9 @@ Spectabis is a frontend for a PlayStation®2 emulator.
 ### New Features
 If you wish to contiribute new features to the project, please check keep an eye out for next [the next version of Spectabis](https://github.com/faithlv/spectabis-next).
 
+## Bug Reports
+https://github.com/FaithLV/Spectabis/wiki/How-to-Report-an-Issue
+
 ### Bug Fixes
 Feel free to create pull requests with bug fixes on quality of life improvements.
+
