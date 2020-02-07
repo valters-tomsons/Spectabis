@@ -29,7 +29,9 @@ namespace Spectabis_WPF.Domain {
 		private static readonly Dictionary<int, PerformanceStat> ApiPerformanceStats = new Dictionary<int, PerformanceStat>();
 
         public ScrapeArt(string title) {
-	        var order = new[] {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            var order = new[] {
 			        Settings.Default.APIUserSequence,
 			        Settings.Default.APIAutoSequence
 		        }
