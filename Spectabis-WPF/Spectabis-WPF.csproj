@@ -171,6 +171,7 @@
     <Compile Include="Domain\Scraping\LevenshteinDistance.cs" />
     <Compile Include="Domain\Scraping\ScrapeSource.cs" />
     <Compile Include="Domain\Scraping\Api\TheGamesDbApi.cs" />
+    <Compile Include="Domain\Scraping\SecureTLS.cs" />
     <Compile Include="Domain\StringExtensions.cs" />
     <Compile Include="Domain\SupportedGames.cs" />
     <Compile Include="Domain\UpdateCheck.cs" />
@@ -292,12 +293,6 @@
     <Resource Include="Resources\_temp\spinner.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GiantBombApi\GiantBombApi.csproj">
-      <Project>{9cb78fd8-c888-4a8c-b16f-ab762a5d5bab}</Project>
-      <Name>GiantBombApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\error_art.jpg" />

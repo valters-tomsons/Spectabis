@@ -59,7 +59,15 @@ namespace Spectabis_WPF.Domain {
 
 				var stopwatch = new Stopwatch();
 				stopwatch.Start();
-                Result = scraper.Value.GetDataFromApi(title);
+                try {
+                    Result = scraper.Value.GetDataFromApi(title);
+                }
+                catch (Exception e) {
+                    File.AppendAllText("ScrapeError.log", 
+                        "["+DateTime.Now+"][Scrape error] " + scraper.Value.GetType().FullName + "\r\nError: " +
+                        e.Message + "\r\n" + e.StackTrace + "\r\n\r\n");
+                    Result = null;
+                }
                 if (Result?.ThumbnailUrl == null) {
 					stopwatch.Stop();
 	                ApiPerformanceStats[scraper.Key].Milliseconds.Add(stopwatch.ElapsedMilliseconds);
@@ -110,10 +118,10 @@ namespace Spectabis_WPF.Domain {
 
                 try {
                     //Download image to temp folder and copy to profile folder
-                    client.DownloadFile(imgUrl, BaseDirectory + @"\resources\_temp\" + fileName + ".jpg");
+                    client.DownloadFile(imgUrl, Path.Combine(BaseDirectory, @"\resources\_temp\") + fileName + ".jpg");
                     File.Copy(
-                        BaseDirectory + @"\resources\_temp\" + fileName + ".jpg",
-                        BaseDirectory + @"\resources\configs\" + fileName + @"\art.jpg",
+                        Path.Combine(BaseDirectory, @"\resources\_temp\") + fileName + ".jpg",
+                        Path.Combine(BaseDirectory, @"\resources\configs\") + fileName + @"\art.jpg",
                         true
                     );
 	                return true;

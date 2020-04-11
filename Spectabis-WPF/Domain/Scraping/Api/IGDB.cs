@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
 
 namespace Spectabis_WPF.Domain.Scraping.Api {
     public class IGDBApi : IScraperApi {
@@ -13,19 +15,30 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                 return config;
             }
         }
-        private const string BaseUrl = "https://api-endpoint.igdb.com/";
+        private const string BaseUrl = "https://api-v3.igdb.com/";
 
         public GameInfoModel GetDataFromApi(string title) {
-            // https://igdb.github.io/api/references/filters/#text-search
-            var search = "?search=" + title.Replace(" ", "+");
+            using (new SecureTLSDumbfuckery())
+            using (var req = new WebClient()) {
+                var beforeProtocol = ServicePointManager.SecurityProtocol;
 
-            //https://igdb.github.io/api/references/fields/
+                try {
+                    var body = "search \"" + title + "\"; fields id,name,cover,url,platforms; where platforms = 8";
+                    req.Headers["user-key"] = ApiKey;
+                    req.BaseAddress = BaseUrl;
+                    req.UploadString("/games", body);
+                }
+                catch {
+                    if (Debugger.IsAttached)
+                        throw;
+                }
+            }
+
+            return null;
+
+            /*var search = "?search=" + title.Replace(" ", "+");
             var fields = "&fields=id,name,cover,url,platforms";
-
-            // https://igdb.github.io/api/references/filters/
             var filter = "&filter[platforms][in]=8"; // id 8 == ps2
-
-            // https://igdb.github.io/api/references/pagination/
             var limit = "&limit=1";
 
             var parsed = ScrapeArt.WebClient<IGDB.IGDBGame[]>(BaseUrl, p=> {
@@ -33,9 +46,9 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                 p.Headers["user-key"] = ApiKey;
                 p.Headers["Accept"] = "application/json";
                 return p.DownloadString("games/" + search + fields + filter + limit);
-            });
+            });*/
 
-            var first = parsed.FirstOrDefault();
+            /*var first = parsed.FirstOrDefault();
             if (first == null)
                 return null;
 
@@ -49,7 +62,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                 OriginalUrl = first.Url,
                 ScrapeSource = ScrapeSource.IGDB,
                 ThumbnailUrl = thumbnail
-            };
+            };*/
         }
 
         private static class IGDB {
