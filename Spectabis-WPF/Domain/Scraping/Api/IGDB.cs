@@ -6,7 +6,10 @@ using System.Net;
 
 namespace Spectabis_WPF.Domain.Scraping.Api {
     public class IGDBApi : IScraperApi {
-        private static string DefaultApiKey { get { return ScrapeArt.DecryptApiKey("ZDQ5NjA0YTJiMGM4MWRiODFiNzYwNzdmMzFlYzU1NDA="); } }
+        //private static string DefaultApiKey { get { return ScrapeArt.DecryptApiKey("ZDQ5NjA0YTJiMGM4MWRiODFiNzYwNzdmMzFlYzU1NDA="); } }
+
+        // klsdmfslksadsd@yandex.com : 123456
+        private static string DefaultApiKey { get { return ScrapeArt.DecryptApiKey("MTNhODRhMDhkNWNhMDRlNjU5ZTczYWRlMTVkNWM1Y2Q="); } }
         private static string ApiKey {
             get {
                 var config = Properties.Settings.Default.APIKey_IGDB;
@@ -23,14 +26,30 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                 var beforeProtocol = ServicePointManager.SecurityProtocol;
 
                 try {
-                    var body = "search \"" + title + "\"; fields id,name,cover,url,platforms; where platforms = 8";
+                    var body = "search \"" + title + "\"; fields id,name,cover,url,platforms,cover; where platforms = (8); limit 1;";
                     req.Headers["user-key"] = ApiKey;
+                    req.Headers["Accept"] = "application/json";
                     req.BaseAddress = BaseUrl;
-                    req.UploadString("/games", body);
+                    var response = req.UploadString("/games", body);
+                    //https://api-docs.igdb.com/?javascript#images
+                    //https://www.igdb.com/games/dark-cloud-2
+                    //https://api-docs.igdb.com/#examples-1
+                    /*
+                    [{
+                        "id": 1215,
+                        "cover": 88934,
+                        "name": "Dark Cloud 2",
+                        "platforms": [
+                            8,
+                            48
+                        ],
+                        "url": "https://www.igdb.com/games/dark-cloud-2"
+                    }]
+                    */
+
                 }
                 catch {
-                    if (Debugger.IsAttached)
-                        throw;
+                    
                 }
             }
 
