@@ -310,12 +310,10 @@ namespace Spectabis_WPF.Views
                 //Sets the values from PCSX2_vm ini
                 if (_widescreen == "enabled") { widescreen.IsChecked = true; } else { widescreen.IsChecked = false; }
 
-                //GDSX file mipmap hack
+                //GSdx ini settings
                 var gsdxIni = new IniFile(_cfgDir + @"\GSdx.ini");
-                var _mipmaphack = gsdxIni.Read("UserHacks_mipmap", "Settings");
                 var _shaderfx = gsdxIni.Read("shaderfx", "Settings");
 
-                if (_mipmaphack == "1") { hwmipmap.IsChecked = true; } else { hwmipmap.IsChecked = false; }
                 if (_shaderfx == "1") { Shader_Checkbox.IsChecked = true; Shader_Button.IsEnabled = true; } else { Shader_Checkbox.IsChecked = false; Shader_Button.IsEnabled = false; }
 
 
@@ -536,17 +534,6 @@ namespace Spectabis_WPF.Views
             else
             {
                 vmIni.Write("EnableWideScreenPatches", "disabled", "EmuCore");
-            }
-
-            //Mipmap hack - written to gsdx.ini
-            if (hwmipmap.IsChecked == true)
-            {
-                gsdxIni.Write("UserHacks_mipmap", "1", "Settings");
-                gsdxIni.Write("UserHacks", "1", "Settings");
-            }
-            else
-            {
-                gsdxIni.Write("UserHacks_mipmap", "0", "Settings");
             }
 
             //Shader status - written to gsdx.ini
