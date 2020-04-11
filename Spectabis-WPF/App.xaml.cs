@@ -9,10 +9,6 @@ namespace Spectabis_WPF
     public partial class App : Application
     {
 	    public App(){
-            var scraper = new ScrapeArt("Dark Cloud 2");
-
-            return;
-
             //Copy spinner.gif to temporary files
             //Spectabis_WPF.Properties.Resources.spinner.Save(BaseDirectory + @"resources\_temp\spinner.gif");
             var ini = new IniFile(BaseDirectory + @"\advanced.ini");
