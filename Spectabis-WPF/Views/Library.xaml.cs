@@ -1111,7 +1111,7 @@ namespace Spectabis_WPF.Views
             }
             else
             {
-                Properties.Settings.Default.gameDirectory = "null";
+                Properties.Settings.Default.gameDirectory = null;
                 Properties.Settings.Default.Save();
                 PushSnackbar("Game directory folder has been removed!");
             }
@@ -1246,8 +1246,7 @@ namespace Spectabis_WPF.Views
             this.Invoke(() => {
                 if (result == null)
                     PushSnackbar("Couldn't get the game, sorry");
-                else
-                    refreshTile(title);
+                refreshTile(title);
             });
         }
 
@@ -1310,18 +1309,21 @@ namespace Spectabis_WPF.Views
 
         private void ScanGameDirectory()
         {
-            if (Properties.Settings.Default.gameDirectory != "null")
+            if (Properties.Settings.Default.gameDirectory != null)
             {
                 //If game directory doesn't exist, stop and remove it from variable
                 if (Directory.Exists(Properties.Settings.Default.gameDirectory) == false)
                 {
                     PushSnackbar("Game Directory doesn't exist anymore!");
-                    Properties.Settings.Default.gameDirectory = "null";
+                    Properties.Settings.Default.gameDirectory = null;
                     Properties.Settings.Default.Save();
                 }
 
                 //List of all files that don't contain already loaded files
-                List<string> _fileList = new List<string>(Directory.GetFiles(Properties.Settings.Default.gameDirectory));
+                if (Properties.Settings.Default.gameDirectory == null)
+                    return;
+
+                var _fileList = Directory.GetFiles(Properties.Settings.Default.gameDirectory);
                 Console.WriteLine(_fileList.Count() + " files found!");
 
                 int _count = _fileList.Except(LoadedISOs).ToList().Count;

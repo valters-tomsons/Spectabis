@@ -175,6 +175,7 @@
     <Compile Include="Domain\StringExtensions.cs" />
     <Compile Include="Domain\SupportedGames.cs" />
     <Compile Include="Domain\UpdateCheck.cs" />
+    <Compile Include="Properties\Settings.cs" />
     <Compile Include="Views\AddGame.xaml.cs">
       <DependentUpon>AddGame.xaml</DependentUpon>
     </Compile>
@@ -247,25 +248,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\art.jpg" />

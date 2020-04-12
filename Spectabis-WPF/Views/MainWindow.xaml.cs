@@ -39,9 +39,6 @@ namespace Spectabis_WPF.Views
             //Create resources folder
             Directory.CreateDirectory($"{BaseDirectory}//resources//_temp");
 
-            //Saves settings between versions
-            Properties.Settings.Default.Upgrade();
-
             CatchCommandLineArguments();
 
             updatePlaytimeUI.Tick += updatePlaytimeUI_Tick;
@@ -107,7 +104,7 @@ namespace Spectabis_WPF.Views
 		private static bool ShouldShowFirstTimeSetup() {
 			var checkDir = Properties.Settings.Default.emuDir;
 
-			if (checkDir == "null" || string.IsNullOrEmpty(checkDir))
+			if (string.IsNullOrEmpty(checkDir))
 				return true;
 
 			if (File.Exists(checkDir) && checkDir.EndsWith(".exe"))

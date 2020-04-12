@@ -26,11 +26,23 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                 req.Headers["user-key"] = ApiKey;
                 req.Headers["Accept"] = "application/json";
                 req.BaseAddress = BaseUrl;
-                var response = req.UploadString("/games", "search \"" + title + "\"; fields id,name,url,cover.image_id; where platforms = (8); limit 1;");
+                var response = req.UploadString("/games", "search \"" + title + "\"; fields id,name,url,cover.image_id; where platforms = (8); limit 2;");
+                //var response = req.UploadString("/games", "search \"" + title + "\"; fields id,name,url,platforms.name,cover.image_id; where platforms = (8); limit 5;");
                 var json = JsonConvert.DeserializeObject<GameJson[]>(response);
                 if (json == null || json.Length == 0)
                     return null;
-                var first = json.FirstOrDefault();
+
+                var orderedByRelevance = (
+                    from item in json
+                    let sanitizedSerachTitle = item.Name
+                    let levenshteinDistance = LevenshteinDistance.Compute(title, sanitizedSerachTitle)
+                    let lengthDifference = title.Length - sanitizedSerachTitle.Length
+                    orderby lengthDifference
+                    orderby levenshteinDistance
+                    select item
+                );
+
+                var first = orderedByRelevance.FirstOrDefault();
                 var thumbnail = "https://"+"images.igdb.com/igdb/image/upload/t_cover_big/" + first.Cover.ImageId + ".jpg";
                 return new GameInfoModel {
                     Id = first.Id,

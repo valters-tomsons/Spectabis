@@ -149,7 +149,20 @@ namespace Spectabis_WPF.Views
 		    Properties.Settings.Default.Save();
 		}
 
-	    private void ResetPrioritiesClick(object sender, RoutedEventArgs e) {
+        private void ApiItemToggleClick(object sender, RoutedEventArgs e) {
+            var toggleButton = sender as System.Windows.Controls.Primitives.ToggleButton;
+            if (toggleButton == null)
+                return;
+
+            var item = toggleButton.DataContext as ApiItem;
+            if (item == null)
+                return;
+
+            item.Enabled = toggleButton.IsChecked == true;
+            // TODO
+        }
+
+        private void ResetPrioritiesClick(object sender, RoutedEventArgs e) {
 		    Properties.Settings.Default.APIUserSequence = null;
 		    Properties.Settings.Default.Save();
 		    PopulateApiList();

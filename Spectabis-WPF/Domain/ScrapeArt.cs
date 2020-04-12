@@ -45,7 +45,7 @@ namespace Spectabis_WPF.Domain {
 			        p => Scrapers[order[p]]
 		        );
 
-			var scraperOrder = Scrapers
+			var scraperOrder = Scrapers                
 				.OrderBy(p => ApiPerformanceStats.ContainsKey(p.Key) ? ApiPerformanceStats[p.Key].Failures : 100)
 				.ThenBy(p => ApiPerformanceStats.ContainsKey(p.Key) ? ApiPerformanceStats[p.Key].AverageMs : 100)
 				.ToArray();
@@ -63,7 +63,7 @@ namespace Spectabis_WPF.Domain {
                     Result = scraper.Value.GetDataFromApi(title);
                 }
                 catch (Exception e) {
-                    File.AppendAllText("ScrapeError.log", 
+                    File.AppendAllText(Path.Combine(BaseDirectory, "resources", "logs", "ScrapeError.log"), 
                         "["+DateTime.Now+"][Scrape error] " + scraper.Value.GetType().FullName + "\r\nError: " +
                         e.Message + "\r\n" + e.StackTrace + "\r\n\r\n");
                     Result = null;

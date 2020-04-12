@@ -16,5 +16,6 @@ namespace Spectabis_WPF.Domain.Scraping {
 		public IScraperApi ScraperApi { get; set; }
 		public PropertyInfo PropertyInfo { get; set; }
 		public int Id { get; set; }
-	}
+        public bool Enabled { get; internal set; }
+    }
 }
