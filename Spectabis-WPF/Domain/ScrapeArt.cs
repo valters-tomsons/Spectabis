@@ -9,7 +9,7 @@ using Spectabis_WPF.Properties;
 
 namespace Spectabis_WPF.Domain {
     public class ScrapeArt {
-        private static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly string BaseDirectory = App.BaseDirectory;
 
         public GameInfoModel Result;
 
@@ -64,7 +64,7 @@ namespace Spectabis_WPF.Domain {
                 }
                 catch (Exception e) {
                     File.AppendAllText(Path.Combine(BaseDirectory, "resources", "logs", "ScrapeError.log"), 
-                        "["+DateTime.Now+"][Scrape error] " + scraper.Value.GetType().FullName + "\r\nError: " +
+                        "["+DateTime.Now+"] " + scraper.Value.GetType().FullName + "\r\nError: " +
                         e.Message + "\r\n" + e.StackTrace + "\r\n\r\n");
                     Result = null;
                 }

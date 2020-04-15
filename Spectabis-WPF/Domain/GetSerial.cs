@@ -7,7 +7,7 @@ namespace Spectabis_WPF
 {
     class GetSerial
     {
-        private static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static string BaseDirectory = App.BaseDirectory;
 
         public static string GetSerialNumber(string _isoDir)
         {
