@@ -9,7 +9,7 @@ using Spectabis_WPF.Properties;
 
 namespace Spectabis_WPF.Domain {
     public class ScrapeArt {
-        private static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly string BaseDirectory = App.BaseDirectory;
 
         public GameInfoModel Result;
 
@@ -29,8 +29,6 @@ namespace Spectabis_WPF.Domain {
 		private static readonly Dictionary<int, PerformanceStat> ApiPerformanceStats = new Dictionary<int, PerformanceStat>();
 
         public ScrapeArt(string title) {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
             var order = new[] {
 			        Settings.Default.APIUserSequence,
 			        Settings.Default.APIAutoSequence
@@ -47,7 +45,7 @@ namespace Spectabis_WPF.Domain {
 			        p => Scrapers[order[p]]
 		        );
 
-			var scraperOrder = Scrapers
+			var scraperOrder = Scrapers                
 				.OrderBy(p => ApiPerformanceStats.ContainsKey(p.Key) ? ApiPerformanceStats[p.Key].Failures : 100)
 				.ThenBy(p => ApiPerformanceStats.ContainsKey(p.Key) ? ApiPerformanceStats[p.Key].AverageMs : 100)
 				.ToArray();
@@ -61,7 +59,15 @@ namespace Spectabis_WPF.Domain {
 
 				var stopwatch = new Stopwatch();
 				stopwatch.Start();
-                Result = scraper.Value.GetDataFromApi(title);
+                try {
+                    Result = scraper.Value.GetDataFromApi(title);
+                }
+                catch (Exception e) {
+                    File.AppendAllText(Path.Combine(BaseDirectory, "resources", "logs", "ScrapeError.log"), 
+                        "["+DateTime.Now+"] " + scraper.Value.GetType().FullName + "\r\nError: " +
+                        e.Message + "\r\n" + e.StackTrace + "\r\n\r\n");
+                    Result = null;
+                }
                 if (Result?.ThumbnailUrl == null) {
 					stopwatch.Stop();
 	                ApiPerformanceStats[scraper.Key].Milliseconds.Add(stopwatch.ElapsedMilliseconds);
@@ -107,22 +113,25 @@ namespace Spectabis_WPF.Domain {
 
         //Download art to game profile from an image link
         public static bool SaveImageFromUrl(string fileName, string imgUrl) {
+            using (new SecureTLSDumbfuckery())
             using (var client = new WebClient()) {
                 client.Headers.Add("user-agent", "PCSX2 Spectabis frontend");
 
                 try {
                     //Download image to temp folder and copy to profile folder
-                    client.DownloadFile(imgUrl, BaseDirectory + @"\resources\_temp\" + fileName + ".jpg");
+                    client.DownloadFile(imgUrl, Path.Combine(BaseDirectory, "resources", "_temp", fileName + ".jpg"));
                     File.Copy(
-                        BaseDirectory + @"\resources\_temp\" + fileName + ".jpg",
-                        BaseDirectory + @"\resources\configs\" + fileName + @"\art.jpg",
+                        Path.Combine(BaseDirectory, "resources", "_temp", fileName + ".jpg"),
+                        Path.Combine(BaseDirectory, "resources", "configs", fileName, "art.jpg"),
                         true
                     );
-	                return true;
+                    return true;
                 }
-				catch {
+                catch {
+                    if (Debugger.IsAttached)
+                        Debugger.Break();
                     Console.WriteLine("Failed to download boxart.");
-	                return false;
+                    return false;
                 }
             }
         }

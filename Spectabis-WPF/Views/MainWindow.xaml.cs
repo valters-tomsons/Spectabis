@@ -21,7 +21,7 @@ namespace Spectabis_WPF.Views
 {
     public partial class MainWindow : MetroWindow
     {
-        public static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        public static string BaseDirectory = App.BaseDirectory;
     
         //Side panel width value
         public static readonly double PanelWidth = 700;
@@ -38,9 +38,6 @@ namespace Spectabis_WPF.Views
 
             //Create resources folder
             Directory.CreateDirectory($"{BaseDirectory}//resources//_temp");
-
-            //Saves settings between versions
-            Properties.Settings.Default.Upgrade();
 
             CatchCommandLineArguments();
 
@@ -107,7 +104,7 @@ namespace Spectabis_WPF.Views
 		private static bool ShouldShowFirstTimeSetup() {
 			var checkDir = Properties.Settings.Default.emuDir;
 
-			if (checkDir == "null" || string.IsNullOrEmpty(checkDir))
+			if (string.IsNullOrEmpty(checkDir))
 				return true;
 
 			if (File.Exists(checkDir) && checkDir.EndsWith(".exe"))

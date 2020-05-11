@@ -171,9 +171,11 @@
     <Compile Include="Domain\Scraping\LevenshteinDistance.cs" />
     <Compile Include="Domain\Scraping\ScrapeSource.cs" />
     <Compile Include="Domain\Scraping\Api\TheGamesDbApi.cs" />
+    <Compile Include="Domain\Scraping\SecureTLS.cs" />
     <Compile Include="Domain\StringExtensions.cs" />
     <Compile Include="Domain\SupportedGames.cs" />
     <Compile Include="Domain\UpdateCheck.cs" />
+    <Compile Include="Properties\Settings.cs" />
     <Compile Include="Views\AddGame.xaml.cs">
       <DependentUpon>AddGame.xaml</DependentUpon>
     </Compile>
@@ -246,25 +248,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\art.jpg" />
@@ -292,12 +283,6 @@
     <Resource Include="Resources\_temp\spinner.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GiantBombApi\GiantBombApi.csproj">
-      <Project>{9cb78fd8-c888-4a8c-b16f-ab762a5d5bab}</Project>
-      <Name>GiantBombApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\error_art.jpg" />

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace Spectabis_WPF.Domain.Scraping.Api {
     public class GiantBombApi : IScraperApi {
@@ -14,52 +15,51 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
                 return config;
         } }
 
+        private const string _baseUrl = "https://www.giantbomb.com/";
+
         public GameInfoModel GetDataFromApi(string title) {
-            //Variables
-            var giantBomb = new global::GiantBombApi.GiantBombRestClient(ApiKey);
+            var qStrApiKey = "?api_key="+ApiKey;
+            var qStrFilter = "&filter=name:"+title;
+            var qStrFormat = "&format=json";
+            var qStrFields = "&field_list=id,name,image,site_detail_url";
+            using (new SecureTLSDumbfuckery())
+            using (var webClient = new WebClient()) {
+                webClient.BaseAddress = _baseUrl;
+                var response = webClient.DownloadString("api/games" + qStrApiKey + qStrFilter + qStrFormat + qStrFields);
+                var json = JsonConvert.DeserializeObject<GiantBombRequestStatusJson<GiantBombGameJson[]>>(response);
+                if (json == null)
+                    return null;
+                if (json.Error != "OK")
+                    throw new Exception("Giantbomb error: \"" + json.Error + "\"");
 
-            //list for game results
-            var resultGame = new List<global::GiantBombApi.Model.Game>();
-
-            // unused
-            //var PlatformFilter = new Dictionary<string, object>() { { "platform", "PlayStation 2" } };
-
-            //Search the DB for a game ID
-            try {
-                resultGame = giantBomb.SearchForGames(title).ToList();
+                var firstGame = json.Results.FirstOrDefault();
+                if (firstGame == null)
+                    return null;
+                return new GameInfoModel {
+                    Id = firstGame.Id,
+                    OriginalUrl = firstGame.SiteDetailUrl,
+                    ScrapeSource = ScrapeSource.GiantBomb,
+                    ThumbnailUrl = firstGame.Image.SmallUrl,
+                    Title = firstGame.Name
+                };
             }
-            catch {
-                Console.WriteLine("Failed to connect to Giantbomb");
-                return null;
-            }
+        }
 
-            try {
-                //loops through each game in resultGame list
-                foreach (global::GiantBombApi.Model.Game game in resultGame) {
-                    //Gets game ID and makes a list of platforms it's available for
-                    var finalGame = giantBomb.GetGame(game.Id);
-                    List<global::GiantBombApi.Model.Platform> platforms = new List<global::GiantBombApi.Model.Platform>(finalGame.Platforms);
+        private class GiantBombRequestStatusJson<T> where T:class {
+            [JsonProperty("error")] public string Error { get; set; }
+            [JsonProperty("status_code")] public int StatusCode { get; set; }
+            [JsonProperty("results")] public T Results { get; set; }
+        }
 
-                    //If game platform list contains "PlayStation 2", then start scraping
-                    foreach (var gamePlatform in platforms) {
-                        if (gamePlatform.Name == "PlayStation 2") {
-                            string imgUrl = finalGame.Image.SmallUrl;
+        private class GiantBombGameJson {
+            [JsonProperty("id")] public int Id { get; set; }
+            [JsonProperty("name")] public string Name { get; set; }
+            [JsonProperty("image")] public GiantBombImagesJson Image { get; set; }
+            [JsonProperty("site_detail_url")] public string SiteDetailUrl { get; set; }
+        }
 
-                            return new GameInfoModel {
-                                Id = finalGame.Id,
-                                Title = finalGame.Name,
-                                OriginalUrl = finalGame.SiteDetailUrl,
-                                ScrapeSource = ScrapeSource.GiantBomb,
-                                ThumbnailUrl = imgUrl
-                            };
-                        }
-                    }
-                }
-            }
-            catch {
-                Console.WriteLine("Failed to connect to Giantbomb");
-            }
-            return null;
+        private class GiantBombImagesJson {
+            [JsonProperty("small_url")] public string SmallUrl { get; set; }
         }
     }
 }

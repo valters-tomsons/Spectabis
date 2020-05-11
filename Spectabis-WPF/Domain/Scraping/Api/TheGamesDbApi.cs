@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Spectabis_WPF.Domain.Scraping.Api
 {
@@ -30,7 +28,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api
             TheGamesDbJson.Game game;
             using (var webClient = new WebClient()) {
                 webClient.BaseAddress = BaseUrl;
-                var response = webClient.DownloadString("/Games/ByGameName" + apiKey + filter + name);
+                var response = webClient.DownloadString("/v1/Games/ByGameName" + apiKey + filter + name);
                 var json = JsonConvert.DeserializeObject<TheGamesDbJson.Root>(response);
                 if (json == null)
                     return null;
@@ -59,7 +57,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api
             TheGamesDbJson.BoxArt boxart;
             using (var webClient = new WebClient()) {
                 webClient.BaseAddress = BaseUrl;
-                var response = webClient.DownloadString("/Games/Images" + apiKey + "&games_id=" + game.Id);
+                var response = webClient.DownloadString("/v1/Games/Images" + apiKey + "&games_id=" + game.Id);
                 var json = JsonConvert.DeserializeObject<TheGamesDbJson.Root>(response);
 
                 if (json == null)
