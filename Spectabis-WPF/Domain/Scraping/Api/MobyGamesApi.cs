@@ -22,7 +22,7 @@ namespace Spectabis_WPF.Domain.Scraping.Api {
             var qStrPlatform = "&platform=7"; // id 7 is PS2
 
             var parsed = ScrapeArt.WebClient<MobyGamesJson.GamesEndpoint>(BaseUrl,
-                // http://www.mobygames.com/info/api
+                // https://www.mobygames.com/info/api
                 p => p.DownloadString("games" + qStrKey + qStrTitle + qStrLimit + qStrPlatform)
             );
 

@@ -37,21 +37,21 @@
         <Grid>
         <StackPanel Orientation="Vertical">
 
-            <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="http://artcallspixro.deviantart.com/">
+            <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="https://www.deviantart.com/artcallspixro">
                 <StackPanel Orientation="Vertical">
                     <TextBlock>Pixro</TextBlock>
                     <Label>Spectabis Logo and other beautiful graphics</Label>
                 </StackPanel>
             </materialDesign:Card>
 
-            <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="http://forums.pcsx2.net/Thread-Spectabis-A-better-PCSX2-frontend-launcher">
+            <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="https://forums.pcsx2.net/Thread-Spectabis-Advanced-Game-Launcher-Frontend">
                 <StackPanel Orientation="Vertical">
                     <TextBlock>PCSX2 Community</TextBlock>
                     <Label>You guys are the best! Without you, this wouldn't exist (well, obviously)</Label>
                 </StackPanel>
             </materialDesign:Card>
 
-                <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="http://forums.pcsx2.net/Thread-Spectabis-A-better-PCSX2-frontend-launcher">
+                <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="https://forums.pcsx2.net/Thread-Spectabis-Advanced-Game-Launcher-Frontend">
                     <StackPanel Orientation="Vertical">
                         <TextBlock>Stack Overflow</TextBlock>
                         <Label>my go-to when I felt lost</Label>
@@ -79,14 +79,14 @@
                 </StackPanel>
             </materialDesign:Card>
 
-            <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="http://www.giantbomb.com/">
+            <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="https://www.giantbomb.com/">
                 <StackPanel Orientation="Vertical">
                     <TextBlock>GiantBomb API</TextBlock>
                     <Label>Thanks to their wonderful database and fast API</Label>
                 </StackPanel>
             </materialDesign:Card>
 
-            <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="http://thegamesdb.net/">
+            <materialDesign:Card MouseDoubleClick="Link_Click" Height="Auto" Tag="https://thegamesdb.net/">
                 <StackPanel Orientation="Vertical">
                     <TextBlock>TheGamesDB API</TextBlock>
                     <Label>It's a slow API and doesn't even work right, but it has been here from the start</Label>

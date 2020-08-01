@@ -573,7 +573,7 @@ namespace Spectabis_WPF.Views
             _query = _query.Replace("++",":+");
 
             //Open up PCSX2 wiki
-            Process.Start(@"http://wiki.pcsx2.net/index.php?search=" + _query);
+            Process.Start(@"https://wiki.pcsx2.net/index.php?search=" + _query);
         }
 
         //shader config button

@@ -75,7 +75,7 @@ namespace Spectabis_WPF.Views
         //Hyperlink in Giantbomb API description
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("http://giantbomb.com/api/");
+            Process.Start("https://www.giantbomb.com/api/");
         }
 
         //Radio buttons for API Selection
@@ -111,7 +111,7 @@ namespace Spectabis_WPF.Views
         //"Get PCSX2" at bottom label
         private void Label_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Process.Start("http://buildbot.orphis.net/pcsx2/index.php/");
+            Process.Start("https://pcsx2.net/download/releases/windows/category/40-windows.html");
         }
 
         //Disable Button when lenght is not 40

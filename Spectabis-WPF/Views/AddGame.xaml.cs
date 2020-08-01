@@ -244,7 +244,7 @@ namespace Spectabis_WPF.Views
         //Remove focus from textbox
         private void MoveFocus(KeyEventArgs e)
         {
-            //http://stackoverflow.com/questions/8203329/moving-to-next-control-on-enter-keypress-in-wpf
+            //https://stackoverflow.com/questions/8203329/moving-to-next-control-on-enter-keypress-in-wpf
 
             FocusNavigationDirection focusDirection = FocusNavigationDirection.Next;
             TraversalRequest request = new TraversalRequest(focusDirection);
