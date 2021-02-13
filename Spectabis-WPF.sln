@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectabis-WPF", "Spectabis-WPF\Spectabis-WPF.csproj", "{0547483E-5AA6-4036-B954-6FAF815BD2C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigPicture", "BigPicture\BigPicture.csproj", "{32F2D487-9B9F-4E80-AFDE-97CF5C3EDFB9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
