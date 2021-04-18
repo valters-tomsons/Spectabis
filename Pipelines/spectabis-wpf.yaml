@@ -24,11 +24,11 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    rootFolderOrFile: 'D:\a\1\s\Spectabis-WPF\bin\Release\'
     includeRootFolder: false
     archiveType: '7z'
     sevenZipCompression: 'normal'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).7z'
     replaceExistingArchive: true
     
 - task: PublishPipelineArtifact@1
