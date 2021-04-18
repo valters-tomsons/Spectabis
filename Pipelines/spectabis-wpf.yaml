@@ -23,3 +23,17 @@ steps:
     configuration: '$(buildConfiguration)'
 
 
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: false
+    archiveType: '7z'
+    sevenZipCompression: 'normal'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+    
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)/$'
+    artifact: 'Spectabis-WPF'
+    publishLocation: 'pipeline'
