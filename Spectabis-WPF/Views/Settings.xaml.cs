@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using CsQuery.ExtensionMethods;
 using MaterialDesignThemes.Wpf;
 using Spectabis_WPF.Domain;
 using Spectabis_WPF.Domain.Scraping;
@@ -90,7 +89,8 @@ namespace Spectabis_WPF.Views
             Console.WriteLine("Settings Saved");
 
             //Load Nightmode
-            new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
+			#warning "WARN::Night mode should be re-implemented"
+            // new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
         }
 
 	    private void ApiItemUpClick(object sender, RoutedEventArgs e) {

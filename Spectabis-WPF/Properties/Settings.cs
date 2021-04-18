@@ -51,7 +51,7 @@ namespace Spectabis_WPF.Properties {
         public string APIAutoSequence { get; set; }
         public string APIUserSequence { get; set; }
 
-        private static string DefaultSaveFile => Path.Combine(App.BaseDirectory, "spectabis.json");
+        private static string DefaultSaveFile => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "spectabis.json");
         private static Settings _defaultInstance = null;
 
         public static Settings Default {

@@ -10,7 +10,8 @@ namespace Spectabis_WPF.Domain
     public static class Logger
     {
         public static bool OutputToConsole { get; set; }
-        public static string LogfilePath { get; set; } = App.BaseDirectory + @"\resources\logs\";
+        private static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        public static string LogfilePath { get; set; } = BaseDirectory + @"\resources\logs\";
 
         public static void Init(bool toConsole = true) => OutputToConsole = toConsole;
 

@@ -33,7 +33,8 @@ namespace Spectabis_WPF.Domain
             RPC_EventHandlers.disconnectedCallback += DisconnectCallback;
             RPC_EventHandlers.errorCallback += ErrorCallback;
 
-            RPCLibrary.Initialize(ClientID, ref RPC_EventHandlers, true, null);
+#warning "WARN:: Reimplement discord libraries"
+            //RPCLibrary.Initialize(ClientID, ref RPC_EventHandlers, true, null);
 
             Console.WriteLine("Discord Rich Presence Initialized.");
         }
@@ -55,6 +56,8 @@ namespace Spectabis_WPF.Domain
 
         public void UpdatePresence(string Game)
         {
+            return;
+#warning "WARN:: Reimplement discord libraries"
             RPC_RichPresence.details = Game != "Menus" ? "Playstation 2 (PCSX2)" : null;
             RPC_RichPresence.state = Game;
             RPC_RichPresence.largeImageKey = "menus";

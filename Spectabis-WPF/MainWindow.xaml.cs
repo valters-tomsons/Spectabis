@@ -19,9 +19,10 @@ using System.Threading.Tasks;
 
 namespace Spectabis_WPF.Views
 {
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : Window
     {
-        public static string BaseDirectory = App.BaseDirectory;
+        // public static string BaseDirectory = App.BaseDirectory;
+        public static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
     
         //Side panel width value
         public static readonly double PanelWidth = 700;
@@ -70,7 +71,8 @@ namespace Spectabis_WPF.Views
 			}
 
             //Sets nightmode from variable
-            new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
+			#warning "WARN::Night mode should be re-implemented"
+            // new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
 
 			//If emuDir is not set, launch first time setup
 	        if (ShouldShowFirstTimeSetup())
@@ -130,7 +132,8 @@ namespace Spectabis_WPF.Views
         private void SetPrimary(string swatch)
         {
             Console.WriteLine("Setting PrimaryColor to " + swatch);
-            new PaletteHelper().ReplacePrimaryColor(swatch);
+			#warning "WARN::Night mode should be re-implemented"
+            // new PaletteHelper().ReplacePrimaryColor(swatch);
         }
 
         private void CatchCommandLineArguments()
@@ -238,7 +241,6 @@ namespace Spectabis_WPF.Views
             Overlay(false);
 
             Console.WriteLine(this.Width + " x " + this.Height);
-
         }
 
         //Menu - Settings Button
@@ -475,7 +477,7 @@ namespace Spectabis_WPF.Views
 
         public void refreshTile(string game)
         {
-            this.Invoke(new Action(() => ((Library)mainFrame.Content).refreshTile(game)));
+            Dispatcher.CurrentDispatcher.Invoke(() => ((Library)mainFrame.Content).refreshTile(game));
         }
 
         private void SaveGameSettings(string _name)

@@ -15,7 +15,7 @@ namespace Spectabis_WPF.Domain
     {
         public static void LaunchGame(string game)
         {
-            string BaseDirectory = App.BaseDirectory;
+            string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string gamePath = $"{BaseDirectory}resources\\configs\\{game}";
             
             var _gameIni = new IniFile(gamePath + @"\spectabis.ini");

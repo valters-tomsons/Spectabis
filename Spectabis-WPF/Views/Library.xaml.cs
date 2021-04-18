@@ -28,7 +28,7 @@ namespace Spectabis_WPF.Views
         public static string emuDir => Properties.Settings.Default.emuDir;
 
 	    private string GameConfigs;
-        private string BaseDirectory = App.BaseDirectory;
+        public static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         //Temporary variable for rightclick funcionality
         private Image clickedBoxArt;
@@ -449,7 +449,8 @@ namespace Spectabis_WPF.Views
         {
             System.Windows.Shapes.Rectangle overlay = new System.Windows.Shapes.Rectangle();
 
-            overlay.Fill = CurrentPrimary();
+			#warning "WARN::Overlay fill should be re-implemented"
+            // overlay.Fill = CurrentPrimary();
             overlay.Opacity = 0.8;
             overlay.Visibility = Visibility.Collapsed;
             overlay.IsHitTestVisible = false;
@@ -712,12 +713,14 @@ namespace Spectabis_WPF.Views
         }
 
         //Get primary color from current palette
+        [Obsolete("Should return some brush i guess")]
         public SolidColorBrush CurrentPrimary()
         {
-            PaletteHelper PaletteQuery = new PaletteHelper();
-            Palette currentPalette = PaletteQuery.QueryPalette();
-            SolidColorBrush brush = new SolidColorBrush(currentPalette.PrimarySwatch.PrimaryHues.ElementAt(7).Color);
-            return brush;
+            // PaletteHelper PaletteQuery = new PaletteHelper();
+            // Palette currentPalette = PaletteQuery.QueryPalette();
+            // SolidColorBrush brush = new SolidColorBrush(currentPalette.PrimarySwatch.PrimaryHues.ElementAt(7).Color);
+            // return brush;
+            throw new NotImplementedException();
         }
 
         //Mouse enter for game tile
@@ -1089,7 +1092,9 @@ namespace Spectabis_WPF.Views
         {
 
             //Invokes mainWindow class which navigates to AddGame.xaml
-            ((MainWindow)Application.Current.MainWindow).Open_AddGame();
+            // ((()(Window)Application.Current.MainWindow).Open_AddGame();
+            var window = Application.Current.MainWindow;
+            //window.
         }
 
         //"Add Directory" button
@@ -1124,20 +1129,21 @@ namespace Spectabis_WPF.Views
         //"Global Controller" button left click
         private void GlobalController_Click(object sender, RoutedEventArgs e)
         {
-            //Icon is off, click to turn on
-            if(GlobalController_Icon.Kind == PackIconKind.XboxControllerOff)
-            {
-                Console.WriteLine("Turning on Global Controller settings");
-                GameProfile.CreateGlobalController();
-                setGlobalControllerIcon(true);
-                Properties.Settings.Default.globalController = true;
-            }
-            else if (GlobalController_Icon.Kind == PackIconKind.XboxController)
-            {
-                Console.WriteLine("Turning off Global Controller settings");
-                setGlobalControllerIcon(false);
-                Properties.Settings.Default.globalController = false;
-            }
+            #warning "WARN::Re-enable global controller"
+            // //Icon is off, click to turn on
+            // if(GlobalController_Icon.Kind == PackIconKind.XboxControllerOff)
+            // {
+            //     Console.WriteLine("Turning on Global Controller settings");
+            //     GameProfile.CreateGlobalController();
+            //     setGlobalControllerIcon(true);
+            //     Properties.Settings.Default.globalController = true;
+            // }
+            // else if (GlobalController_Icon.Kind == PackIconKind.XboxController)
+            // {
+            //     Console.WriteLine("Turning off Global Controller settings");
+            //     setGlobalControllerIcon(false);
+            //     Properties.Settings.Default.globalController = false;
+            // }
 
             Properties.Settings.Default.Save();
             Console.WriteLine("Settings saved!");
@@ -1146,14 +1152,15 @@ namespace Spectabis_WPF.Views
         //Set Controller settings option icon
         private void setGlobalControllerIcon(bool e)
         {
+            #warning "WARN::Re-enable global controller"
             if(e == true)
             {
-                GlobalController_Icon.Kind = PackIconKind.XboxController;
+                // GlobalController_Icon.Kind = PackIconKind.XboxController;
                 GlobalController_Button.ToolTip = "Disable Global Controller Profile" + System.Environment.NewLine + "Right click to configure";
             }
             else
             {
-                GlobalController_Icon.Kind = PackIconKind.XboxControllerOff;
+                // GlobalController_Icon.Kind = PackIconKind.XboxControllerOff;
                 GlobalController_Button.ToolTip = "Enable Global Controller Profile";
             }
         }

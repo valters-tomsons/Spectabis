@@ -9,7 +9,7 @@ using Spectabis_WPF.Properties;
 
 namespace Spectabis_WPF.Domain {
     public class ScrapeArt {
-        private static readonly string BaseDirectory = App.BaseDirectory;
+        private static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         public GameInfoModel Result;
 

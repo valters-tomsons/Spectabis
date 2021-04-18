@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="Spectabis_WPF.Views.MainWindow"
+﻿<Window x:Class="Spectabis_WPF.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,11 +8,9 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Medium"
         Background="{DynamicResource MaterialDesignPaper}"
-        GlowBrush="{DynamicResource AccentColorBrush}"
         TextElement.FontSize="14"
         FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         WindowStartupLocation="CenterScreen" 
-        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       
         MinWidth="900"
         MinHeight="605"    
@@ -20,11 +18,9 @@
         Width="1180"
         Height="680"  
                       
-        ShowIconOnTitleBar="False"
         Title="Spectabis" 
         Closing="MainWindow_Closing"
-        Visibility="Visible" 
-        Icon="/Spectabis;component/Resources/spectabis_multisizeicon.ico">
+        Visibility="Visible" >
 
     <Window.Resources>
         <Style TargetType="CheckBox" x:Key="LargerCheckbox" BasedOn="{StaticResource MaterialDesignCheckBox}">
@@ -155,4 +151,4 @@
         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="SnackBar"/>
 
     </Grid>
-</Controls:MetroWindow>
+</Window>

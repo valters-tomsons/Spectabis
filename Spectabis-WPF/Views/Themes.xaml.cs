@@ -34,7 +34,8 @@ namespace Spectabis_WPF.Views
         private void SetPrimary(string swatch)
         {
             Console.WriteLine("Setting PrimaryColor to " + swatch);
-            new PaletteHelper().ReplacePrimaryColor(swatch);
+			#warning "WARN::SetPrimary(swatch) should be re-implemented"
+            // new PaletteHelper().ReplacePrimaryColor(swatch);
         }
 
         //Load Swatches in WrapPanel
