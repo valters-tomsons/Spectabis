@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -11,7 +11,7 @@ namespace Spectabis_WPF.Domain
         //Returns a game name, using PCSX2 database file
         public static string GetName(string _path)
         {
-            string GameIndex = emuDir + @"\GameIndex.dbf";
+            string GameIndex = "./GameIndex.dbf";
             var serial = "";
 
             //Get the serial number of the game
