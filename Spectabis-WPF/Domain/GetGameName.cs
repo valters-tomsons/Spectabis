@@ -1,6 +1,8 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Spectabis_WPF.Domain
 {
@@ -20,6 +22,34 @@ namespace Spectabis_WPF.Domain
                 serial = GetSerial.GetSerialNumber(_path);
             }
 
+            // See if serial is in file name, set if found
+            if(string.IsNullOrWhiteSpace(serial))
+            {
+                var fileName = Path.GetFileName(_path);
+
+                var normalizedBuilder = new StringBuilder(fileName.ToUpperInvariant());
+
+                normalizedBuilder.Replace(".", string.Empty);
+                normalizedBuilder.Replace("_", string.Empty);
+                normalizedBuilder.Replace("-", string.Empty);
+                normalizedBuilder.Replace(" ", string.Empty);
+
+                var finalName = normalizedBuilder.ToString();
+
+                var serialMatch = GetRegions.regionList.FirstOrDefault(x => finalName.Contains(x));
+
+                if(serialMatch != null)
+                {
+                    var result = Regex.Match(finalName, $"{serialMatch}[(0-9)]*");
+
+                    if(result.Success)
+                    {
+                        serial = result.Value.Replace(serialMatch, serialMatch + "-");
+                    }
+                }
+            }
+
+            // Match serial to game database
             if (!string.IsNullOrWhiteSpace(serial))
             {
                 //Reads the GameIndex file by line
