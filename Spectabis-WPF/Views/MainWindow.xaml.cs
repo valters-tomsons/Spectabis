@@ -171,7 +171,7 @@ namespace Spectabis_WPF.Views
                         Console.WriteLine("Launching " + arg);
 
                         //Launch game
-                        Domain.LaunchPCSX2.LaunchGame(arg, true);
+                        Domain.LaunchPCSX2.CreateGameProcess(arg, true);
                     }
                     else
                     {

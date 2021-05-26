@@ -210,7 +210,11 @@ namespace Spectabis_WPF.Views
                         Console.WriteLine($"CopyGlobalProfile({game})");
                         GameProfile.CopyGlobalProfile(game);
 
-                        PCSX = LaunchPCSX2.LaunchGame(game);
+                        PCSX = LaunchPCSX2.CreateGameProcess(game);
+                        PCSX.EnableRaisingEvents = true;
+                        PCSX.Exited += new EventHandler(PCSX_Exited);
+
+                        PCSX.Start();
 
                         //Minimize Window
                         this.Invoke(new Action(() => ((MainWindow)Application.Current.MainWindow).MainWindow_Minimize()));

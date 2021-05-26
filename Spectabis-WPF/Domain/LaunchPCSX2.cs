@@ -5,11 +5,9 @@ using System.Windows;
 
 namespace Spectabis_WPF.Domain
 {
-    //Used only for commandline argument launching
-
     class LaunchPCSX2
     {
-        public static Process LaunchGame(string game, bool closeApp = false)
+        public static Process CreateGameProcess(string game, bool launchAndTerminate = false)
         {
             string BaseDirectory = App.BaseDirectory;
             string gamePath = $"{BaseDirectory}resources\\configs\\{game}";
@@ -32,32 +30,24 @@ namespace Spectabis_WPF.Domain
 
             Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath={gamePath}");
 
-            //Paths in PCSX2 command arguments have to be in quotes...
-            const string quote = "\"";
-
             Process PCSX = new Process();
 
             //PCSX2 Process
             if(File.Exists(Properties.Settings.Default.emuDir))
             {
-                var argument = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath={quote}{gamePath}{quote}";
+                var argument = $"{_launchargs} \"{_isoDir}\" --cfgpath=\"{gamePath}\"";
 
                 if(_isoDir.EndsWith(".ELF") || _isoDir.EndsWith(".elf"))
                 {
-                    // argument = argument.Replace($"\"{_isoDir}\"", $"--elf=\"{_isoDir}\"");
                     argument = $"--elf=\"{_isoDir}\" --cfgpath=\"{gamePath}\"";
                 }
 
                 PCSX.StartInfo.FileName = Properties.Settings.Default.emuDir;
                 PCSX.StartInfo.Arguments = argument;
 
-                PCSX.Start();
-
-                //Elevate Process
-                PCSX.PriorityClass = ProcessPriorityClass.AboveNormal;
-
-                if(closeApp)
+                if(launchAndTerminate)
                 {
+                    PCSX.Start();
                     Application.Current.Shutdown();
                 }
 
