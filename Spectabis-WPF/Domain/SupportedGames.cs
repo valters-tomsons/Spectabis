@@ -6,8 +6,8 @@ namespace Spectabis_WPF.Domain
     {
         //File types that Spectabis supports
         public static List<string> GameFiles = new List<string>() {
-            "iso", "bin", "cso", "gz", "chd",
-            "ISO", "BIN", "CSO", "GZ", "CHD"
+            "iso", "bin", "cso", "gz", "chd", "elf",
+            "ISO", "BIN", "CSO", "GZ", "CHD", "ELF"
 
         };
 

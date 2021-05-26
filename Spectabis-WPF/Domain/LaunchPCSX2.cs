@@ -40,8 +40,16 @@ namespace Spectabis_WPF.Domain
             //PCSX2 Process
             if(File.Exists(Properties.Settings.Default.emuDir))
             {
+                var argument = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath={quote}{gamePath}{quote}";
+
+                if(_isoDir.EndsWith(".ELF") || _isoDir.EndsWith(".elf"))
+                {
+                    // argument = argument.Replace($"\"{_isoDir}\"", $"--elf=\"{_isoDir}\"");
+                    argument = $"--elf=\"{_isoDir}\" --cfgpath=\"{gamePath}\"";
+                }
+
                 PCSX.StartInfo.FileName = Properties.Settings.Default.emuDir;
-                PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath={quote}{gamePath}{quote}";
+                PCSX.StartInfo.Arguments = argument;
 
                 PCSX.Start();
 
