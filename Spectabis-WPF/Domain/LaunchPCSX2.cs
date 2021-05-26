@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Spectabis_WPF.Domain
@@ -13,7 +9,7 @@ namespace Spectabis_WPF.Domain
 
     class LaunchPCSX2
     {
-        public static void LaunchGame(string game)
+        public static Process LaunchGame(string game, bool closeApp = false)
         {
             string BaseDirectory = App.BaseDirectory;
             string gamePath = $"{BaseDirectory}resources\\configs\\{game}";
@@ -52,13 +48,18 @@ namespace Spectabis_WPF.Domain
                 //Elevate Process
                 PCSX.PriorityClass = ProcessPriorityClass.AboveNormal;
 
-                Application.Current.Shutdown();
+                if(closeApp)
+                {
+                    Application.Current.Shutdown();
+                }
+
             }
             else
             {
                 Console.WriteLine(Properties.Settings.Default.emuDir + " does not exist!");
             }
-            
+
+            return PCSX;
         }
     }
 }

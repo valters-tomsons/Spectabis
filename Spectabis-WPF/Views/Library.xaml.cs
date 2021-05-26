@@ -204,39 +204,13 @@ namespace Spectabis_WPF.Views
                 {
                     if (File.Exists(_isoDir))
                     {
-                        //Launch arguments
-                        var _nogui = _gameIni.Read("nogui", "Spectabis");
-                        var _fullscreen = _gameIni.Read("fullscreen", "Spectabis");
-                        var _fullboot = _gameIni.Read("fullboot", "Spectabis");
-                        var _nohacks = _gameIni.Read("nohacks", "Spectabis");
-
-                        string _launchargs = "";
-
-                        if (_nogui == "1") { _launchargs = "--nogui "; }
-                        if (_fullscreen == "1") { _launchargs = _launchargs + "--fullscreen "; }
-                        if (_fullboot == "1") { _launchargs = _launchargs + "--fullboot "; }
-                        if (_nohacks == "1") { _launchargs = _launchargs + "--nohacks "; }
-
-                        Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath={_cfgDir}");
+                        var game = clickedBoxArt.Tag.ToString();
 
                         //Copy global controller settings
-                        Console.WriteLine($"CopyGlobalProfile({clickedBoxArt.Tag.ToString()})");
-                        GameProfile.CopyGlobalProfile(clickedBoxArt.Tag.ToString());
+                        Console.WriteLine($"CopyGlobalProfile({game})");
+                        GameProfile.CopyGlobalProfile(game);
 
-                        //Paths in PCSX2 command arguments have to be in quotes...
-                        const string quote = "\"";
-
-                        //PCSX2 Process
-                        PCSX.StartInfo.FileName = emuDir;
-                        PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath={quote}{_cfgDir}{quote}";
-
-                        PCSX.EnableRaisingEvents = true;
-                        PCSX.Exited += new EventHandler(PCSX_Exited);
-
-                        PCSX.Start();
-
-                        //Elevate Process
-                        PCSX.PriorityClass = ProcessPriorityClass.AboveNormal;
+                        PCSX = LaunchPCSX2.LaunchGame(game);
 
                         //Minimize Window
                         this.Invoke(new Action(() => ((MainWindow)Application.Current.MainWindow).MainWindow_Minimize()));
