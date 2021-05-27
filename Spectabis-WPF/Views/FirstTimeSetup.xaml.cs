@@ -95,12 +95,6 @@ namespace Spectabis_WPF.Views
             ((MainWindow)Application.Current.MainWindow).HideFirsttimeSetup();
         }
 
-        //Hyperlink in Giantbomb API description
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start("https://www.giantbomb.com/api/");
-        }
-
         //"Get PCSX2" at bottom label
         private void Label_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
