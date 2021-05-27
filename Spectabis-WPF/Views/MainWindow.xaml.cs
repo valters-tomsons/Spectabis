@@ -46,29 +46,6 @@ namespace Spectabis_WPF.Views
             //Version
             Console.WriteLine(Assembly.GetExecutingAssembly().GetName().Version);
 
-            //Advanced options ini
-            if (File.Exists(BaseDirectory + @"\advanced.ini"))
-            {
-
-				//Read values
-	            var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
-	            var value = advancedIni.Read("timelineFramerate", "Renderer");
-
-	            if (string.IsNullOrEmpty(value) == false) {
-		            var framerate = Convert.ToInt16(value);
-
-		            if(false) 
-						// should the value actually be a valid "short" value.
-						// the application will crash because "short" wont convert to "Timeline"
-						Timeline.DesiredFrameRateProperty.OverrideMetadata(
-							typeof(Timeline),
-							new FrameworkPropertyMetadata {
-								DefaultValue = framerate
-							}
-						);
-	            }
-			}
-
             //Sets nightmode from variable
             new PaletteHelper().SetLightDark(Properties.Settings.Default.nightMode);
 

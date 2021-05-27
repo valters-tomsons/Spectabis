@@ -1308,7 +1308,7 @@ namespace Spectabis_WPF.Views
                     _fileList = Directory.GetFiles(Properties.Settings.Default.gameDirectory, "*.???", SearchOption.AllDirectories);
                     Console.WriteLine(_fileList.Count() + " files found!");
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
                     Console.WriteLine($"Failed to enumerate game directory - '{Properties.Settings.Default.gameDirectory}'");
                     PushSnackbar("Failed to enumerate game file directory! Try selecting a different folder.");
