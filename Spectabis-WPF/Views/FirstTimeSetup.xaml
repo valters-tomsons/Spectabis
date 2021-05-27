@@ -26,26 +26,12 @@
         
         <StackPanel VerticalAlignment="Center">
             <Image x:Name="BigLogo" Source="/resources/SPECTABIS_logotext.png" RenderOptions.BitmapScalingMode="HighQuality" HorizontalAlignment="Center" MaxWidth="1018" MaxHeight="188" Margin="50,0" />
+
             <Label x:Name="MainLabel" HorizontalAlignment="Center" Foreground="White" Margin="0,5,0,0" FontSize="20" FontFamily="Roboto">Select PCSX2 Installation Directory</Label>
-            <StackPanel x:Name="API_RadioPanel" Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Center">
-                <RadioButton x:Name="TGDB_Radio" IsChecked="true" Content="TheGamesDB"  Foreground="White" Width="116" Click="APIClick" />
-                <RadioButton x:Name="GB_Radio" Content="GiantBomb" Margin="15,0" Foreground="White" Click="APIClick" />
-            </StackPanel>
+            <Label x:Name="Subtitle" Visibility="Collapsed" HorizontalAlignment="Center" Foreground="White" Margin="0,5,0,0" FontSize="14" FontFamily="Roboto"></Label>
             
-            <TextBlock x:Name="GB_Description" LineHeight="10" FontSize="14" Visibility="Collapsed" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Center" Margin="0,20">
-            GiantBomb API is a much faster and miles more reliable way to retrieve game cover art than TheGamesDB. 
-            <LineBreak /> To use this method, you'll need to register for an API key.
-            <LineBreak /> <Hyperlink Click="Hyperlink_Click" >Register Here</Hyperlink>
-            </TextBlock>
-
-            <TextBlock x:Name="TGDB_Description" LineHeight="5" FontSize="14" Visibility="Collapsed" TextWrapping="Wrap" Foreground="White" HorizontalAlignment="Center" Margin="0,20">
-            TheGamesDB is slow and unreliable way of retrieving game cover art.
-            <LineBreak /> It's the default, because it works without registration.
-            <LineBreak /> If this returns invalid game art, don't come to me about it.
-            </TextBlock>
-            <TextBox x:Name="ApiBox" Visibility="Collapsed" Style="{StaticResource MaterialDesignFloatingHintTextBox}" materialDesign:HintAssist.Hint="API Key" Width="325" MaxLength="40" TextChanged="ApiBox_TextChanged" />
-
-            <Button Style="{DynamicResource MaterialDesignFlatButton}" Focusable="False" MaxWidth="180" Margin="0,15,0,0" x:Name="PrimaryButton" Content="Browse" Click="PrimaryButton_Click" />
+            <Button Style="{DynamicResource MaterialDesignFlatAccentButton}" Focusable="False" MaxWidth="180" Margin="0,15,0,0" x:Name="PrimaryButton" Content="Browse" Click="PrimaryButton_Click" />
+            <Button Style="{DynamicResource MaterialDesignFlatButton}" Visibility="Collapsed" Focusable="False" MaxWidth="180" Margin="0,15,0,0" x:Name="SecondaryButton" Content="Skip" Click="SecondaryButton_Click" />
             
         </StackPanel>
         <TextBlock Cursor="Hand" x:Name="DownloadLabel" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10" FontSize="14" Foreground="LightBlue" MouseUp="Label_MouseUp" MouseEnter="Label_MouseEnter" MouseLeave="Label_MouseLeave">Don't have PCSX2?</TextBlock>

@@ -50,34 +50,51 @@ namespace Spectabis_WPF.Domain
 
             Directory.CreateDirectory(BaseDirectory + @"\resources\configs\" + _title);
 
-            //Copies existing ini files from PCSX2
-            //looks for inis in pcsx2 directory
-            if (Directory.Exists(emuDir + @"\inis\"))
+            string defaultConfig = $"{App.BaseDirectory}resources\\default_config";
+            if (Directory.Exists(defaultConfig))
             {
-                string[] inisDir = Directory.GetFiles(emuDir + @"\inis\");
-                foreach (string inifile in inisDir)
-                {
-                    Console.WriteLine(inifile + " found!");
-                    if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
-                    {
-                        string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
-                        File.Copy(inifile, _destinationPath);
-                    }
-                }
-            }
-            else
-            {
-                string[] inisDirDoc = Directory.GetFiles((Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"));
-                foreach (string inifile in inisDirDoc)
-                {
-                    if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
-                    {
-                        string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
-                        File.Copy(inifile, _destinationPath);
-                    }
-                }
+                Console.WriteLine("Copying initial game configuration from default_config");
 
+                string[] files = Directory.GetFiles(defaultConfig);
+
+                foreach(var file in files)
+                {
+                    string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(file));
+                    File.Copy(file, _destinationPath);
+                }
             }
+            else  // Legacy game configuration
+            {
+                Console.WriteLine("Using legacy game configuration");
+
+                if (Directory.Exists(emuDir + @"\inis\"))
+                {
+                    string[] inisDir = Directory.GetFiles(emuDir + @"\inis\");
+                    foreach (string inifile in inisDir)
+                    {
+                        Console.WriteLine(inifile + " found!");
+                        if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
+                        {
+                            string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
+                            File.Copy(inifile, _destinationPath);
+                        }
+                    }
+                }
+                else
+                {
+                    string[] inisDirDoc = Directory.GetFiles((Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PCSX2\inis"));
+                    foreach (string inifile in inisDirDoc)
+                    {
+                        if (File.Exists(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile)) == false)
+                        {
+                            string _destinationPath = Path.Combine(BaseDirectory + @"\resources\configs\" + _title + @"\" + Path.GetFileName(inifile));
+                            File.Copy(inifile, _destinationPath);
+                        }
+                    }
+
+                }
+            }
+
 
             //Create a blank Spectabis.ini file
             var gameIni = new IniFile(BaseDirectory + @"\resources\configs\" + _title + @"\spectabis.ini");

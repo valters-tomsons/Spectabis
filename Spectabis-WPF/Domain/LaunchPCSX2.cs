@@ -59,5 +59,16 @@ namespace Spectabis_WPF.Domain
 
             return PCSX;
         }
+
+        public static Process CreateFirstTimeWizard()
+        {
+            var process = new Process();
+            process.StartInfo.FileName = Properties.Settings.Default.emuDir;
+
+            string cfgPath = $"{App.BaseDirectory}resources\\default_config";
+            process.StartInfo.Arguments = $"--forcewiz --nogui --cfgpath=\"{cfgPath}\"";
+
+            return process;
+        }
     }
 }
