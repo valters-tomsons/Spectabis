@@ -1301,13 +1301,22 @@ namespace Spectabis_WPF.Views
                 if (Properties.Settings.Default.gameDirectory == null)
                     return;
 
-                var _fileList = Directory.GetFiles(Properties.Settings.Default.gameDirectory);
-                Console.WriteLine(_fileList.Count() + " files found!");
+                string[] _fileList;
+
+                try
+                {
+                    _fileList = Directory.GetFiles(Properties.Settings.Default.gameDirectory, "*.???", SearchOption.AllDirectories);
+                    Console.WriteLine(_fileList.Count() + " files found!");
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine($"Failed to enumerate game directory - '{Properties.Settings.Default.gameDirectory}'");
+                    PushSnackbar("Failed to enumerate game file directory! Try selecting a different folder.");
+                    return;
+                }
 
                 int _count = _fileList.Except(LoadedISOs).ToList().Count;
                 
-                Console.WriteLine($"{_count} new files found!");
-
                 //Count after which games will be moved to "Game Discovery" page
                 int TooManyFiles = 3;
 
