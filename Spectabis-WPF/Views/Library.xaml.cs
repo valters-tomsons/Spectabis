@@ -71,12 +71,6 @@ namespace Spectabis_WPF.Views
             GameConfigs = BaseDirectory + @"\resources\configs\";
 
             var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
-            var _enableXInput = advancedIni.Read("EnableXinput", "Input");
-            if (_enableXInput == "false")
-            {
-                Console.WriteLine("Disabling XInput...");
-                arguments.Add("-ignorexinput");
-            }
 
             //Starts the TaskQueue timer
             System.Windows.Threading.DispatcherTimer taskList = new System.Windows.Threading.DispatcherTimer();
@@ -89,35 +83,6 @@ namespace Spectabis_WPF.Views
             QueueThread.WorkerSupportsCancellation = true;
             QueueThread.WorkerReportsProgress = true;
             QueueThread.DoWork += QueueThread_DoWork;
-
-            if (arguments.Contains("-ignorexinput") == false)
-            {
-                Console.WriteLine("xInput Initialization");
-
-                //xInput Initialization
-                getCurrentController();
-
-                //xInput listener
-                xListener.DoWork += xListener_DoWork;
-
-                //detect new USB device
-                WqlEventQuery q_creation = new WqlEventQuery();
-                q_creation.EventClassName = "__InstanceCreationEvent";
-                q_creation.WithinInterval = new TimeSpan(0, 0, 2);
-                q_creation.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'";
-                mwe_creation = new ManagementEventWatcher(q_creation);
-                mwe_creation.EventArrived += new EventArrivedEventHandler(USBEventArrived);
-                mwe_creation.Start();
-
-                //detect USB device deletion
-                WqlEventQuery q_deletion = new WqlEventQuery();
-                q_deletion.EventClassName = "__InstanceDeletionEvent";
-                q_deletion.WithinInterval = new TimeSpan(0, 0, 2);
-                q_deletion.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'  ";
-                mwe_deletion = new ManagementEventWatcher(q_deletion);
-                mwe_deletion.EventArrived += new EventArrivedEventHandler(USBEventArrived);
-                mwe_deletion.Start();
-            }
 
             //Hide searchbar
             if (Properties.Settings.Default.searchbar == false)
