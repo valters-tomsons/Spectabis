@@ -352,8 +352,8 @@ namespace Spectabis_WPF.Views
             artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
             artSource.UriSource = new Uri(game + @"\art.jpg", UriKind.RelativeOrAbsolute);
 
-            artSource.DecodePixelHeight = 200;
-            artSource.DecodePixelWidth = 150;
+            artSource.DecodePixelHeight = Properties.Settings.Default.BoxHeight;
+            artSource.DecodePixelWidth = Properties.Settings.Default.BoxWidth;
 
             //Closes the filestream
             artSource.EndInit();
@@ -361,8 +361,8 @@ namespace Spectabis_WPF.Views
             //sets boxArt source to created bitmap
             boxArt.Source = artSource;
 
-            boxArt.Height = 200;
-            boxArt.Width = 150;
+            boxArt.Height = Properties.Settings.Default.BoxHeight;
+            boxArt.Width = Properties.Settings.Default.BoxWidth;
 
             //Creates a gap between tiles
             //There is an issue, when scaling another object when referencing this object's size, the gap is added to the size
@@ -408,7 +408,7 @@ namespace Spectabis_WPF.Views
             gameTitle.Name = "title";
             gameTitle.HorizontalAlignment = HorizontalAlignment.Center;
             gameTitle.VerticalAlignment = VerticalAlignment.Bottom;
-            gameTitle.Width = 150;
+            gameTitle.Width = Properties.Settings.Default.BoxWidth;
             gameTitle.FontSize = 16;
             gameTitle.Foreground = new SolidColorBrush(Colors.White);
             gameTitle.Margin = new Thickness(0, 0, 0, 30);
