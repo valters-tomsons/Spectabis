@@ -6,10 +6,7 @@ using System.IO;
 using System.Windows.Media.Animation;
 using System;
 using System.Net.Cache;
-using System.Diagnostics;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Threading;
 using System.ComponentModel;
 using MahApps.Metro.Controls;
 
@@ -62,8 +59,10 @@ namespace Spectabis_WPF.Views
                         ISODialog.Filter = ISODialog.Filter + "|" + FilterEntry;
                     }
                 }
-            
             }
+
+            ISODialog.Filter += $"|All files (*.*)|*.*";
+
             if (ISODialog.ShowDialog().Value == true)
             {
                 if(Properties.Settings.Default.titleAsFile)

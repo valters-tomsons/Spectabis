@@ -71,12 +71,6 @@ namespace Spectabis_WPF.Views
             GameConfigs = BaseDirectory + @"\resources\configs\";
 
             var advancedIni = new IniFile(BaseDirectory + @"\advanced.ini");
-            var _enableXInput = advancedIni.Read("EnableXinput", "Input");
-            if (_enableXInput == "false")
-            {
-                Console.WriteLine("Disabling XInput...");
-                arguments.Add("-ignorexinput");
-            }
 
             //Starts the TaskQueue timer
             System.Windows.Threading.DispatcherTimer taskList = new System.Windows.Threading.DispatcherTimer();
@@ -89,35 +83,6 @@ namespace Spectabis_WPF.Views
             QueueThread.WorkerSupportsCancellation = true;
             QueueThread.WorkerReportsProgress = true;
             QueueThread.DoWork += QueueThread_DoWork;
-
-            if (arguments.Contains("-ignorexinput") == false)
-            {
-                Console.WriteLine("xInput Initialization");
-
-                //xInput Initialization
-                getCurrentController();
-
-                //xInput listener
-                xListener.DoWork += xListener_DoWork;
-
-                //detect new USB device
-                WqlEventQuery q_creation = new WqlEventQuery();
-                q_creation.EventClassName = "__InstanceCreationEvent";
-                q_creation.WithinInterval = new TimeSpan(0, 0, 2);
-                q_creation.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'";
-                mwe_creation = new ManagementEventWatcher(q_creation);
-                mwe_creation.EventArrived += new EventArrivedEventHandler(USBEventArrived);
-                mwe_creation.Start();
-
-                //detect USB device deletion
-                WqlEventQuery q_deletion = new WqlEventQuery();
-                q_deletion.EventClassName = "__InstanceDeletionEvent";
-                q_deletion.WithinInterval = new TimeSpan(0, 0, 2);
-                q_deletion.Condition = @"TargetInstance ISA 'Win32_USBControllerdevice'  ";
-                mwe_deletion = new ManagementEventWatcher(q_deletion);
-                mwe_deletion.EventArrived += new EventArrivedEventHandler(USBEventArrived);
-                mwe_deletion.Start();
-            }
 
             //Hide searchbar
             if (Properties.Settings.Default.searchbar == false)
@@ -204,39 +169,17 @@ namespace Spectabis_WPF.Views
                 {
                     if (File.Exists(_isoDir))
                     {
-                        //Launch arguments
-                        var _nogui = _gameIni.Read("nogui", "Spectabis");
-                        var _fullscreen = _gameIni.Read("fullscreen", "Spectabis");
-                        var _fullboot = _gameIni.Read("fullboot", "Spectabis");
-                        var _nohacks = _gameIni.Read("nohacks", "Spectabis");
-
-                        string _launchargs = "";
-
-                        if (_nogui == "1") { _launchargs = "--nogui "; }
-                        if (_fullscreen == "1") { _launchargs = _launchargs + "--fullscreen "; }
-                        if (_fullboot == "1") { _launchargs = _launchargs + "--fullboot "; }
-                        if (_nohacks == "1") { _launchargs = _launchargs + "--nohacks "; }
-
-                        Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath={_cfgDir}");
+                        var game = clickedBoxArt.Tag.ToString();
 
                         //Copy global controller settings
-                        Console.WriteLine($"CopyGlobalProfile({clickedBoxArt.Tag.ToString()})");
-                        GameProfile.CopyGlobalProfile(clickedBoxArt.Tag.ToString());
+                        Console.WriteLine($"CopyGlobalProfile({game})");
+                        GameProfile.CopyGlobalProfile(game);
 
-                        //Paths in PCSX2 command arguments have to be in quotes...
-                        const string quote = "\"";
-
-                        //PCSX2 Process
-                        PCSX.StartInfo.FileName = emuDir;
-                        PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath={quote}{_cfgDir}{quote}";
-
+                        PCSX = LaunchPCSX2.CreateGameProcess(game);
                         PCSX.EnableRaisingEvents = true;
                         PCSX.Exited += new EventHandler(PCSX_Exited);
 
                         PCSX.Start();
-
-                        //Elevate Process
-                        PCSX.PriorityClass = ProcessPriorityClass.AboveNormal;
 
                         //Minimize Window
                         this.Invoke(new Action(() => ((MainWindow)Application.Current.MainWindow).MainWindow_Minimize()));
@@ -409,8 +352,8 @@ namespace Spectabis_WPF.Views
             artSource.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
             artSource.UriSource = new Uri(game + @"\art.jpg", UriKind.RelativeOrAbsolute);
 
-            artSource.DecodePixelHeight = 200;
-            artSource.DecodePixelWidth = 150;
+            artSource.DecodePixelHeight = Properties.Settings.Default.BoxHeight;
+            artSource.DecodePixelWidth = Properties.Settings.Default.BoxWidth;
 
             //Closes the filestream
             artSource.EndInit();
@@ -418,8 +361,8 @@ namespace Spectabis_WPF.Views
             //sets boxArt source to created bitmap
             boxArt.Source = artSource;
 
-            boxArt.Height = 200;
-            boxArt.Width = 150;
+            boxArt.Height = Properties.Settings.Default.BoxHeight;
+            boxArt.Width = Properties.Settings.Default.BoxWidth;
 
             //Creates a gap between tiles
             //There is an issue, when scaling another object when referencing this object's size, the gap is added to the size
@@ -465,7 +408,7 @@ namespace Spectabis_WPF.Views
             gameTitle.Name = "title";
             gameTitle.HorizontalAlignment = HorizontalAlignment.Center;
             gameTitle.VerticalAlignment = VerticalAlignment.Bottom;
-            gameTitle.Width = 150;
+            gameTitle.Width = Properties.Settings.Default.BoxWidth;
             gameTitle.FontSize = 16;
             gameTitle.Foreground = new SolidColorBrush(Colors.White);
             gameTitle.Margin = new Thickness(0, 0, 0, 30);
@@ -1323,13 +1266,22 @@ namespace Spectabis_WPF.Views
                 if (Properties.Settings.Default.gameDirectory == null)
                     return;
 
-                var _fileList = Directory.GetFiles(Properties.Settings.Default.gameDirectory);
-                Console.WriteLine(_fileList.Count() + " files found!");
+                string[] _fileList;
+
+                try
+                {
+                    _fileList = Directory.GetFiles(Properties.Settings.Default.gameDirectory, "*.???", SearchOption.AllDirectories);
+                    Console.WriteLine(_fileList.Count() + " files found!");
+                }
+                catch(Exception)
+                {
+                    Console.WriteLine($"Failed to enumerate game directory - '{Properties.Settings.Default.gameDirectory}'");
+                    PushSnackbar("Failed to enumerate game file directory! Try selecting a different folder.");
+                    return;
+                }
 
                 int _count = _fileList.Except(LoadedISOs).ToList().Count;
                 
-                Console.WriteLine($"{_count} new files found!");
-
                 //Count after which games will be moved to "Game Discovery" page
                 int TooManyFiles = 3;
 

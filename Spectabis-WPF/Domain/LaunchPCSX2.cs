@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Spectabis_WPF.Domain
 {
-    //Used only for commandline argument launching
-
     class LaunchPCSX2
     {
-        public static void LaunchGame(string game)
+        public static Process CreateGameProcess(string game, bool launchAndTerminate = false)
         {
             string BaseDirectory = App.BaseDirectory;
             string gamePath = $"{BaseDirectory}resources\\configs\\{game}";
@@ -36,29 +30,45 @@ namespace Spectabis_WPF.Domain
 
             Console.WriteLine($"{_launchargs} {_isoDir} --cfgpath={gamePath}");
 
-            //Paths in PCSX2 command arguments have to be in quotes...
-            const string quote = "\"";
-
             Process PCSX = new Process();
 
             //PCSX2 Process
             if(File.Exists(Properties.Settings.Default.emuDir))
             {
+                var argument = $"{_launchargs} \"{_isoDir}\" --cfgpath=\"{gamePath}\"";
+
+                if(_isoDir.EndsWith(".ELF") || _isoDir.EndsWith(".elf"))
+                {
+                    argument = $"--elf=\"{_isoDir}\" --cfgpath=\"{gamePath}\"";
+                }
+
                 PCSX.StartInfo.FileName = Properties.Settings.Default.emuDir;
-                PCSX.StartInfo.Arguments = $"{_launchargs} {quote}{_isoDir}{quote} --cfgpath={quote}{gamePath}{quote}";
+                PCSX.StartInfo.Arguments = argument;
 
-                PCSX.Start();
+                if(launchAndTerminate)
+                {
+                    PCSX.Start();
+                    Application.Current.Shutdown();
+                }
 
-                //Elevate Process
-                PCSX.PriorityClass = ProcessPriorityClass.AboveNormal;
-
-                Application.Current.Shutdown();
             }
             else
             {
                 Console.WriteLine(Properties.Settings.Default.emuDir + " does not exist!");
             }
-            
+
+            return PCSX;
+        }
+
+        public static Process CreateFirstTimeWizard()
+        {
+            var process = new Process();
+            process.StartInfo.FileName = Properties.Settings.Default.emuDir;
+
+            string cfgPath = $"{App.BaseDirectory}resources\\default_config";
+            process.StartInfo.Arguments = $"--forcewiz --nogui --cfgpath=\"{cfgPath}\"";
+
+            return process;
         }
     }
 }

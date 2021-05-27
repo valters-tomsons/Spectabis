@@ -26,7 +26,9 @@ namespace Spectabis_WPF.Properties {
                 APIKey_IGDB = "",
                 APIKey_TheGamesDb = "",
                 APIAutoSequence = "0,1,2,3,4",
-                APIUserSequence = ""
+                APIUserSequence = "",
+                BoxWidth = 150,
+                BoxHeight = 200
             };
         }
 
@@ -50,6 +52,8 @@ namespace Spectabis_WPF.Properties {
         public string APIKey_TheGamesDb { get; set; }
         public string APIAutoSequence { get; set; }
         public string APIUserSequence { get; set; }
+        public int BoxWidth { get; set; } = 150;
+        public int BoxHeight { get; set; } = 200;
 
         private static string DefaultSaveFile => Path.Combine(App.BaseDirectory, "spectabis.json");
         private static Settings _defaultInstance = null;

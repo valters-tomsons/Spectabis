@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Spectabis_WPF.Domain;
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,6 +18,8 @@ namespace Spectabis_WPF.Views
 
         //Keeps track of setup steps
         public int StepCounter = 0;
+
+        private Process _wizardProcess;
 
         //Primary button click
         private void PrimaryButton_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -39,92 +43,62 @@ namespace Spectabis_WPF.Views
                     }
 
                     Properties.Settings.Default.emuDir = _result;
-                    Properties.Settings.Default.Save();
 
-                    //Increment Step count
+                    BigLogo.Visibility = Visibility.Collapsed;
+                    DownloadLabel.Visibility = Visibility.Collapsed;
+
+                    SecondaryButton.Visibility = Visibility.Visible;
+
+                    MainLabel.Content = "PCSX2 First Time Setup";
+
+                    Subtitle.Content = "It is recommended to finish first time wizard to create a base configuration";
+                    Subtitle.Visibility = Visibility.Visible;
+
+                    PrimaryButton.Content = "Begin";
+
                     StepCounter += 1;
-
-					/*
-					Last step is for selecting the scraping API
-					Since this process has been automated the entire
-					step has become redundant. Thus has bee disabled
-
-					This step remains until all the related UI controls
-					Gets removed, this block serves as a reminder
-					~ CyberFoxHax - 11/12/2018
-					*/
-                    if (false) {
-                        //Set up next step
-                        BigLogo.Visibility = Visibility.Collapsed;
-                        DownloadLabel.Visibility = Visibility.Collapsed;
-
-                        MainLabel.Content = "Select Boxart searching method";
-                        TGDB_Description.Visibility = Visibility.Visible;
-
-                        PrimaryButton.Content = "Continue";
-                        API_RadioPanel.Visibility = Visibility.Visible;
-                        return;
-                    }
+                    return;
                 }
             }
 
-            //Hide this page and go to Spectabis
+            if(StepCounter == 1)
+            {
+                PrimaryButton.Visibility = Visibility.Collapsed;
+                SecondaryButton.Content = "Finish";
+
+                MainLabel.Content = "Finish!";
+                Subtitle.Content = "Click below when finished with the wizard";
+
+                _wizardProcess = LaunchPCSX2.CreateFirstTimeWizard();
+                _wizardProcess.Start();
+
+                StepCounter += 1;
+                return;
+            }
+        }
+
+        private void SecondaryButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(_wizardProcess != null)
+            {
+                try
+                {
+                    _wizardProcess.Kill();
+                }
+                catch
+                {
+                    Console.WriteLine("Failed to kill wizard process");
+                }
+            }
+
+            Properties.Settings.Default.Save();
             ((MainWindow)Application.Current.MainWindow).HideFirsttimeSetup();
-        }
-
-        //Hyperlink in Giantbomb API description
-        private void Hyperlink_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start("https://www.giantbomb.com/api/");
-        }
-
-        //Radio buttons for API Selection
-        private void APIClick(object sender, RoutedEventArgs e)
-        {
-            GB_Description.Visibility = Visibility.Collapsed;
-            TGDB_Description.Visibility = Visibility.Collapsed;
-
-            ApiBox.Visibility = Visibility.Collapsed;
-
-            //Detect radio button and enable things and stuff
-            if (GB_Radio.IsChecked == true)
-            {
-                GB_Description.Visibility = Visibility.Visible;
-                ApiBox.Visibility = Visibility.Visible;
-                if(ApiBox.Text.Length != 40)
-                {
-                    PrimaryButton.IsEnabled = false;
-                }
-                else
-                {
-                    PrimaryButton.IsEnabled = true;
-                }
-                
-            }
-            else if(TGDB_Radio.IsChecked == true)
-            {
-                TGDB_Description.Visibility = Visibility.Visible;
-                PrimaryButton.IsEnabled = true;
-            }
         }
 
         //"Get PCSX2" at bottom label
         private void Label_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Process.Start("https://pcsx2.net/download/releases/windows/category/40-windows.html");
-        }
-
-        //Disable Button when lenght is not 40
-        private void ApiBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (ApiBox.Text.Length == 40)
-            {
-                PrimaryButton.IsEnabled = true;
-            }
-            else
-            {
-                PrimaryButton.IsEnabled = false;
-            }
         }
 
         //Underline PCSX2 label on hover

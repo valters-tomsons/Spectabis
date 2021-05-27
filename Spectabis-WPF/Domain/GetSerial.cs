@@ -26,7 +26,7 @@ namespace Spectabis_WPF
                 SevenZipBase.SetLibraryPath(BaseDirectory + @"lib\7z-x64.dll");
             }
 
-
+            var fileType = _isoDir.Substring(_isoDir.LastIndexOf('.'));
 
             //Opens the archive
             using (SevenZipExtractor archivedFile = new SevenZipExtractor(_isoDir))
