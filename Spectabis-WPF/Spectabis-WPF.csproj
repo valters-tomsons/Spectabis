@@ -313,6 +313,10 @@
     <AdditionalFiles Include="plugins\Spu2-X.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
+    <!-- This file must be manually moved from `./lib` for Release -->
+    <AdditionalFiles Include="Spectabis.visualelementsmanifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
     <Resource Include="big_spectabis.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
